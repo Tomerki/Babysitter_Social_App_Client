@@ -67,6 +67,7 @@ class CircleButtonOne extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(fontSize: textSize),
+          textAlign: TextAlign.center,
         ),
         onPressed: () => handler(),
       ),
