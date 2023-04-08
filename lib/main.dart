@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import './screens/babysitter_profile_screen.dart';
+import './screens/login_screen.dart';
+import './screens/welcome_screen.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -8,69 +12,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text(
-              'Babysitter App',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 28.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 48.0),
-            TextField(
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: 'Email',
-              ),
-            ),
-            SizedBox(height: 16.0),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-              ),
-            ),
-            SizedBox(height: 32.0),
-            TextButton(
-              child: Text('Log In'),
-              onPressed: () {
-                //TODO
-              },
-            ),
-          ],
-        ),
-      ),
+      initialRoute: WelcomeScreen.routeName,
+      routes: {
+        LoginScreen.routeName: (context) => LoginScreen(),
+        BabysitterProfileScreen.routeName: (context) =>
+            BabysitterProfileScreen(),
+        WelcomeScreen.routeName: (context) => WelcomeScreen(),
+      },
     );
   }
 }
