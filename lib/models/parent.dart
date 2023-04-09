@@ -10,6 +10,7 @@ class Parent {
   String address;
   String eMail;
   String phoneNumber;
+  String country;
   Flexibility flexibility;
 
   Parent({
@@ -18,6 +19,7 @@ class Parent {
     required this.address,
     required this.eMail,
     required this.phoneNumber,
+    required this.country,
     required this.flexibility,
   });
 }

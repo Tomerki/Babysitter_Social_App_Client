@@ -20,7 +20,7 @@ class InputBox extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: TextFormField(
-        validator: validator(),
+        validator: (value) => validator(value),
         obscureText: isSecure,
         keyboardType: keyType,
         textInputAction: TextInputAction.next,

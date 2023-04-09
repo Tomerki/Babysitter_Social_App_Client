@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../widgets/input_box.dart';
+import './babysitter_register_screen.dart';
 import '../widgets/circle_button_one.dart';
+import './parent_register_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = 'register-screen';
@@ -88,7 +90,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
               ),
               CircleButtonOne(
-                handler: () {},
+                handler: () {
+                  if (userType == 'Parent') {
+                    Navigator.of(context)
+                        .pushNamed(ParentRegisterScreen.routeName);
+                  } else if (userType == 'Babysitter') {
+                    Navigator.of(context)
+                        .pushNamed(BabysitterRegisterScreen.routeName);
+                  }
+                },
                 text: 'Next',
                 cMarginTop: 30,
                 bgColor: Color.fromARGB(255, 150, 177, 190),

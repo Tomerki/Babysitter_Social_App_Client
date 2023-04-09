@@ -11,6 +11,7 @@ class Babysitter {
   String eMail;
   String imageUrl;
   String address;
+  String country;
   double age;
   Flexibility flexibility;
 
@@ -22,6 +23,7 @@ class Babysitter {
     required this.age,
     required this.eMail,
     required this.imageUrl,
+    required this.country,
     required this.flexibility,
   });
 }
