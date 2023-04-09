@@ -1,4 +1,6 @@
+import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
+import '';
 
 class BabysitterProfileScreen extends StatefulWidget {
   static final routeName = 'BabysitterProfileScreen';
@@ -15,7 +17,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('babysitter Page'),
-        backgroundColor: Color.fromARGB(179, 244, 210, 201),
+        backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
@@ -27,88 +29,79 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
             Center(
               child: Card(
                 elevation: 5,
-                color: Color.fromARGB(255, 255, 248, 234),
+                color: Color.fromARGB(255, 254, 252, 243),
                 child: SizedBox(
                   width: (queryData.size.width) * 0.9,
                   height: (queryData.size.height - queryData.padding.top) * 0.4,
-                  child: Center(
-                    //card column
-                    child: Column(
-                      children: [
-                        Spacer(),
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              'https://anaphotography.co.uk/wp-content/uploads/2022/03/Child-Toddler-Photography-Bodmin-Cornwall-269.jpg'),
-                          radius:
-                              (queryData.size.height - queryData.padding.top) *
-                                  0.4 *
-                                  0.25,
-                        ),
-                        //ToDo: Full Name in bold, Country and City in light
-                        Text(
-                          'Full Name',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                        Text(
-                          'Country and City',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                        Spacer(),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(30.0),
-                          child: Container(
-                            width: (queryData.size.width) * 0.9 * 0.7,
-                            // color: Colors.white,
-                            child: Row(
-                              children: [
-                                Spacer(),
-                                Column(
-                                  children: [
-                                    Text(
-                                      '58',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Review',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Spacer(),
-                                Column(
-                                  children: [
-                                    Text(
-                                      '25',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    Text(
-                                      'age',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Spacer(),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Spacer(),
-                      ],
-                    ),
+                  child: BabysitterUpperPage(
+                    pageHight: (queryData.size.height - queryData.padding.top),
+                    pagewidth: queryData.size.width,
                   ),
                 ),
+              ),
+            ),
+            Center(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Card(
+                      color: Color.fromARGB(255, 129, 91, 91),
+                      elevation: 5,
+                      child: ListTile(
+                        leading: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.payment_sharp,
+                              size: 40,
+                            ),
+                          ],
+                        ),
+                        title: Text(
+                          '20\$\h',
+                          style: TextStyle(
+                            color: Colors.white70,
+                          ),
+                        ),
+                        subtitle: Text(
+                          'Hourly Rate',
+                          style: TextStyle(
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Card(
+                      elevation: 5,
+                      color: Color.fromARGB(255, 129, 91, 91),
+                      child: ListTile(
+                        leading: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.join_inner_sharp,
+                              size: 40,
+                            ),
+                          ],
+                        ),
+                        title: Text(
+                          '100%',
+                          style: TextStyle(
+                            color: Colors.white70,
+                          ),
+                        ),
+                        subtitle: Text(
+                          'Matching',
+                          style: TextStyle(
+                            color: Colors.white70,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
