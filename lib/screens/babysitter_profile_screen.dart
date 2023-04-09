@@ -104,6 +104,49 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                 ],
               ),
             ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Color.fromARGB(255, 129, 91, 91),
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              height: (queryData.size.height - queryData.padding.top) * 0.2,
+              width: (queryData.size.width) * 0.9,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Description: ',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text('the description........ '),
+                  ],
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('  BOOK  '),
+                ),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Icon(Icons.chat),
+                ),
+              ],
+            ),
           ],
         ),
       ),
