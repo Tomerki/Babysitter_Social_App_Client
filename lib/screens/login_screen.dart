@@ -9,11 +9,17 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+        centerTitle: true,
+        backgroundColor: Color.fromARGB(255, 255, 229, 202),
+        foregroundColor: Colors.black87,
+      ),
       body: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/bg_welcome_screen.jpg'),
+            image: AssetImage('assets/images/bg_welcome_screen.jpg'),
             fit: BoxFit.cover,
             opacity: 0.5,
           ),
@@ -33,8 +39,20 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            InputBox(false, TextInputType.emailAddress, 'Email'),
-            InputBox(true, TextInputType.text, 'Password'),
+            InputBox(
+              isSecure: false,
+              keyType: TextInputType.emailAddress,
+              text: 'Email',
+              validator: () {},
+              onChanged: () {},
+            ),
+            InputBox(
+              isSecure: true,
+              keyType: TextInputType.text,
+              text: 'Password',
+              validator: () {},
+              onChanged: () {},
+            ),
             CircleButtonOne(
               handler: () {
                 Navigator.of(context)

@@ -1,27 +1,23 @@
 enum Flexibility {
-  ComeToClient,
+  ComeToNanny,
   AtMyPlace,
-  ClientDecides,
+  DoesntMatter,
 }
 
-class Babysitter {
+class Parent {
   String firstName;
   String lastName;
-  String phoneNumber;
-  String eMail;
-  String imageUrl;
   String address;
-  double age;
+  String eMail;
+  String phoneNumber;
   Flexibility flexibility;
 
-  Babysitter({
+  Parent({
     required this.firstName,
     required this.lastName,
-    required this.phoneNumber,
     required this.address,
-    required this.age,
     required this.eMail,
-    required this.imageUrl,
+    required this.phoneNumber,
     required this.flexibility,
   });
 }
