@@ -84,9 +84,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
           ),
         ],
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
           top: 10,
