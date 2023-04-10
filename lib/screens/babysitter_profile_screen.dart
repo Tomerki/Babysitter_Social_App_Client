@@ -1,6 +1,7 @@
 import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
-import '';
+import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
+import 'package:baby_sitter/widgets/babysitter_description.dart';
 
 class BabysitterProfileScreen extends StatefulWidget {
   static final routeName = 'BabysitterProfileScreen';
@@ -19,135 +20,82 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
         title: Text('babysitter Page'),
         backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          ElevatedButton(
+            onPressed: () {},
+            child: Text('  BOOK  '),
+            style: ElevatedButton.styleFrom(
+              padding: EdgeInsets.all(15),
+              primary: Color.fromARGB(255, 174, 194, 182),
+              onPrimary: Colors.white,
+              textStyle: TextStyle(
+                color: Colors.black,
+                fontSize: 26,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(50),
+              ),
+              elevation: 5,
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            child: const Icon(
+              Icons.chat,
+              size: 26,
+            ),
+            style: ElevatedButton.styleFrom(
+              primary: Color.fromARGB(255, 183, 202, 219),
+              elevation: 5,
+              padding: EdgeInsets.all(15),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50)),
+            ),
+          ),
+        ],
+      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
           top: 10,
         ),
         //all page column
-        child: Column(
-          children: [
-            Center(
-              child: Card(
-                elevation: 5,
-                color: Color.fromARGB(255, 254, 252, 243),
-                child: SizedBox(
-                  width: (queryData.size.width) * 0.9,
-                  height: (queryData.size.height - queryData.padding.top) * 0.4,
-                  child: BabysitterUpperPage(
-                    pageHight: (queryData.size.height - queryData.padding.top),
-                    pagewidth: queryData.size.width,
-                  ),
-                ),
-              ),
-            ),
-            Center(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Card(
-                      color: Color.fromARGB(255, 129, 91, 91),
-                      elevation: 5,
-                      child: ListTile(
-                        leading: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.payment_sharp,
-                              size: 40,
-                            ),
-                          ],
-                        ),
-                        title: Text(
-                          '20\$\h',
-                          style: TextStyle(
-                            color: Colors.white70,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'Hourly Rate',
-                          style: TextStyle(
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Card(
-                      elevation: 5,
-                      color: Color.fromARGB(255, 129, 91, 91),
-                      child: ListTile(
-                        leading: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.join_inner_sharp,
-                              size: 40,
-                            ),
-                          ],
-                        ),
-                        title: Text(
-                          '100%',
-                          style: TextStyle(
-                            color: Colors.white70,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'Matching',
-                          style: TextStyle(
-                            color: Colors.white70,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: Color.fromARGB(255, 129, 91, 91),
-                ),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              margin: EdgeInsets.all(10),
-              padding: EdgeInsets.all(10),
-              height: (queryData.size.height - queryData.padding.top) * 0.2,
-              width: (queryData.size.width) * 0.9,
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Description: ',
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text('the description........ '),
-                  ],
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+        child: Center(
+          child: Container(
+            width: (queryData.size.width) * 0.9,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('  BOOK  '),
+                Center(
+                  child: Card(
+                    elevation: 5,
+                    color: Color.fromARGB(255, 254, 252, 243),
+                    child: SizedBox(
+                      // width: (queryData.size.width) * 0.9,
+                      height:
+                          (queryData.size.height - queryData.padding.top) * 0.4,
+                      child: BabysitterUpperPage(
+                        pageHight:
+                            (queryData.size.height - queryData.padding.top),
+                        pagewidth: queryData.size.width,
+                      ),
+                    ),
+                  ),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: const Icon(Icons.chat),
+                Center(
+                  child: BabysitterMiddlePage(),
+                ),
+                BabysitterDescription(
+                  pageHight: queryData.size.height - queryData.padding.top,
+                  pagewidth: queryData.size.width,
                 ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );
