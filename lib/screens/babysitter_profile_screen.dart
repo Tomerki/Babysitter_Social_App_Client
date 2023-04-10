@@ -12,6 +12,34 @@ class BabysitterProfileScreen extends StatefulWidget {
 }
 
 class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2023),
+      lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.black,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    // .then((pickDate) {
+    //   if (pickDate == null) {
+    //     return;
+    //   } else {
+    //     setState(() {
+    //       _selectedDate = pickDate;
+    //     });
+    //   }
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData = MediaQuery.of(context);
@@ -24,7 +52,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           ElevatedButton(
-            onPressed: () {},
+            onPressed: _presentDatePicker,
             child: Text('  BOOK  '),
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.all(15),
