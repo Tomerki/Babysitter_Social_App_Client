@@ -1,9 +1,3 @@
-enum Flexibility {
-  ComeToNanny,
-  AtMyPlace,
-  DoesntMatter,
-}
-
 class Parent {
   String firstName;
   String lastName;
@@ -11,7 +5,6 @@ class Parent {
   String eMail;
   String phoneNumber;
   String country;
-  Flexibility flexibility;
 
   Parent({
     required this.firstName,
@@ -20,6 +13,5 @@ class Parent {
     required this.eMail,
     required this.phoneNumber,
     required this.country,
-    required this.flexibility,
   });
 }
