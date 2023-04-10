@@ -15,15 +15,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // initialRoute: WelcomeScreen.routeName,
       // initialRoute: BabysitterProfileScreen.routeName,
-      // initialRoute: FilterScreen.routeName,
-      initialRoute: FilterSecScreen.routeName,
+      initialRoute: FilterScreen.routeName,
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         BabysitterProfileScreen.routeName: (context) =>
             BabysitterProfileScreen(),
         WelcomeScreen.routeName: (context) => WelcomeScreen(),
         FilterScreen.routeName: (context) => FilterScreen(),
-        FilterSecScreen.routeName: (context) => FilterSecScreen(),
       },
     );
   }
