@@ -16,8 +16,8 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2023),
-      lastDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 365)),
       builder: (context, child) {
         return Theme(
           data: ThemeData.light().copyWith(

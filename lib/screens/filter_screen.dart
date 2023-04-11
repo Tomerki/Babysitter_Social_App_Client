@@ -4,6 +4,8 @@ const kTextLabelTheme = TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700);
 const kCardTextStyle = TextStyle(color: Colors.white, fontSize: 15);
 const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
+enum LocationOprions { at_your_house, at_her_house, never_mind }
+
 class FilterScreen extends StatefulWidget {
   static final routeName = 'FilterSecScreen';
 
@@ -13,19 +15,19 @@ class FilterScreen extends StatefulWidget {
 
 class _FilterScreennState extends State<FilterScreen> {
   late double selectedValue;
-  // String? minDropdownValue;
-  // String? maxDropdownValue;
   int? fromDropdownValue;
   int? toDropdownValue;
   bool isCheckedOne = false;
   bool isCheckedTwo = false;
-  RangeValues values = RangeValues(17.0, 100.0);
+  RangeValues values = RangeValues(0.0, 100.0);
+  LocationOprions? _locationOprions = LocationOprions.at_your_house;
+
   void _presentDatePicker() {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2023),
-      lastDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 365)),
       builder: (context, child) {
         return Theme(
           data: ThemeData.light().copyWith(
@@ -67,7 +69,7 @@ class _FilterScreennState extends State<FilterScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.only(top: 40.0),
+                  padding: EdgeInsets.only(top: 10.0),
                   child: Row(
                     children: <Widget>[
                       Text(
@@ -112,50 +114,44 @@ class _FilterScreennState extends State<FilterScreen> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
+                  children: [
                     Expanded(
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'At Your House',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 129, 91, 91),
-                            ),
-                          ),
-                        ),
+                      child: RadioListTile<LocationOprions>(
+                        contentPadding: EdgeInsets.all(0),
+                        title: const Text('At Your House'),
+                        value: LocationOprions.at_your_house,
+                        groupValue: _locationOprions,
+                        onChanged: (LocationOprions? value) {
+                          setState(() {
+                            _locationOprions = value;
+                          });
+                        },
                       ),
                     ),
                     Expanded(
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'At Her House',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 129, 91, 91),
-                            ),
-                          ),
-                        ),
+                      child: RadioListTile<LocationOprions>(
+                        contentPadding: EdgeInsets.all(0),
+                        title: const Text('At Her House'),
+                        value: LocationOprions.at_her_house,
+                        groupValue: _locationOprions,
+                        onChanged: (LocationOprions? value) {
+                          setState(() {
+                            _locationOprions = value;
+                          });
+                        },
                       ),
                     ),
                     Expanded(
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Never Mind',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 129, 91, 91),
-                            ),
-                          ),
-                        ),
+                      child: RadioListTile<LocationOprions>(
+                        contentPadding: EdgeInsets.all(0),
+                        title: const Text('Never Mind'),
+                        value: LocationOprions.never_mind,
+                        groupValue: _locationOprions,
+                        onChanged: (LocationOprions? value) {
+                          setState(() {
+                            _locationOprions = value;
+                          });
+                        },
                       ),
                     ),
                   ],
@@ -216,27 +212,6 @@ class _FilterScreennState extends State<FilterScreen> {
                               });
                             },
                           ),
-                          // DropdownButton<String>(
-                          //   hint: Text('from'),
-                          //   value: minDropdownValue,
-                          //   underline: Container(
-                          //     height: 2,
-                          //     color: Colors.black,
-                          //   ),
-                          //   onChanged: (String? value) {
-                          //     // This is called when the user selects an item.
-                          //     setState(() {
-                          //       minDropdownValue = value!;
-                          //     });
-                          //   },
-                          //   items: list
-                          //       .map<DropdownMenuItem<String>>((String val) {
-                          //     return DropdownMenuItem<String>(
-                          //       value: val,
-                          //       child: Text(val),
-                          //     );
-                          //   }).toList(),
-                          // ),
                         ],
                       ),
                     ),
@@ -264,27 +239,6 @@ class _FilterScreennState extends State<FilterScreen> {
                               });
                             },
                           ),
-                          // DropdownButton<String>(
-                          //   hint: Text('to'),
-                          //   value: maxDropdownValue,
-                          //   underline: Container(
-                          //     height: 2,
-                          //     color: Colors.black,
-                          //   ),
-                          //   onChanged: (String? value) {
-                          //     // This is called when the user selects an item.
-                          //     setState(() {
-                          //       maxDropdownValue = value!;
-                          //     });
-                          //   },
-                          //   items: list
-                          //       .map<DropdownMenuItem<String>>((String val) {
-                          //     return DropdownMenuItem<String>(
-                          //       value: val,
-                          //       child: Text(val),
-                          //     );
-                          //   }).toList(),
-                          // ),
                         ],
                       ),
                     ),
@@ -297,58 +251,147 @@ class _FilterScreennState extends State<FilterScreen> {
                     style: kTextLabelTheme,
                   ),
                 ),
-                Container(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'one',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Scrollbar(
+                      isAlwaysShown: true,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'one',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  fillColor: MaterialStateColor.resolveWith(
+                                    (states) =>
+                                        Color.fromARGB(255, 219, 163, 154),
+                                  ),
+                                  value: isCheckedOne,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      isCheckedOne = value!;
+                                    });
+                                  },
+                                )
+                              ],
                             ),
-                          ),
-                          Checkbox(
-                            checkColor: Colors.white,
-                            fillColor: MaterialStateColor.resolveWith(
-                              (states) => Color.fromARGB(255, 219, 163, 154),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'two',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  fillColor: MaterialStateColor.resolveWith(
+                                    (states) =>
+                                        Color.fromARGB(255, 219, 163, 154),
+                                  ),
+                                  value: isCheckedTwo,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      isCheckedTwo = value!;
+                                    });
+                                  },
+                                ),
+                              ],
                             ),
-                            value: isCheckedOne,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                isCheckedOne = value!;
-                              });
-                            },
-                          )
-                        ],
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'two',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  fillColor: MaterialStateColor.resolveWith(
+                                    (states) =>
+                                        Color.fromARGB(255, 219, 163, 154),
+                                  ),
+                                  value: isCheckedTwo,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      isCheckedTwo = value!;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'two',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  fillColor: MaterialStateColor.resolveWith(
+                                    (states) =>
+                                        Color.fromARGB(255, 219, 163, 154),
+                                  ),
+                                  value: isCheckedTwo,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      isCheckedTwo = value!;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'two two two two two two two two two two two two two two two two two two two two two two',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                Checkbox(
+                                  checkColor: Colors.white,
+                                  fillColor: MaterialStateColor.resolveWith(
+                                    (states) =>
+                                        Color.fromARGB(255, 219, 163, 154),
+                                  ),
+                                  value: isCheckedTwo,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      isCheckedTwo = value!;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Text(
-                            'two',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Checkbox(
-                            checkColor: Colors.white,
-                            fillColor: MaterialStateColor.resolveWith(
-                              (states) => Color.fromARGB(255, 219, 163, 154),
-                            ),
-                            value: isCheckedTwo,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                isCheckedTwo = value!;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
