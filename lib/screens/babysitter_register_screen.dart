@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:baby_sitter/widgets/check_box_custome.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import '../widgets/input_box.dart';
 
 class BabysitterRegisterScreen extends StatefulWidget {
   static const routeName = 'babysitter-register-screen';
@@ -13,6 +15,7 @@ class BabysitterRegisterScreen extends StatefulWidget {
 class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
   final _formKey2 = GlobalKey<FormState>();
   File? _imageFile;
+  bool isChecked = false;
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
@@ -26,6 +29,7 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
+        heightFactor: 1,
         child: Container(
           width: MediaQuery.of(context).size.width * 0.9,
           margin: EdgeInsets.only(top: 30),
@@ -34,25 +38,44 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  Text('About me:'),
+                  Card(
+                    margin: EdgeInsets.only(top: 10, bottom: 30),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        maxLines: 5,
+                        decoration: InputDecoration.collapsed(
+                            hintText: "Enter your text here"),
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ),
                   if (_imageFile != null) ...[
                     Image.file(
                       _imageFile!,
                       width: 150,
                       height: 150,
                     ),
-                    SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: () => _pickImage(ImageSource.gallery),
                       child: Text('Pick another image'),
                     ),
                   ] else ...[
-                    Text('No image selected'),
-                    SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () => _pickImage(ImageSource.gallery),
-                      child: Text('Pick an image'),
+                      child: Text('Pick Profile Image'),
                     ),
+                    Text('No image selected'),
                   ],
+                  InputBox(
+                    keyType: TextInputType.number,
+                    text: 'Your age',
+                    validator: () {},
+                    onChanged: () {},
+                  ),
+                  CheckBoxCustome(text: 'Come to client'),
+                  CheckBoxCustome(text: 'In my place'),
                 ],
               ),
             ),

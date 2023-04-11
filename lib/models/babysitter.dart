@@ -1,9 +1,3 @@
-enum Flexibility {
-  ComeToClient,
-  AtMyPlace,
-  ClientDecides,
-}
-
 class Babysitter {
   String firstName;
   String lastName;
@@ -14,7 +8,8 @@ class Babysitter {
   String country;
   String aboutMe;
   double age;
-  Flexibility flexibility;
+  bool comeToClient;
+  bool inMyPlace;
 
   Babysitter({
     required this.firstName,
@@ -26,6 +21,7 @@ class Babysitter {
     required this.imageUrl,
     required this.aboutMe,
     required this.country,
-    required this.flexibility,
+    required this.comeToClient,
+    required this.inMyPlace,
   });
 }
