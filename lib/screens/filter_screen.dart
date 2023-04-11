@@ -17,6 +17,8 @@ class _FilterScreennState extends State<FilterScreen> {
   late double selectedValue;
   int? fromDropdownValue;
   int? toDropdownValue;
+  int? numOfChildren;
+
   Map<String, bool> currentAdditionsFilters = {
     'Take out of school or kindergarten': false,
     'Knowledge of first aid': false,
@@ -40,7 +42,8 @@ class _FilterScreennState extends State<FilterScreen> {
 
   bool isCheckedOne = false;
   bool isCheckedTwo = false;
-  RangeValues values = RangeValues(0.0, 100.0);
+  RangeValues priceValues = RangeValues(0.0, 100.0);
+  RangeValues distanceValues = RangeValues(0.0, 50.0);
   LocationOprions? _locationOprions = LocationOprions.at_your_house;
 
   void _presentDatePicker() {
@@ -73,12 +76,14 @@ class _FilterScreennState extends State<FilterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Filter By'),
         backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
       body: Container(
+        height: (queryData.size.height) * 0.9,
         color: Color(0xff757575),
         child: Container(
           decoration: BoxDecoration(
@@ -113,15 +118,52 @@ class _FilterScreennState extends State<FilterScreen> {
                     thumbColor: Colors.black,
                   ),
                   child: RangeSlider(
-                    values: values,
+                    values: priceValues,
                     divisions: 100,
                     min: 0.0,
                     max: 100.0,
-                    labels: RangeLabels(
-                        '\$${values.start.toInt()}', '\$${values.end.toInt()}'),
+                    labels: RangeLabels('\$${priceValues.start.toInt()}',
+                        '\$${priceValues.end.toInt()}'),
                     onChanged: (value) {
                       setState(() {
-                        values = value;
+                        priceValues = value;
+                      });
+                    },
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                        'Distance:',
+                        style: kTextLabelTheme,
+                      ),
+                    ],
+                  ),
+                ),
+                SliderTheme(
+                  data: SliderTheme.of(context).copyWith(
+                    // rangeThumbShape: CustomRangeThumbShape(),
+                    activeTrackColor: Color.fromARGB(255, 129, 91, 91),
+                    inactiveTrackColor: Color(0xffDFDFDF),
+                    showValueIndicator: ShowValueIndicator.always,
+                    valueIndicatorColor: Colors.white,
+                    // rangeValueIndicatorShape: CustomRangeValueIndicatorShape(),
+                    valueIndicatorTextStyle: TextStyle(color: Colors.black),
+                    valueIndicatorShape: SliderComponentShape.noOverlay,
+                    thumbColor: Colors.black,
+                  ),
+                  child: RangeSlider(
+                    values: distanceValues,
+                    divisions: 100,
+                    min: 0.0,
+                    max: 50.0,
+                    labels: RangeLabels('${distanceValues.start.toInt()}km',
+                        '${distanceValues.end.toInt()}km'),
+                    onChanged: (value) {
+                      setState(() {
+                        distanceValues = value;
                       });
                     },
                   ),
@@ -177,94 +219,170 @@ class _FilterScreennState extends State<FilterScreen> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text(
-                    'Date:',
-                    style: kTextLabelTheme,
-                  ),
-                ),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: _presentDatePicker,
-                    child: Text('choose a date'),
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.all(15),
-                      primary: Color.fromARGB(255, 219, 163, 154),
-                      onPrimary: Colors.white,
-                      textStyle: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      elevation: 5,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  child: Text(
-                    'Time: ',
-                    style: kTextLabelTheme,
-                  ),
-                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          DropdownButton<int>(
-                            hint: Text('from'),
-                            value: fromDropdownValue,
-                            items: List<int>.generate(24, (index) => index)
-                                .map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(
-                                    '${value.toString().padLeft(2, '0')}:00'),
-                              );
-                            }).toList(),
-                            onChanged: (int? newValue) {
-                              setState(() {
-                                fromDropdownValue = newValue!;
-                              });
-                            },
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                            child: Text(
+                              'Date:',
+                              style: kTextLabelTheme,
+                            ),
+                          ),
+                          Center(
+                            child: ElevatedButton(
+                              onPressed: _presentDatePicker,
+                              child: Text('choose a date'),
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.all(15),
+                                primary: Color.fromARGB(255, 219, 163, 154),
+                                onPrimary: Colors.white,
+                                textStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                elevation: 5,
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(
-                      width: 10,
                     ),
                     Expanded(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          DropdownButton<int>(
-                            hint: Text('to'),
-                            value: toDropdownValue,
-                            items: List<int>.generate(24, (index) => index)
-                                .map<DropdownMenuItem<int>>((int value) {
-                              return DropdownMenuItem<int>(
-                                value: value,
-                                child: Text(
-                                    '${value.toString().padLeft(2, '0')}:00'),
-                              );
-                            }).toList(),
-                            onChanged: (int? newValue) {
-                              setState(() {
-                                toDropdownValue = newValue!;
-                              });
-                            },
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                            child: Text(
+                              'Time: ',
+                              style: kTextLabelTheme,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    DropdownButton<int>(
+                                      hint: Text('from'),
+                                      value: fromDropdownValue,
+                                      items: List<int>.generate(
+                                              24, (index) => index)
+                                          .map<DropdownMenuItem<int>>(
+                                              (int value) {
+                                        return DropdownMenuItem<int>(
+                                          value: value,
+                                          child: Text(
+                                              '${value.toString().padLeft(2, '0')}:00'),
+                                        );
+                                      }).toList(),
+                                      onChanged: (int? newValue) {
+                                        setState(() {
+                                          fromDropdownValue = newValue!;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    DropdownButton<int>(
+                                      hint: Text('to'),
+                                      value: toDropdownValue,
+                                      items: List<int>.generate(
+                                              24, (index) => index)
+                                          .map<DropdownMenuItem<int>>(
+                                              (int value) {
+                                        return DropdownMenuItem<int>(
+                                          value: value,
+                                          child: Text(
+                                              '${value.toString().padLeft(2, '0')}:00'),
+                                        );
+                                      }).toList(),
+                                      onChanged: (int? newValue) {
+                                        setState(() {
+                                          toDropdownValue = newValue!;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  child: Text(
+                    'Number Of Children: ',
+                    style: kTextLabelTheme,
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    DropdownButton<int>(
+                      hint: Text('num of children'),
+                      value: numOfChildren,
+                      items: List<int>.generate(5, (index) => index + 1)
+                          .map<DropdownMenuItem<int>>((int value) {
+                        return DropdownMenuItem<int>(
+                          value: value,
+                          child: Text('${value.toString()}'),
+                        );
+                      }).toList(),
+                      onChanged: (int? newValue) {
+                        setState(() {
+                          numOfChildren = newValue!;
+                        });
+                      },
                     ),
                   ],
                 ),
+                numOfChildren == null
+                    ? Text('')
+                    : Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                            child: Text(
+                              'Ages: ',
+                              style: kTextLabelTheme,
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: List<int>.generate(
+                                    numOfChildren!, (index) => index + 1)
+                                .map((number) {
+                              return Expanded(
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                      labelText: '${number.toString()}'),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      ),
                 Padding(
                   padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: Text(
@@ -274,7 +392,9 @@ class _FilterScreennState extends State<FilterScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(bottom: 10),
+                    padding: EdgeInsets.all(5),
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.black)),
                     child: Scrollbar(
                       isAlwaysShown: true,
                       child: SingleChildScrollView(
@@ -301,6 +421,8 @@ class _FilterScreennState extends State<FilterScreen> {
                                       currentAdditionsFiltersList[index]],
                                   onChanged: (bool? value) {
                                     // print(currentAdditionsFiltersList[index]);
+                                    // print(currentAdditionsFilters[
+                                    //     currentAdditionsFiltersList[index]]);
                                     setState(() {
                                       currentAdditionsFilters[
                                           currentAdditionsFiltersList[
