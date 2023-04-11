@@ -17,6 +17,27 @@ class _FilterScreennState extends State<FilterScreen> {
   late double selectedValue;
   int? fromDropdownValue;
   int? toDropdownValue;
+  Map<String, bool> currentAdditionsFilters = {
+    'Take out of school or kindergarten': false,
+    'Knowledge of first aid': false,
+    'Helping with housework': false,
+    'Take to outdoor activities': false,
+    'Have a driver\'s license': false,
+    'change a diaper': false,
+    'have experience': false,
+    'Studied education': false,
+  };
+  List<String> currentAdditionsFiltersList = [
+    'Take out of school or kindergarten',
+    'Knowledge of first aid',
+    'Helping with housework',
+    'Take to outdoor activities',
+    'Have a driver\'s license',
+    'change a diaper',
+    'have experience',
+    'Studied education',
+  ];
+
   bool isCheckedOne = false;
   bool isCheckedTwo = false;
   RangeValues values = RangeValues(0.0, 100.0);
@@ -258,12 +279,13 @@ class _FilterScreennState extends State<FilterScreen> {
                       isAlwaysShown: true,
                       child: SingleChildScrollView(
                         child: Column(
-                          children: [
-                            Row(
+                          children: List.generate(
+                              currentAdditionsFiltersList.length, (index) {
+                            return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'one',
+                                  currentAdditionsFiltersList[index],
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -275,118 +297,20 @@ class _FilterScreennState extends State<FilterScreen> {
                                     (states) =>
                                         Color.fromARGB(255, 219, 163, 154),
                                   ),
-                                  value: isCheckedOne,
+                                  value: currentAdditionsFilters[
+                                      currentAdditionsFiltersList[index]],
                                   onChanged: (bool? value) {
+                                    // print(currentAdditionsFiltersList[index]);
                                     setState(() {
-                                      isCheckedOne = value!;
+                                      currentAdditionsFilters[
+                                          currentAdditionsFiltersList[
+                                              index]] = value!;
                                     });
                                   },
                                 )
                               ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'two',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Checkbox(
-                                  checkColor: Colors.white,
-                                  fillColor: MaterialStateColor.resolveWith(
-                                    (states) =>
-                                        Color.fromARGB(255, 219, 163, 154),
-                                  ),
-                                  value: isCheckedTwo,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      isCheckedTwo = value!;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'two',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Checkbox(
-                                  checkColor: Colors.white,
-                                  fillColor: MaterialStateColor.resolveWith(
-                                    (states) =>
-                                        Color.fromARGB(255, 219, 163, 154),
-                                  ),
-                                  value: isCheckedTwo,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      isCheckedTwo = value!;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'two',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Checkbox(
-                                  checkColor: Colors.white,
-                                  fillColor: MaterialStateColor.resolveWith(
-                                    (states) =>
-                                        Color.fromARGB(255, 219, 163, 154),
-                                  ),
-                                  value: isCheckedTwo,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      isCheckedTwo = value!;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    'two two two two two two two two two two two two two two two two two two two two two two',
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Checkbox(
-                                  checkColor: Colors.white,
-                                  fillColor: MaterialStateColor.resolveWith(
-                                    (states) =>
-                                        Color.fromARGB(255, 219, 163, 154),
-                                  ),
-                                  value: isCheckedTwo,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      isCheckedTwo = value!;
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                          ],
+                            );
+                          }),
                         ),
                       ),
                     ),
