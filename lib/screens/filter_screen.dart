@@ -236,9 +236,10 @@ class _FilterScreennState extends State<FilterScreen> {
                               onPressed: _presentDatePicker,
                               child: Text('choose a date'),
                               style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor:
+                                    Color.fromARGB(255, 219, 163, 154),
                                 padding: EdgeInsets.all(15),
-                                primary: Color.fromARGB(255, 219, 163, 154),
-                                onPrimary: Colors.white,
                                 textStyle: TextStyle(
                                   color: Colors.black,
                                   fontSize: 16,

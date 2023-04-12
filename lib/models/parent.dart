@@ -1,4 +1,6 @@
 class Parent {
+  String id;
+  String password;
   String firstName;
   String lastName;
   String address;
@@ -7,6 +9,8 @@ class Parent {
   String country;
 
   Parent({
+    required this.id,
+    required this.password,
     required this.firstName,
     required this.lastName,
     required this.address,

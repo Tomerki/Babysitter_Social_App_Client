@@ -1,4 +1,5 @@
 import 'package:baby_sitter/widgets/map_place_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,9 +16,21 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final _auth = FirebaseAuth.instance;
+  //instance of firestore
+  final _firestore = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
   String userType = '';
   String _selectedCountry = '';
+
+  late String email,
+      password,
+      firstName,
+      lastName,
+      phoneNumber,
+      address,
+      county,
+      confirmPassword;
 
   Widget buildSizedBox(String text) {
     return SizedBox(
