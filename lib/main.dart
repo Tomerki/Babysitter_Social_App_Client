@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-
 import './screens/babysitter_profile_screen.dart';
 import './screens/login_screen.dart';
 import './screens/welcome_screen.dart';
 import './screens/register_screen.dart';
 import './screens/babysitter_register_screen.dart';
 import './screens/parent_register_screen.dart';
+import './widgets/map_place_picker.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: WelcomeScreen.routeName,
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         ParentRegisterScreen.routeName: (context) => ParentRegisterScreen(),
         BabysitterRegisterScreen.routeName: (context) =>
             BabysitterRegisterScreen(),
+        MapPlacePicker.routeName: (context) => MapPlacePicker(),
       },
     );
   }

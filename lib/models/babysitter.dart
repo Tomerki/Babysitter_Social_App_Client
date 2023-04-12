@@ -10,6 +10,8 @@ class Babysitter {
   double age;
   bool comeToClient;
   bool inMyPlace;
+  
+  
 
   Babysitter({
     required this.firstName,
