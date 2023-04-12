@@ -1,4 +1,3 @@
-import 'package:baby_sitter/screens/filter_sec_screen.dart';
 import 'package:flutter/material.dart';
 import './screens/babysitter_profile_screen.dart';
 import './screens/login_screen.dart';
@@ -9,7 +8,6 @@ import './screens/parent_register_screen.dart';
 import './widgets/map_place_picker.dart';
 import './screens/filter_screen.dart';
 import './screens/jobs_search_screen.dart';
-
 
 void main() {
   runApp(MyApp());
