@@ -218,3 +218,143 @@
                 //     ),
                 //   ],
                 // ),
+
+
+
+                                // Expanded(
+                // child:
+                // Container(
+                //   padding: EdgeInsets.all(5),
+                //   decoration:
+                //       BoxDecoration(border: Border.all(color: Colors.black)),
+                //   child:
+                // Column(
+                //   children: List.generate(currentAdditionsFiltersList.length,
+                //       (index) {
+                //     return Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: [
+                //         Text(
+                //           currentAdditionsFiltersList[index],
+                //           style: TextStyle(
+                //             fontSize: 18,
+                //             fontWeight: FontWeight.bold,
+                //           ),
+                //         ),
+                //         Checkbox(
+                //           checkColor: Colors.white,
+                //           fillColor: MaterialStateColor.resolveWith(
+                //             (states) => Color.fromARGB(255, 219, 163, 154),
+                //           ),
+                //           value: currentAdditionsFilters[
+                //               currentAdditionsFiltersList[index]],
+                //           onChanged: (bool? value) {
+                //             // print(currentAdditionsFiltersList[index]);
+                //             // print(currentAdditionsFilters[
+                //             //     currentAdditionsFiltersList[index]]);
+                //             setState(() {
+                //               currentAdditionsFilters[
+                //                       currentAdditionsFiltersList[index]] =
+                //                   value!;
+                //             });
+                //           },
+                //         )
+                //       ],
+                //     );
+                //   }),
+                // ),
+                // child: Scrollbar(
+                //   isAlwaysShown: true,
+                //   child: SingleChildScrollView(
+                //     child: Column(
+                //       children: List.generate(
+                //           currentAdditionsFiltersList.length, (index) {
+                //         return Row(
+                //           mainAxisAlignment:
+                //               MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             Text(
+                //               currentAdditionsFiltersList[index],
+                //               style: TextStyle(
+                //                 fontSize: 18,
+                //                 fontWeight: FontWeight.bold,
+                //               ),
+                //             ),
+                //             Checkbox(
+                //               checkColor: Colors.white,
+                //               fillColor: MaterialStateColor.resolveWith(
+                //                 (states) =>
+                //                     Color.fromARGB(255, 219, 163, 154),
+                //               ),
+                //               value: currentAdditionsFilters[
+                //                   currentAdditionsFiltersList[index]],
+                //               onChanged: (bool? value) {
+                //                 // print(currentAdditionsFiltersList[index]);
+                //                 // print(currentAdditionsFilters[
+                //                 //     currentAdditionsFiltersList[index]]);
+                //                 setState(() {
+                //                   currentAdditionsFilters[
+                //                       currentAdditionsFiltersList[
+                //                           index]] = value!;
+                //                 });
+                //               },
+                //             )
+                //           ],
+                //         );
+                //       }),
+                //     ),
+                //   ),
+                // ),
+                // ),
+                // ),
+
+
+
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        return SizedBox(
+                          height: MediaQuery.of(context).size.height - 200,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemBuilder: (ctx, index) {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    currentAdditionsFiltersList[index],
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Checkbox(
+                                    checkColor: Colors.white,
+                                    fillColor: MaterialStateColor.resolveWith(
+                                      (states) =>
+                                          Color.fromARGB(255, 219, 163, 154),
+                                    ),
+                                    value: currentAdditionsFilters[
+                                        currentAdditionsFiltersList[index]],
+                                    onChanged: (bool? value) {
+                                      // print(currentAdditionsFiltersList[index]);
+                                      // print(currentAdditionsFilters[
+                                      //     currentAdditionsFiltersList[index]]);
+                                      setState(() {
+                                        currentAdditionsFilters[
+                                            currentAdditionsFiltersList[
+                                                index]] = value!;
+                                      });
+                                    },
+                                  )
+                                ],
+                              );
+                            },
+                            itemCount: currentAdditionsFiltersList.length,
+                          ),
+                        );
+                      },
+                    ),
+                  ),

@@ -84,11 +84,10 @@ class _FilterScreennState extends State<FilterScreen> {
       ),
       body: Container(
         height: (queryData.size.height) * 0.9,
-        color: Color(0xff757575),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-          ),
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.all(20.0),
             child: Column(
@@ -329,7 +328,7 @@ class _FilterScreennState extends State<FilterScreen> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  padding: EdgeInsets.only(top: 20.0, bottom: 5.0),
                   child: Text(
                     'Number Of Children: ',
                     style: kTextLabelTheme,
@@ -375,6 +374,7 @@ class _FilterScreennState extends State<FilterScreen> {
                                 .map((number) {
                               return Expanded(
                                 child: TextField(
+                                  keyboardType: TextInputType.number,
                                   decoration: InputDecoration(
                                       labelText: '${number.toString()}'),
                                 ),
@@ -390,53 +390,39 @@ class _FilterScreennState extends State<FilterScreen> {
                     style: kTextLabelTheme,
                   ),
                 ),
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.black)),
-                    child: Scrollbar(
-                      isAlwaysShown: true,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: List.generate(
-                              currentAdditionsFiltersList.length, (index) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  currentAdditionsFiltersList[index],
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Checkbox(
-                                  checkColor: Colors.white,
-                                  fillColor: MaterialStateColor.resolveWith(
-                                    (states) =>
-                                        Color.fromARGB(255, 219, 163, 154),
-                                  ),
-                                  value: currentAdditionsFilters[
-                                      currentAdditionsFiltersList[index]],
-                                  onChanged: (bool? value) {
-                                    // print(currentAdditionsFiltersList[index]);
-                                    // print(currentAdditionsFilters[
-                                    //     currentAdditionsFiltersList[index]]);
-                                    setState(() {
-                                      currentAdditionsFilters[
-                                          currentAdditionsFiltersList[
-                                              index]] = value!;
-                                    });
-                                  },
-                                )
-                              ],
-                            );
-                          }),
+                Column(
+                  children: List.generate(currentAdditionsFiltersList.length,
+                      (index) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          currentAdditionsFiltersList[index],
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
+                        Checkbox(
+                          checkColor: Colors.white,
+                          fillColor: MaterialStateColor.resolveWith(
+                            (states) => Color.fromARGB(255, 219, 163, 154),
+                          ),
+                          value: currentAdditionsFilters[
+                              currentAdditionsFiltersList[index]],
+                          onChanged: (bool? value) {
+                            // print(currentAdditionsFiltersList[index]);
+                            // print(currentAdditionsFilters[
+                            //     currentAdditionsFiltersList[index]]);
+                            setState(() {
+                              currentAdditionsFilters[
+                                  currentAdditionsFiltersList[index]] = value!;
+                            });
+                          },
+                        )
+                      ],
+                    );
+                  }),
                 ),
               ],
             ),
