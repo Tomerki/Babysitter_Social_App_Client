@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './babysitter_profile_screen.dart';
 import '../widgets/input_box.dart';
 import '../widgets/circle_button_one.dart';
@@ -9,11 +10,29 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+        centerTitle: true,
+        elevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
+        backgroundColor: Color.fromARGB(255, 255, 229, 202),
+        foregroundColor: Colors.black87,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: Colors.black,
+          ),
+        ),
+      ),
       body: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/bg_welcome_screen.jpg'),
+            image: AssetImage('assets/images/bg_welcome_screen.jpg'),
             fit: BoxFit.cover,
             opacity: 0.5,
           ),
@@ -33,8 +52,20 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            InputBox(false, TextInputType.emailAddress, 'Email'),
-            InputBox(true, TextInputType.text, 'Password'),
+            InputBox(
+              isSecure: false,
+              keyType: TextInputType.emailAddress,
+              text: 'Email',
+              validator: () {},
+              onChanged: () {},
+            ),
+            InputBox(
+              isSecure: true,
+              keyType: TextInputType.text,
+              text: 'Password',
+              validator: () {},
+              onChanged: () {},
+            ),
             CircleButtonOne(
               handler: () {
                 Navigator.of(context)

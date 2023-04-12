@@ -1,3 +1,5 @@
+import './register_screen.dart';
+
 import './login_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/circle_button_one.dart';
@@ -11,7 +13,12 @@ class WelcomeScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(text),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 15,
+            ),
+          ),
           Icon(icon),
         ],
       ),
@@ -38,6 +45,7 @@ class WelcomeScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w700,
+                fontFamily: 'Alkatra',
               ),
             ),
           ),
@@ -56,40 +64,40 @@ class WelcomeScreen extends StatelessWidget {
             cOpacity: 0.8,
             bgColor: Color.fromARGB(255, 250, 152, 132),
             textColor: Colors.white,
-            cMarginTop: 70.0,
-            cMarginBottom: 10.0,
+            cMarginTop: 50.0,
+            cMarginBottom: 30.0,
             cPaddingTop: 10.0,
             cPaddingBottom: 10.0,
           ),
-          CircleButtonOne(
-            handler: () {},
-            cWidth: 0.7,
-            cHeight: 0.1,
-            textSize: 20,
-            text: 'Sign-up as Parent',
-            cCircular: 25,
-            cOpacity: 0.5,
-            bgColor: Color.fromARGB(255, 250, 152, 132),
-            textColor: Colors.white,
-            cMarginTop: 10.0,
-            cMarginBottom: 10.0,
-            cPaddingTop: 10.0,
-            cPaddingBottom: 10.0,
-          ),
-          CircleButtonOne(
-            handler: () {},
-            cWidth: 0.7,
-            cHeight: 0.1,
-            textSize: 20,
-            text: 'Sign-up as Babysitter',
-            cCircular: 25,
-            cOpacity: 0.5,
-            bgColor: Color.fromARGB(255, 250, 152, 132),
-            textColor: Colors.white,
-            cMarginTop: 10.0,
-            cMarginBottom: 10.0,
-            cPaddingTop: 10.0,
-            cPaddingBottom: 10.0,
+          Container(
+            alignment: Alignment.center,
+            child: InkWell(
+              onTap: () =>
+                  Navigator.of(context).pushNamed(RegisterScreen.routeName),
+              splashColor: Colors.brown.withOpacity(0.5),
+              child: Ink(
+                height: MediaQuery.of(context).size.height / 4,
+                width: MediaQuery.of(context).size.width,
+                child: Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Sign-up now!',
+                    style: TextStyle(
+                      fontSize: 50,
+                      fontFamily: 'Alkatra',
+                    ),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/parents.jpg'),
+                    fit: BoxFit.fill,
+                    opacity: 0.5,
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

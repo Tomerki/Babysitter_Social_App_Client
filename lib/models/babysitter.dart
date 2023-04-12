@@ -1,5 +1,3 @@
-
-
 class Babysitter {
   String firstName;
   String lastName;
@@ -7,8 +5,13 @@ class Babysitter {
   String eMail;
   String imageUrl;
   String address;
+  String country;
+  String aboutMe;
   double age;
-  bool isArrive;
+  bool comeToClient;
+  bool inMyPlace;
+  
+  
 
   Babysitter({
     required this.firstName,
@@ -18,6 +21,9 @@ class Babysitter {
     required this.age,
     required this.eMail,
     required this.imageUrl,
-    required this.isArrive,
+    required this.aboutMe,
+    required this.country,
+    required this.comeToClient,
+    required this.inMyPlace,
   });
 }
