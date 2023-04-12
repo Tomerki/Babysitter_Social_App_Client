@@ -7,7 +7,7 @@ class BabysitterMiddlePage extends StatelessWidget {
       children: [
         Expanded(
           child: Card(
-            color: Color.fromARGB(255, 129, 91, 91),
+            color: Color.fromARGB(200, 129, 91, 91),
             elevation: 5,
             child: ListTile(
               leading: Column(
@@ -37,7 +37,7 @@ class BabysitterMiddlePage extends StatelessWidget {
         Expanded(
           child: Card(
             elevation: 5,
-            color: Color.fromARGB(255, 129, 91, 91),
+            color: Color.fromARGB(200, 129, 91, 91),
             child: ListTile(
               leading: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

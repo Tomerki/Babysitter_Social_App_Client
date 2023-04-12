@@ -86,20 +86,21 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          top: 10,
+        padding: EdgeInsets.all(
+          10,
         ),
         //all page column
         child: Center(
           child: Container(
-            width: (queryData.size.width) * 0.9,
+            color: Colors.white70,
+            width: (queryData.size.width),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
                   child: Card(
                     elevation: 5,
-                    color: Color.fromARGB(255, 254, 252, 243),
+                    color: Colors.white70,
                     child: SizedBox(
                       // width: (queryData.size.width) * 0.9,
                       height:
