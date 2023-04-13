@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../services/auth.dart';
 import './babysitter_profile_screen.dart';
 import '../widgets/input_box.dart';
 import '../widgets/circle_button_one.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static final routeName = 'login_screen';
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +75,18 @@ class LoginScreen extends StatelessWidget {
               onChanged: () {},
             ),
             CircleButtonOne(
-              handler: () {
-                Navigator.of(context)
-                    .pushNamed(BabysitterProfileScreen.routeName);
+              // handler: () {
+              //   Navigator.of(context)
+              //       .pushNamed(BabysitterProfileScreen.routeName);
+              // },
+              handler: () async {
+                dynamic result = await _auth.signInAnon();
+                if (result == null) {
+                  print('error sign in');
+                } else {
+                  print('sign in');
+                  print(result.uid);
+                }
               },
               cWidth: 0.32,
               cHeight: 0.08,

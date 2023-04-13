@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../services/auth.dart';
+
 const kTextLabelTheme = TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700);
 const kCardTextStyle = TextStyle(color: Colors.white, fontSize: 15);
 const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
@@ -14,6 +16,8 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreennState extends State<FilterScreen> {
+  final AuthService _auth = AuthService();
+
   late double selectedValue;
   int? fromDropdownValue;
   int? toDropdownValue;
@@ -82,6 +86,26 @@ class _FilterScreennState extends State<FilterScreen> {
         title: Text('Filter By'),
         backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
+      floatingActionButton: ElevatedButton(
+        onPressed: () async {
+          await _auth.singOut();
+        },
+        child: Text('search'),
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white,
+          backgroundColor: Color.fromARGB(255, 174, 194, 182),
+          padding: EdgeInsets.all(15),
+          textStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 18,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+          elevation: 5,
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Container(
         height: (queryData.size.height) * 0.9,
         decoration: BoxDecoration(

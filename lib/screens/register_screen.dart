@@ -1,3 +1,4 @@
+import 'package:baby_sitter/services/auth.dart';
 import 'package:baby_sitter/widgets/map_place_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +17,15 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _auth = FirebaseAuth.instance;
+  final AuthService _auth = AuthService();
   //instance of firestore
-  final _firestore = FirebaseFirestore.instance;
+
+  // final _firestore = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
   String userType = '';
   String _selectedCountry = '';
 
-  late String email,
+  String? email,
       password,
       firstName,
       lastName,
@@ -76,92 +78,121 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Form(
             key: _formKey,
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      buildSizedBox('First Name'),
-                      buildSizedBox('Last Name'),
-                    ],
-                  ),
-                  InputBox(
-                    keyType: TextInputType.emailAddress,
-                    text: 'Email',
-                    validator: () {},
-                    onChanged: () {},
-                  ),
-                  InputBox(
-                    isSecure: true,
-                    keyType: TextInputType.text,
-                    text: 'Password',
-                    validator: () {},
-                    onChanged: () {},
-                  ),
-                  InputBox(
-                    isSecure: true,
-                    keyType: TextInputType.text,
-                    text: 'Confirm Password',
-                    validator: () {},
-                    onChanged: () {},
-                  ),
-                  InputBox(
-                    keyType: TextInputType.phone,
-                    text: 'Phone Number',
-                    validator: () {},
-                    onChanged: () {},
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      showCountryPicker(
-                        context: context,
-                        onSelect: (Country country) {
-                          _selectedCountry = country.name;
-                        },
-                      );
-                    },
-                    child: _selectedCountry != ''
-                        ? Text(
-                            _selectedCountry,
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          )
-                        : Text(
-                            'Pick Country',
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
+              child: Form(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          child: InputBox(
+                            keyType: TextInputType.name,
+                            text: 'First Name',
+                            validator: () {},
+                            onChanged: () {},
                           ),
-                  ),
-                  ElevatedButton(
-                      onPressed: () async {
-                        Navigator.of(context)
-                            .pushNamed(MapPlacePicker.routeName);
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.45,
+                          child: InputBox(
+                            keyType: TextInputType.name,
+                            text: 'Last Name',
+                            validator: () {},
+                            onChanged: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                    InputBox(
+                      keyType: TextInputType.emailAddress,
+                      text: 'Email',
+                      validator: () {},
+                      onChanged: (value) {
+                        email = value;
                       },
-                      child: Text('Pick address')),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      buildCircleButtonOne('Parent'),
-                      buildCircleButtonOne('Babysitter'),
-                    ],
-                  ),
-                  CircleButtonOne(
-                    handler: () {
-                      if (userType == 'Parent') {
-                        Navigator.of(context)
-                            .pushNamed(ParentRegisterScreen.routeName);
-                      } else if (userType == 'Babysitter') {
-                        Navigator.of(context)
-                            .pushNamed(BabysitterRegisterScreen.routeName);
-                      }
-                    },
-                    text: 'Next',
-                    cMarginTop: 30,
-                    bgColor: Color.fromARGB(255, 150, 177, 190),
-                    cWidth: 0.9,
-                  ),
-                ],
+                    ),
+                    InputBox(
+                      isSecure: true,
+                      keyType: TextInputType.text,
+                      text: 'Password',
+                      validator: () {},
+                      onChanged: () {},
+                    ),
+                    InputBox(
+                      isSecure: true,
+                      keyType: TextInputType.text,
+                      text: 'Confirm Password',
+                      validator: () {},
+                      onChanged: () {},
+                    ),
+                    InputBox(
+                      keyType: TextInputType.phone,
+                      text: 'Phone Number',
+                      validator: () {},
+                      onChanged: () {},
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        showCountryPicker(
+                          context: context,
+                          onSelect: (Country country) {
+                            _selectedCountry = country.name;
+                          },
+                        );
+                      },
+                      child: _selectedCountry != ''
+                          ? Text(
+                              _selectedCountry,
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            )
+                          : Text(
+                              'Pick Country',
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          Navigator.of(context)
+                              .pushNamed(MapPlacePicker.routeName);
+                        },
+                        child: Text('Pick address')),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        buildCircleButtonOne('Parent'),
+                        buildCircleButtonOne('Babysitter'),
+                      ],
+                    ),
+                    CircleButtonOne(
+                      handler: () {
+                        if (userType == 'Parent') {
+                          Navigator.of(context)
+                              .pushNamed(ParentRegisterScreen.routeName);
+                        } else if (userType == 'Babysitter') {
+                          Navigator.of(context)
+                              .pushNamed(BabysitterRegisterScreen.routeName);
+                        }
+                      },
+                      // handler: () async {
+                      //   dynamic result = await _auth.signInAnon();
+                      //   if (result == null) {
+                      //     print('error sign in');
+                      //   } else {
+                      //     print('sign in');
+                      //     print(result.uid);
+                      //   }
+                      // },
+                      text: 'Next',
+                      cMarginTop: 30,
+                      bgColor: Color.fromARGB(255, 150, 177, 190),
+                      cWidth: 0.9,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
