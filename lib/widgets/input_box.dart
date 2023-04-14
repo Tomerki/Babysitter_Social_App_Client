@@ -25,7 +25,7 @@ class InputBox extends StatelessWidget {
         keyboardType: keyType,
         textInputAction: TextInputAction.next,
         textAlign: TextAlign.center,
-        onChanged: onChanged(),
+        onChanged: (value) => onChanged(value),
         decoration: InputDecoration(
           hintText: text,
           hintStyle: TextStyle(
