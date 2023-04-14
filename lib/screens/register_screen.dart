@@ -245,15 +245,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ));
                                 } else {
                                   Navigator.of(context).pop();
-                                  // Navigator.of(context)
-                                  //     .pushReplacementNamed(LoginScreen.routeName);
-                                  // if (userType == 'Parent') {
-                                  //   Navigator.of(context)
-                                  //       .pushNamed(ParentRegisterScreen.routeName);
-                                  // } else if (userType == 'Babysitter') {
-                                  //   Navigator.of(context)
-                                  //       .pushNamed(BabysitterRegisterScreen.routeName);
-                                  // }
+                                  if (userType == 'Parent') {
+                                    Navigator.of(context).pushReplacementNamed(
+                                        ParentRegisterScreen.routeName);
+                                  } else if (userType == 'Babysitter') {
+                                    Navigator.of(context).pushReplacementNamed(
+                                        BabysitterRegisterScreen.routeName);
+                                  }
                                 }
                               } else {
                                 ScaffoldMessenger.of(context)

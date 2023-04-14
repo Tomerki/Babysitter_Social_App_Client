@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../services/auth.dart';
 import '../services/validation.dart';
-import './babysitter_profile_screen.dart';
 import '../widgets/input_box.dart';
 import '../widgets/circle_button_one.dart';
 
@@ -117,13 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {
                             () => loading = true;
                           });
-                          // dynamic result = await _auth.signInAnon();
-                          // if (result == null) {
-                          //   print('error sign in');
-                          // } else {
-                          //   print('sign in');
-                          //   print(result.uid);
-                          // }
+
                           dynamic result = await _auth
                               .signInWithEmailAndpassword(email!, password!);
                           if (result == null) {

@@ -1,4 +1,4 @@
-import 'package:baby_sitter/models/tempUser.dart';
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/wrapper.dart';
 import 'package:baby_sitter/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<TempUser?>.value(
+    return StreamProvider<appUser?>.value(
       value: AuthService().user,
       initialData: null,
       child: MaterialApp(

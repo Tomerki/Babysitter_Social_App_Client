@@ -1,14 +1,15 @@
-import 'package:baby_sitter/models/tempUser.dart';
+import 'package:baby_sitter/models/appUser.dart';
+import 'package:baby_sitter/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  TempUser? _userFromFirebaseUser(User? user) {
-    return user != null ? TempUser(uid: user.uid) : null;
+  appUser? _userFromFirebaseUser(User? user) {
+    return user != null ? appUser(uid: user.uid) : null;
   }
 
-  Stream<TempUser?> get user {
+  Stream<appUser?> get user {
     return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
@@ -19,6 +20,7 @@ class AuthService {
         password: password,
       );
       User? user = result.user;
+
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -33,6 +35,12 @@ class AuthService {
         password: password,
       );
       User? user = result.user;
+      if (user != null) {
+        var r = await DatabaseService(uid: user.uid)
+            .UpdateUserData('firstName', 'lastName', 'phoneNumber');
+        // print("r:");
+        // print(r);
+      }
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());

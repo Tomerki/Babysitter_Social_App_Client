@@ -1,0 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+class DatabaseService {
+  final String uid;
+
+  final FirebaseFirestore usersCollection = FirebaseFirestore.instance;
+
+  DatabaseService({required this.uid});
+
+  Future UpdateUserData(
+      String firstName, String lastName, String phoneNumber) async {
+    try {
+      print("uid inside DatabaseService:");
+      print(uid);
+      await usersCollection.collection('Users').doc(uid).set({
+        'firstName': firstName,
+        'lastName': lastName,
+        'phoneNumber': phoneNumber,
+      });
+    } catch (e) {
+      print('Error updating user data: $e');
+      rethrow; // rethrow the error to the calling function
+    }
+  }
+}

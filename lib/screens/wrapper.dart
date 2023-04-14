@@ -1,4 +1,4 @@
-import 'package:baby_sitter/models/tempUser.dart';
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/authenticate/authenticate.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:baby_sitter/screens/welcome_screen.dart';
@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<TempUser?>(context);
+    final user = Provider.of<appUser?>(context);
     print(user);
     if (user == null) {
       return WelcomeScreen();
