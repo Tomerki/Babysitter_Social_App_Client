@@ -90,11 +90,12 @@ class WelcomeScreen extends StatelessWidget {
                 ),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/parents.jpg'),
-                    fit: BoxFit.fill,
-                    opacity: 0.5,
-                  ),
+                  color: Colors.white,
+                  // image: DecorationImage(
+                  //   image: AssetImage('assets/images/parents.jpg'),
+                  //   fit: BoxFit.fill,
+                  //   opacity: 0.5,
+                  // ),
                 ),
               ),
             ),
