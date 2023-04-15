@@ -2,11 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class DatabaseService {
-  final String uid;
+  final String? uid;
 
   final FirebaseFirestore usersCollection = FirebaseFirestore.instance;
 
-  DatabaseService({required this.uid});
+  DatabaseService({this.uid});
+
+  Stream<QuerySnapshot> get users {
+    return usersCollection.collection('Users').snapshots();
+  }
 
   Future UpdateUserData(
       String firstName, String lastName, String phoneNumber) async {

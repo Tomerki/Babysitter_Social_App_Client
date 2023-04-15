@@ -220,16 +220,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 setState(() {
                                   loading = true;
                                 });
-                                // if (userType == 'Parent') {
-                                //   Navigator.of(context)
-                                //       .pushNamed(ParentRegisterScreen.routeName);
-                                // } else if (userType == 'Babysitter') {
-                                //   Navigator.of(context)
-                                //       .pushNamed(BabysitterRegisterScreen.routeName);
-                                // }
                                 dynamic result =
                                     await _auth.registerWithEmailAndpassword(
-                                        email!, password!);
+                                        email!,
+                                        password!,
+                                        firstName!,
+                                        lastName!,
+                                        phoneNumber!);
                                 if (result == null) {
                                   print('not good');
                                   setState(() {
