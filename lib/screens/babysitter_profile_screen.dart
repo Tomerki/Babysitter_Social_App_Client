@@ -58,6 +58,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
               foregroundColor: Colors.white,
               backgroundColor: Color.fromARGB(255, 174, 194, 182),
               padding: EdgeInsets.all(15),
+
               textStyle: TextStyle(
                 color: Colors.black,
                 fontSize: 26,
