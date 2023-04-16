@@ -55,7 +55,10 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
             onPressed: _presentDatePicker,
             child: Text('  BOOK  '),
             style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white, backgroundColor: Color.fromARGB(255, 174, 194, 182), padding: EdgeInsets.all(15),
+              foregroundColor: Colors.white,
+              backgroundColor: Color.fromARGB(255, 174, 194, 182),
+              padding: EdgeInsets.all(15),
+
               textStyle: TextStyle(
                 color: Colors.black,
                 fontSize: 26,
