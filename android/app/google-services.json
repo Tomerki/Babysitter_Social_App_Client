@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "433979190662",
+    "project_id": "babysitter-seminar",
+    "storage_bucket": "babysitter-seminar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433979190662:android:de36844c3eb9fd017ad007",
+        "android_client_info": {
+          "package_name": "com.example.baby_sitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "433979190662-j4joki891k0t6vb4kqa0o85mc8jsi3o2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-JAqP1nupk_dV70K0OxJ_uW7Znz-Tpkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "433979190662-j4joki891k0t6vb4kqa0o85mc8jsi3o2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
