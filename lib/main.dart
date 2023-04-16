@@ -1,4 +1,3 @@
-import 'package:baby_sitter/screens/filter_sec_screen.dart';
 import 'package:flutter/material.dart';
 import './screens/babysitter_profile_screen.dart';
 import './screens/login_screen.dart';
@@ -10,7 +9,6 @@ import './widgets/map_place_picker.dart';
 import './screens/filter_screen.dart';
 import './screens/jobs_search_screen.dart';
 
-
 void main() {
   runApp(MyApp());
 }
@@ -20,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: WelcomeScreen.routeName,
+      initialRoute: JobsSearchScreen.routeName,
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         BabysitterProfileScreen.routeName: (context) =>
