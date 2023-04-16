@@ -1,7 +1,6 @@
 import 'package:baby_sitter/widgets/map_place_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../widgets/input_box.dart';
 import './babysitter_register_screen.dart';
 import '../widgets/circle_button_one.dart';

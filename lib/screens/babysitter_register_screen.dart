@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'package:baby_sitter/widgets/check_box_custome.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../widgets/input_box.dart';
 
 class BabysitterRegisterScreen extends StatefulWidget {
   static const routeName = 'babysitter-register-screen';
@@ -15,7 +13,21 @@ class BabysitterRegisterScreen extends StatefulWidget {
 class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
   final _formKey2 = GlobalKey<FormState>();
   File? _imageFile;
-  bool isChecked = false;
+  String age = '18';
+  List<String> ageList =
+      List.generate(165, (index) => (18 + (index * 0.5)).toStringAsFixed(1));
+
+  Map<String, bool> texts = {
+    'Come to client': false,
+    'In my place': false,
+    'Helping with housework': false,
+    'knows how to cook': false,
+    'First aid certified': false,
+    'Has a driver\'s license': false,
+    'Has past experience': false,
+    'Has an education in education': false,
+    'takes to activities': false,
+  };
 
   Future<void> _pickImage(ImageSource source) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
@@ -68,14 +80,43 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                     ),
                     Text('No image selected'),
                   ],
-                  InputBox(
-                    keyType: TextInputType.number,
-                    text: 'Your age',
-                    validator: () {},
-                    onChanged: () {},
+                  DropdownButtonFormField(
+                    items: ageList.map((age) {
+                      return DropdownMenuItem<String>(
+                        value: age,
+                        child: Text(double.parse(age)
+                            .toStringAsFixed(age.endsWith('.0') ? 0 : 1)),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        age = value!;
+                      });
+                    },
+                    hint: Text(
+                      'Selecet age',
+                    ),
+                    isExpanded: true,
+                    icon: IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.arrow_drop_down),
+                    ), // remove the default icon
                   ),
-                  CheckBoxCustome(text: 'Come to client'),
-                  CheckBoxCustome(text: 'In my place'),
+                  ...texts.keys.map(
+                    (key) {
+                      return CheckboxListTile(
+                        value: texts[key],
+                        onChanged: (val) {
+                          setState(() {
+                            texts[key] = val!;
+                          });
+                        },
+                        title: Text(key),
+                        controlAffinity: ListTileControlAffinity.leading,
+                      );
+                    },
+                  ),
+                  Divider(),
                 ],
               ),
             ),

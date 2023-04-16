@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
 class JobPost extends StatefulWidget {
-  final width;
-  // final fullName;
-  // final DateTime postTime;
-
-  const JobPost({super.key, this.width});
+  final job;
+  bool hide;
+  JobPost({super.key, required this.job, required this.hide});
 
   @override
   State<JobPost> createState() => _JobPostState();
@@ -14,45 +12,70 @@ class JobPost extends StatefulWidget {
 class _JobPostState extends State<JobPost> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: EdgeInsets.all(10),
-        width: widget.width,
-        child: Card(
-          elevation: 5,
-          color: Colors.white,
-          child: Stack(
-            alignment: Alignment.topRight,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Card(
+        elevation: 5,
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 170, left: 8.0),
+                  child: Text(
                     'Full Name',
-                    textAlign: TextAlign.right,
+                    style: TextStyle(fontSize: 20),
                   ),
-                  Text(
-                    'Date',
-                    textAlign: TextAlign.right,
-                  ),
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    color: Color.fromARGB(255, 129, 91, 91),
-                  ),
-                  borderRadius: BorderRadius.circular(10),
                 ),
+                IconButton(
+                  onPressed: () {
+                    setState(() {
+                      widget.hide = !widget.hide;
+                    });
+                  },
+                  icon: widget.hide
+                      ? Icon(
+                          Icons.minimize,
+                        )
+                      : Icon(
+                          Icons.add,
+                        ),
+                ),
+              ],
+            ),
+            Visibility(
+              visible: widget.hide,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'Data on the job ',
-                  textAlign: TextAlign.right,
+                  'job date: ${widget.job['date']}\n' +
+                      'hours: ${widget.job['startHour']} - ${widget.job['endHour']}\n' +
+                      'Number of children: ${widget.job['childrens'].length}\n' +
+                      'description: ${widget.job['description']}',
                 ),
               ),
-            ],
-          ),
+            ),
+            Visibility(
+              visible: widget.hide,
+              child: Card(
+                elevation: 5,
+                borderOnForeground: true,
+                child: Row(
+                  children: [
+                    IconButton(
+                      alignment: Alignment.bottomLeft,
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.notification_add_outlined,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
