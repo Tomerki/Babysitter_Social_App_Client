@@ -11,7 +11,7 @@ class BabysitterDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        // color: Colors.white,
         border: Border.all(
           color: Color.fromARGB(255, 129, 91, 91),
         ),
@@ -29,12 +29,22 @@ class BabysitterDescription extends StatelessWidget {
               'Description: ',
               style: TextStyle(
                 fontSize: 18,
+                color: Colors.black87,
               ),
             ),
             SizedBox(
               height: 5,
             ),
-            Text('the description........ '),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Text(
+                'the description........ ',
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
           ],
         ),
       ),

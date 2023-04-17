@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
           BabysitterRecommendationScreen.routeName: (context) =>
               BabysitterRecommendationScreen(),
         },
-        home: BabysitterRecommendationScreen(),
+        home: BabysitterProfileScreen(),
       ),
     );
   }
