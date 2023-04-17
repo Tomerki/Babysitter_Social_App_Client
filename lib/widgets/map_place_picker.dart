@@ -21,16 +21,23 @@ class _MapPlacePickerState extends State<MapPlacePicker> {
       currentLatLng: const LatLng(29.121599, 76.396698),
       onNext: (GeocodingResult? result) {
         if (result != null) {
-          setState(() {
-            address = result.formattedAddress ?? "";
-          });
+          setState(
+            () {
+              address = result.formattedAddress ?? "";
+            },
+          );
+          Function func =
+              ModalRoute.of(context)!.settings.arguments as Function;
+          func(address);
         }
       },
       onSuggestionSelected: (PlacesDetailsResponse? result) {
         if (result != null) {
-          setState(() {
-            autocompletePlace = result.result.formattedAddress ?? "";
-          });
+          setState(
+            () {
+              autocompletePlace = result.result.formattedAddress ?? "";
+            },
+          );
         }
       },
     );

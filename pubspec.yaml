@@ -46,6 +46,7 @@ dependencies:
   time_range_picker: ^2.2.0
   numberpicker: ^2.1.2
   http: ^0.13.5
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_test:

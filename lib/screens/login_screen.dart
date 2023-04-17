@@ -23,24 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return loading
         ? Loading()
         : Scaffold(
-            appBar: AppBar(
-              title: Text('Login'),
-              centerTitle: true,
-              elevation: 0,
-              systemOverlayStyle: SystemUiOverlayStyle.light,
-              backgroundColor: Color.fromARGB(255, 255, 229, 202),
-              foregroundColor: Colors.black87,
-              leading: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  size: 20,
-                  color: Colors.black,
-                ),
-              ),
-            ),
             body: Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -64,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           fontSize: 45.0,
                           fontWeight: FontWeight.w900,
+                          fontFamily: 'Alkatra',
                         ),
                       ),
                     ),
