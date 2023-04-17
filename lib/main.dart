@@ -1,5 +1,4 @@
 import 'package:baby_sitter/models/appUser.dart';
-import 'package:baby_sitter/screens/wrapper.dart';
 import 'package:baby_sitter/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,8 +30,6 @@ class MyApp extends StatelessWidget {
       initialData: null,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        // initialRoute: WelcomeScreen.routeName,
-        // initialRoute: FilterScreen.routeName,
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
           BabysitterProfileScreen.routeName: (context) =>

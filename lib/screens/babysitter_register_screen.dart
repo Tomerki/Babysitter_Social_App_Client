@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:baby_sitter/screens/login_screen.dart';
+import 'package:baby_sitter/widgets/circle_button_one.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -39,48 +41,113 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        heightFactor: 1,
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.9,
-          margin: EdgeInsets.only(top: 30),
-          child: Form(
-            key: _formKey2,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Text('About me:'),
-                  Card(
-                    margin: EdgeInsets.only(top: 10, bottom: 30),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Color.fromARGB(255, 201, 195, 195),
+              Color.fromARGB(255, 179, 175, 175),
+              Color.fromARGB(255, 183, 160, 160),
+            ],
+          ),
+        ),
+        child: Form(
+          key: _formKey2,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.only(top: 60, bottom: 30, right: 20),
+                  width: MediaQuery.of(context).size.width,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      if (_imageFile != null) ...[
+                        FloatingActionButton.large(
+                          backgroundColor: Colors.grey[300],
+                          onPressed: () => _pickImage(ImageSource.gallery),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: FileImage(_imageFile!),
+                                fit: BoxFit.fill,
+                              ),
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                      ] else ...[
+                        FloatingActionButton.large(
+                          backgroundColor: Colors.grey[300],
+                          foregroundColor: Colors.black,
+                          onPressed: () => _pickImage(ImageSource.gallery),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.photo,
+                              ),
+                              Text(
+                                'Profile Picture',
+                                textAlign: TextAlign.center,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: const [
+                          Text(
+                            'About',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Me',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    margin: EdgeInsets.all(8.0),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: TextField(
-                        maxLines: 5,
+                        maxLines: 6,
                         decoration: InputDecoration.collapsed(
-                            hintText: "Enter your text here"),
+                            hintText: "Tell us more about you..."),
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
-                  if (_imageFile != null) ...[
-                    Image.file(
-                      _imageFile!,
-                      width: 150,
-                      height: 150,
-                    ),
-                    ElevatedButton(
-                      onPressed: () => _pickImage(ImageSource.gallery),
-                      child: Text('Pick another image'),
-                    ),
-                  ] else ...[
-                    ElevatedButton(
-                      onPressed: () => _pickImage(ImageSource.gallery),
-                      child: Text('Pick Profile Image'),
-                    ),
-                    Text('No image selected'),
-                  ],
-                  DropdownButtonFormField(
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: DropdownButtonFormField(
+                    menuMaxHeight: MediaQuery.of(context).size.height * 0.5,
                     items: ageList.map((age) {
                       return DropdownMenuItem<String>(
                         value: age,
@@ -97,28 +164,46 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                       'Selecet age',
                     ),
                     isExpanded: true,
-                    icon: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.arrow_drop_down),
-                    ), // remove the default icon
                   ),
-                  ...texts.keys.map(
-                    (key) {
-                      return CheckboxListTile(
-                        value: texts[key],
-                        onChanged: (val) {
-                          setState(() {
-                            texts[key] = val!;
-                          });
-                        },
-                        title: Text(key),
-                        controlAffinity: ListTileControlAffinity.leading,
-                      );
-                    },
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 30, bottom: 15),
+                  child: Text(
+                    'Your skills:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      wordSpacing: 2,
+                      letterSpacing: 2,
+                    ),
                   ),
-                  Divider(),
-                ],
-              ),
+                ),
+                ...texts.keys.map(
+                  (key) {
+                    return CheckboxListTile(
+                      value: texts[key],
+                      onChanged: (val) {
+                        setState(() {
+                          texts[key] = val!;
+                        });
+                      },
+                      title: Text(key),
+                      controlAffinity: ListTileControlAffinity.leading,
+                    );
+                  },
+                ),
+                Divider(),
+                CircleButtonOne(
+                  handler: () {
+                    Navigator.of(context).pushNamed(LoginScreen.routeName);
+                  },
+                  text: 'Sign-up!',
+                  cWidth: 0.8,
+                  cHeight: 0.1,
+                  cPaddingBottom: 20,
+                  bgColor: Colors.black,
+                  textColor: Colors.white,
+                ),
+              ],
             ),
           ),
         ),

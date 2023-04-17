@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
@@ -312,33 +314,40 @@ class _NewPostState extends State<NewPost> {
                   ),
                   actions: [
                     TextButton(
-                        child: Text("Submit"),
-                        onPressed: () {
-                          setState(
-                            () {
-                              jobs.add({
-                                "date": DateFormat.yMMMMEEEEd()
-                                    .format(selectedDate),
-                                "startHour": startTime,
-                                "endHour": endTime,
-                                "childrens": children,
-                                "description": jobDescription,
-                              });
+                      child: Text("Submit"),
+                      onPressed: () {
+                        setState(
+                          () {
+                            jobs.add({
+                              "date":
+                                  DateFormat.yMMMMEEEEd().format(selectedDate),
+                              "startHour": startTime,
+                              "endHour": endTime,
+                              "childrens": children,
+                              "description": jobDescription,
+                            });
+                          },
+                        );
+                        serverManager
+                            .postRequest(
+                          'add_doc',
+                          body: jsonEncode(
+                            {
+                              "date": selectedDate.toString(),
+                              "startHour": startTime,
+                              "endHour": endTime,
+                              "childrens": children.toString(),
+                              "description": jobDescription,
                             },
-                          );
-                          // serverManager.postRequest('add_doc',
-                          //     body: jsonEncode(
-                          //       {
-                          //         "date": selectedDate.toString(),
-                          //         "startHour": startTime,
-                          //         "endHour": endTime,
-                          //         "childrens": children.toString(),
-                          //         "description": jobDescription,
-                          //       },
-                          //     ));
-                          widget.callback(jobs);
-                          Navigator.of(context, rootNavigator: true).pop();
-                        }),
+                          ),
+                        )
+                            .then((response) {
+                          print(json.decode(response.body)['id']);
+                        });
+                        widget.callback(jobs);
+                        Navigator.of(context, rootNavigator: true).pop();
+                      },
+                    ),
                   ],
                 );
               },
