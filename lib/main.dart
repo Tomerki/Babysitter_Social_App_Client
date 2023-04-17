@@ -14,6 +14,8 @@ import './screens/filter_screen.dart';
 import './screens/jobs_search_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+import 'screens/babysitter_recommendations_screen.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -43,8 +45,10 @@ class MyApp extends StatelessWidget {
           MapPlacePicker.routeName: (context) => MapPlacePicker(),
           FilterScreen.routeName: (context) => FilterScreen(),
           JobsSearchScreen.routeName: (context) => JobsSearchScreen(),
+          BabysitterRecommendationScreen.routeName: (context) =>
+              BabysitterRecommendationScreen(),
         },
-        home: Wrapper(),
+        home: BabysitterRecommendationScreen(),
       ),
     );
   }
