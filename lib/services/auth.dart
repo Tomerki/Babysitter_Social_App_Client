@@ -1,5 +1,4 @@
 import 'package:baby_sitter/models/appUser.dart';
-import 'package:baby_sitter/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -31,9 +30,6 @@ class AuthService {
   Future registerWithEmailAndpassword(
     String email,
     String password,
-    String firstName,
-    String lastName,
-    String phoneNumber,
   ) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
@@ -41,10 +37,6 @@ class AuthService {
         password: password,
       );
       User? user = result.user;
-      if (user != null) {
-        await DatabaseService(uid: user.uid)
-            .UpdateUserData(firstName, lastName, phoneNumber);
-      }
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());

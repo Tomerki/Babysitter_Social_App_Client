@@ -2,6 +2,9 @@ import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
 import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
 import 'package:baby_sitter/widgets/babysitter_description.dart';
+import 'package:time_range_picker/time_range_picker.dart';
+
+import 'babysitter_recommendations_screen.dart';
 
 class BabysitterProfileScreen extends StatefulWidget {
   static final routeName = 'BabysitterProfileScreen';
@@ -12,42 +15,170 @@ class BabysitterProfileScreen extends StatefulWidget {
 }
 
 class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
+  final _formKey = GlobalKey<FormState>();
+  String startTime = '';
+  String endTime = '';
+  bool isFavorite = false;
+
   void _presentDatePicker() {
-    showDatePicker(
+    showDialog(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365)),
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Colors.black,
-            ),
-          ),
-          child: child!,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+              scrollable: true,
+              title: Text('Choose Babysitting Time'),
+              content: Padding(
+                padding: const EdgeInsets.all(0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                      ElevatedButton.icon(
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStatePropertyAll(
+                            Colors.black,
+                          ),
+                          backgroundColor: MaterialStatePropertyAll(
+                            Colors.transparent,
+                          ),
+                          enableFeedback: true,
+                        ),
+                        label: Text('Pick a date'),
+                        icon: Icon(Icons.date_range),
+                        onPressed: () {
+                          final currentDate = DateTime.now();
+                          showDatePicker(
+                            context: context,
+                            initialDate: currentDate,
+                            firstDate: currentDate,
+                            builder: (context, child) {
+                              return Theme(
+                                data: ThemeData.light().copyWith(
+                                  colorScheme: ColorScheme.light(
+                                    primary: Colors.black,
+                                  ),
+                                ),
+                                child: child!,
+                              );
+                            },
+                            lastDate: DateTime(
+                              currentDate.year,
+                              currentDate.month + 3,
+                              currentDate.day,
+                            ),
+                          ).then((value) => {
+                                setState(
+                                  () {
+                                    // selectedDate = value!;
+                                  },
+                                )
+                              });
+                        },
+                      ),
+                      ElevatedButton.icon(
+                        style: ButtonStyle(
+                          foregroundColor: MaterialStatePropertyAll(
+                            Colors.black,
+                          ),
+                          backgroundColor: MaterialStatePropertyAll(
+                            Colors.transparent,
+                          ),
+                          enableFeedback: true,
+                        ),
+                        label: Text('Pick time'),
+                        icon: Icon(Icons.timer),
+                        onPressed: () async {
+                          TimeRange? result = await showTimeRangePicker(
+                            context: context,
+                            builder: (context, child) {
+                              return Theme(
+                                data: ThemeData.dark().copyWith(
+                                  colorScheme: ColorScheme.light(
+                                    primary: Colors
+                                        .black, // set primary color to black
+                                  ),
+                                ),
+                                child: child!,
+                              );
+                            },
+                            start: const TimeOfDay(hour: 9, minute: 0),
+                            end: const TimeOfDay(hour: 12, minute: 0),
+                            strokeWidth: 4,
+                            ticks: 24,
+                            ticksOffset: -7,
+                            ticksLength: 15,
+                            ticksColor: Colors.grey,
+                            labels: [
+                              "12 am",
+                              "3 am",
+                              "6 am",
+                              "9 am",
+                              "12 pm",
+                              "3 pm",
+                              "6 pm",
+                              "9 pm"
+                            ].asMap().entries.map((e) {
+                              return ClockLabel.fromIndex(
+                                  idx: e.key, length: 8, text: e.value);
+                            }).toList(),
+                            labelOffset: 35,
+                            rotateLabels: false,
+                            padding: 60,
+                            onStartChange: (p0) {
+                              setState(() {
+                                startTime = p0.format(context);
+                              });
+                            },
+                            onEndChange: (p0) {
+                              setState(() {
+                                endTime = p0.format(context);
+                              });
+                            },
+                          );
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 5),
+                      ),
+                      startTime != '' || endTime != ''
+                          ? Text('From: ${startTime}\nUntil: ${endTime}')
+                          : Text('No hours selected yet'),
+                    ],
+                  ),
+                ),
+              ),
+              actions: [
+                Center(
+                  child: ElevatedButton(
+                    child: Text("Send"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 51, 65, 78),
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).pop();
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
         );
       },
     );
-    // .then((pickDate) {
-    //   if (pickDate == null) {
-    //     return;
-    //   } else {
-    //     setState(() {
-    //       _selectedDate = pickDate;
-    //     });
-    //   }
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('babysitter Page'),
-        backgroundColor: Color.fromARGB(255, 219, 163, 154),
-      ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -58,7 +189,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
               foregroundColor: Colors.white,
               backgroundColor: Color.fromARGB(255, 174, 194, 182),
               padding: EdgeInsets.all(15),
-
               textStyle: TextStyle(
                 color: Colors.black,
                 fontSize: 26,
@@ -86,36 +216,79 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(
-          10,
-        ),
-        //all page column
+      body: Padding(
+        padding: const EdgeInsets.only(top: 0),
         child: Center(
           child: Container(
-            color: Colors.white70,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  Color.fromARGB(255, 252, 221, 232),
+                  Color.fromARGB(255, 250, 247, 248),
+                  Color.fromARGB(120, 164, 128, 141)
+                ],
+              ),
+            ),
+            // color: Colors.white70,
             width: (queryData.size.width),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Center(
-                  child: Card(
-                    elevation: 5,
-                    color: Colors.white70,
-                    child: SizedBox(
-                      // width: (queryData.size.width) * 0.9,
-                      height:
-                          (queryData.size.height - queryData.padding.top) * 0.4,
-                      child: BabysitterUpperPage(
-                        pageHight:
-                            (queryData.size.height - queryData.padding.top),
-                        pagewidth: queryData.size.width,
+                Container(
+                  padding: EdgeInsets.all(20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: isFavorite
+                            ? Icon(
+                                Icons.favorite,
+                              )
+                            : Icon(
+                                Icons.favorite_border,
+                              ),
+                        onPressed: () {
+                          setState(() {
+                            isFavorite = !isFavorite;
+                          });
+                        },
                       ),
+                      ElevatedButton(
+                        child: Text("recommendation"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 51, 65, 78),
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(
+                              BabysitterRecommendationScreen.routeName);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: SizedBox(
+                    // width: (queryData.size.width) * 0.9,
+                    height:
+                        (queryData.size.height - queryData.padding.top) * 0.4,
+                    child: BabysitterUpperPage(
+                      pageHight:
+                          (queryData.size.height - queryData.padding.top),
+                      pagewidth: queryData.size.width,
                     ),
                   ),
                 ),
                 Center(
-                  child: BabysitterMiddlePage(),
+                  child: BabysitterMiddlePage(
+                    pageHight: (queryData.size.height - queryData.padding.top),
+                    pagewidth: queryData.size.width,
+                  ),
                 ),
                 BabysitterDescription(
                   pageHight: queryData.size.height - queryData.padding.top,
@@ -126,6 +299,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
           ),
         ),
       ),
+      // ),
     );
   }
 }
