@@ -217,7 +217,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(top: 0),
         child: Center(
           child: Container(
             decoration: BoxDecoration(
@@ -237,7 +237,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
