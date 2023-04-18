@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
 import 'package:baby_sitter/widgets/babysitter_description.dart';
 import 'package:time_range_picker/time_range_picker.dart';
-
 import 'babysitter_recommendations_screen.dart';
 
 class BabysitterProfileScreen extends StatefulWidget {
