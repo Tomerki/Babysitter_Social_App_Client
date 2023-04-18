@@ -250,11 +250,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   });
                                   dynamic result =
                                       await _auth.registerWithEmailAndpassword(
-                                          email!,
-                                          password!,
-                                          firstName!,
-                                          lastName!,
-                                          phoneNumber!);
+                                          email!, password!);
                                   if (result == null) {
                                     print('not good');
                                     setState(() {
@@ -271,7 +267,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   } else {
                                     Navigator.of(context).pop();
                                     if (userType == 'Parent') {
-                                      
                                       Navigator.of(context)
                                           .pushReplacementNamed(
                                               ParentRegisterScreen.routeName);
