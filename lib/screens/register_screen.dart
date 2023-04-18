@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:http/http.dart';
+
+import '../server_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:country_picker/country_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './login_screen.dart';
 import '../services/auth.dart';
@@ -10,7 +14,6 @@ import '../services/validation.dart';
 import '../widgets/input_box.dart';
 import './babysitter_register_screen.dart';
 import '../widgets/circle_button_one.dart';
-import './parent_register_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = 'register-screen';
@@ -30,8 +33,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var _formKey = GlobalKey<FormState>();
   String userType = '';
   String _selectedCountry = '';
+  Response? response;
 
   bool loading = false;
+  bool isBabysitter = false;
 
   String? email,
       password,
@@ -57,6 +62,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       handler: () {
         setState(() {
           userType = text;
+          if (text == 'Babysitter') {
+            isBabysitter = true;
+          }
         });
       },
       cMarginTop: 25,
@@ -221,8 +229,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           TextButton(
                             onPressed: () async {
                               Navigator.of(context).pushNamed(
-                                  MapPlacePicker.routeName,
-                                  arguments: callback);
+                                MapPlacePicker.routeName,
+                                arguments: callback,
+                              );
                             },
                             child: Text(
                               address!,
@@ -250,11 +259,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   });
                                   dynamic result =
                                       await _auth.registerWithEmailAndpassword(
-                                          email!,
-                                          password!,
-                                          firstName!,
-                                          lastName!,
-                                          phoneNumber!);
+                                    email!,
+                                    password!,
+                                  );
                                   if (result == null) {
                                     print('not good');
                                     setState(() {
@@ -269,17 +276,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       ),
                                     ));
                                   } else {
+                                    await ServerManager()
+                                        .postRequest(
+                                      'add_doc',
+                                      userType,
+                                      body: jsonEncode(
+                                        {
+                                          'email': email,
+                                          'password': password,
+                                          'confirmPassword': confirmPassword,
+                                          'firstName': firstName,
+                                          'lastName': lastName,
+                                          'phoneNumber': phoneNumber,
+                                          'address': address,
+                                          'county': _selectedCountry,
+                                        },
+                                      ),
+                                    )
+                                        .then((value) {
+                                      setState(
+                                        () {
+                                          response = value;
+                                        },
+                                      );
+                                    });
                                     Navigator.of(context).pop();
                                     if (userType == 'Parent') {
-                                      
                                       Navigator.of(context)
                                           .pushReplacementNamed(
-                                              ParentRegisterScreen.routeName);
+                                        LoginScreen.routeName,
+                                      );
                                     } else if (userType == 'Babysitter') {
                                       Navigator.of(context)
                                           .pushReplacementNamed(
-                                              BabysitterRegisterScreen
-                                                  .routeName);
+                                        BabysitterRegisterScreen.routeName,
+                                        arguments:
+                                            json.decode(response!.body)['id'],
+                                      );
                                     }
                                   }
                                 } else {

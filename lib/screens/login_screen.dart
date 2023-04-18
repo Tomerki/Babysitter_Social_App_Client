@@ -79,19 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     CircleButtonOne(
-                      // handler: () {
-                      //   Navigator.of(context)
-                      //       .pushNamed(BabysitterProfileScreen.routeName);
-                      // },
-                      // handler: () async {
-                      //   dynamic result = await _auth.signInAnon();
-                      //   if (result == null) {
-                      //     print('error sign in');
-                      //   } else {
-                      //     print('sign in');
-                      //     print(result.uid);
-                      //   }
-                      // },
                       handler: () async {
                         if (_formKey.currentState == null) {
                           print('_formKey.currentState == null');
@@ -114,8 +101,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               () => loading = false;
                             });
                           } else {
-                            print('sign in');
-                            print(result.uid);
                             Navigator.of(context).pop();
                           }
                         } else {
