@@ -143,21 +143,42 @@ class _FilterScreennState extends State<FilterScreen>
       body: TabBarView(
         controller: _tabController,
         children: <Widget>[
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.45,
-            child: InputBox(
-              keyType: TextInputType.name,
-              text: 'Enter a name',
-              onChanged: (value) {
-                name = value;
-              },
-              validator: () {},
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  Color.fromARGB(188, 227, 183, 160),
+                  Color.fromARGB(255, 236, 232, 217),
+                  Color.fromARGB(255, 250, 246, 233),
+                ],
+              ),
+            ),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.45,
+              child: InputBox(
+                keyType: TextInputType.name,
+                text: 'Enter a name',
+                onChanged: (value) {
+                  name = value;
+                },
+                validator: () {},
+              ),
             ),
           ),
           Container(
             height: (queryData.size.height) * 0.9,
             decoration: BoxDecoration(
-              color: Colors.white,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.centerRight,
+                colors: [
+                  Color.fromARGB(188, 227, 183, 160),
+                  Color.fromARGB(255, 236, 232, 217),
+                  Color.fromARGB(255, 250, 246, 233),
+                ],
+              ),
             ),
             child: SingleChildScrollView(
               child: Container(
