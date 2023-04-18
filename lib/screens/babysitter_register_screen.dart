@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:baby_sitter/screens/login_screen.dart';
+import 'package:baby_sitter/server_manager.dart';
 import 'package:baby_sitter/widgets/circle_button_one.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,6 +17,7 @@ class BabysitterRegisterScreen extends StatefulWidget {
 class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
   final _formKey2 = GlobalKey<FormState>();
   File? _imageFile;
+  String about = '';
   String age = '18';
   List<String> ageList =
       List.generate(165, (index) => (18 + (index * 0.5)).toStringAsFixed(1));
@@ -23,12 +26,12 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
     'Come to client': false,
     'In my place': false,
     'Helping with housework': false,
-    'knows how to cook': false,
+    'Knows how to cook': false,
     'First aid certified': false,
     'Has a driver\'s license': false,
     'Has past experience': false,
     'Has an education in education': false,
-    'takes to activities': false,
+    'Takes to activities': false,
   };
 
   Future<void> _pickImage(ImageSource source) async {
@@ -136,6 +139,11 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextField(
+                        onChanged: (value) {
+                          setState(() {
+                            about = value;
+                          });
+                        },
                         maxLines: 6,
                         decoration: InputDecoration.collapsed(
                             hintText: "Tell us more about you..."),
@@ -194,6 +202,35 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                 Divider(),
                 CircleButtonOne(
                   handler: () {
+                    String id =
+                        ModalRoute.of(context)!.settings.arguments as String;
+                    ServerManager().putRequest(
+                      'items/$id',
+                      'Babysitter',
+                      body: jsonEncode(
+                        {
+                          'image': _imageFile!.path,
+                          'about': about,
+                          'age': age,
+                          'ComeToClient': texts['Come to client'].toString(),
+                          'InMyPlace': texts['In my place'].toString(),
+                          'HelpingWithHouseWork':
+                              texts['Helping with housework'].toString(),
+                          'KnowsHowToCook':
+                              texts['Knows how to cook'].toString(),
+                          'FirstAidCertified':
+                              texts['First aid certified'].toString(),
+                          'HasDriverLicense':
+                              texts['Has a driver\'s license'].toString(),
+                          'HasPastExperience':
+                              texts['Has past experience'].toString(),
+                          'HasAnEducationInEducation':
+                              texts['Has an education in education'].toString(),
+                          'TakesToActivities':
+                              texts['Takes to activities'].toString(),
+                        },
+                      ),
+                    );
                     Navigator.of(context).pushNamed(LoginScreen.routeName);
                   },
                   text: 'Sign-up!',

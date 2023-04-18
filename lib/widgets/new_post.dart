@@ -331,6 +331,7 @@ class _NewPostState extends State<NewPost> {
                         serverManager
                             .postRequest(
                           'add_doc',
+                          'Jobs',
                           body: jsonEncode(
                             {
                               "date": selectedDate.toString(),

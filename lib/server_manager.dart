@@ -16,14 +16,36 @@ class ServerManager {
     return await http.get(Uri.parse(url));
   }
 
-  Future<http.Response> postRequest(String path, {required String body}) async {
+  Future<http.Response> postRequest(String path, String collectionName,
+      {required String body}) async {
     final url = '$_baseUrl/$path';
     return await http.post(
       Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json',
+        'Collection-Name': collectionName,
       },
       body: body,
     );
+  }
+
+  Future<http.Response> putRequest(String path, String collectionName,
+      {required String body}) async {
+    final url = '$_baseUrl/$path';
+    try {
+      final response = await http.put(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Collection-Name': collectionName,
+        },
+        body: body,
+      );
+      return response;
+    } catch (e) {
+      // Handle any exceptions that may be thrown during the request
+      print('Error occurred during PUT request: $e');
+      rethrow;
+    }
   }
 }
