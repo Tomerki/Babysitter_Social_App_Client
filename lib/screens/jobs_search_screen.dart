@@ -1,4 +1,5 @@
 import 'package:baby_sitter/widgets/job_post.dart';
+import 'package:baby_sitter/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 import '../widgets/new_post.dart';
 
@@ -27,6 +28,7 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
+      drawer: MainDrawer(),
       body: Center(
         child: Container(
           alignment: Alignment.topCenter,
