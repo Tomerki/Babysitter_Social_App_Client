@@ -1,5 +1,7 @@
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/babysitter_search_results_screen.dart';
+import 'package:baby_sitter/screens/notifications_screen.dart';
+import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +48,7 @@ class MyApp extends StatelessWidget {
           BabysitterSearchResultsScreen.routeName: (context) =>
               BabysitterSearchResultsScreen(),
         },
-        home: WelcomeScreen(),
+        home: ParentMainScreen(),
       ),
     );
   }
