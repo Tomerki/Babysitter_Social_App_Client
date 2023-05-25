@@ -103,7 +103,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               () => loading = false;
                             });
                           } else {
-                            ServerManager().getRequest('items');
+                            var jobs = await ServerManager()
+                                .getRequest('items', 'Jobs')
+                                .then((value) {
+                              print(value.body);
+                            });
+                            print(jobs);
                             Navigator.of(context)
                                 .popAndPushNamed(JobsSearchScreen.routeName);
                           }
