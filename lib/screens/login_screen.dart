@@ -1,3 +1,5 @@
+import 'package:baby_sitter/screens/jobs_search_screen.dart';
+import 'package:baby_sitter/server_manager.dart';
 import 'package:baby_sitter/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -86,7 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {
                             () => loading = true;
                           });
-
                           dynamic result = await _auth
                               .signInWithEmailAndpassword(email!, password!);
                           if (result == null) {
@@ -101,7 +102,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               () => loading = false;
                             });
                           } else {
-                            Navigator.of(context).pop();
+                            ServerManager().getRequest('items');
+                            Navigator.of(context)
+                                .popAndPushNamed(JobsSearchScreen.routeName);
                           }
                         } else {
                           print('not good');
