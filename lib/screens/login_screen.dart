@@ -1,8 +1,8 @@
-import 'package:baby_sitter/screens/jobs_search_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
-import 'package:baby_sitter/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import './jobs_search_screen.dart';
+import '../widgets/loading.dart';
 import '../services/auth.dart';
 import '../services/validation.dart';
 import '../widgets/input_box.dart';
@@ -102,7 +102,12 @@ class _LoginScreenState extends State<LoginScreen> {
                               () => loading = false;
                             });
                           } else {
-                            ServerManager().getRequest('items');
+                            var jobs = await ServerManager()
+                                .getRequest('items', 'Jobs')
+                                .then((value) {
+                              print(value.body);
+                            });
+                            print(jobs);
                             Navigator.of(context)
                                 .popAndPushNamed(JobsSearchScreen.routeName);
                           }

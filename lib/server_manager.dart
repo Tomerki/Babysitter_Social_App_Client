@@ -9,11 +9,17 @@ class ServerManager {
 
   ServerManager._internal();
 
-  static const String _baseUrl = 'http://192.168.0.129:8080';
+  static const String _baseUrl = 'http://192.168.0.130:8080';
 
-  Future<http.Response> getRequest(String path) async {
+  Future<http.Response> getRequest(
+    String path,
+    String collectionName,
+  ) async {
     final url = '$_baseUrl/$path';
-    return await http.get(Uri.parse(url));
+    return await http.get(Uri.parse(url), headers: <String, String>{
+      'Content-Type': 'application/json',
+      'Collection-Name': collectionName,
+    });
   }
 
   Future<http.Response> postRequest(String path, String collectionName,
