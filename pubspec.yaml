@@ -46,6 +46,7 @@ dependencies:
   numberpicker: ^2.1.2
   http: ^0.13.5
   animated_text_kit: ^4.2.2
+  flutter_chat_ui: ^1.6.6
   persistent_bottom_nav_bar: ^5.0.2
 
 dev_dependencies:
