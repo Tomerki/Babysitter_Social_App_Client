@@ -1,6 +1,8 @@
-import 'package:baby_sitter/widgets/loading.dart';
+import 'package:baby_sitter/server_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import './jobs_search_screen.dart';
+import '../widgets/loading.dart';
 import '../services/auth.dart';
 import '../services/validation.dart';
 import '../widgets/input_box.dart';
@@ -101,7 +103,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               () => loading = false;
                             });
                           } else {
-                            Navigator.of(context).pop();
+                            ServerManager().getRequest('items');
+                            Navigator.of(context)
+                                .popAndPushNamed(JobsSearchScreen.routeName);
                           }
                         } else {
                           print('not good');
