@@ -6,7 +6,7 @@ const kCardTextStyle = TextStyle(color: Colors.white, fontSize: 15);
 enum LocationOptions { at_your_house, at_her_house, never_mind }
 
 class FilterScreen extends StatefulWidget {
-  static final routeName = 'FilterSecScreen';
+  static final routeName = 'FilterScreen';
 
   @override
   State<FilterScreen> createState() => _FilterScreennState();
