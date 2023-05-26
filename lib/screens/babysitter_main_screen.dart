@@ -1,3 +1,4 @@
+import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:baby_sitter/screens/jobs_search_screen.dart';
@@ -5,23 +6,22 @@ import 'package:baby_sitter/screens/notifications_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-
-class ParentMainScreen extends StatelessWidget {
-  const ParentMainScreen({Key? key}) : super(key: key);
+class BabysitterMainScreen extends StatefulWidget {
+  const BabysitterMainScreen({Key? key}) : super(key: key);
   static final routeName = 'ParentMainScreen';
 
   @override
-  State<ParentMainScreen> createState() => _ParentMainScreenState();
+  State<BabysitterMainScreen> createState() => _BabysitterMainScreenState();
 }
 
-class _ParentMainScreenState extends State<ParentMainScreen> {
+class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
   List<Widget> _buildScreens() {
     return [
       JobsSearchScreen(),
       NotificationScreen(),
       BabysitterSearchScreen(),
       FilterScreen(),
-      BabysitterSearchScreen(),
+      BabysitterProfileScreen()
     ];
   }
 
@@ -54,8 +54,8 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
           inactiveColorPrimary: Colors.grey,
         ),
         PersistentBottomNavBarItem(
-          icon: const Icon(Icons.favorite),
-          title: ("Favorites"),
+          icon: const Icon(Icons.person),
+          title: ("Profile"),
           activeColorPrimary: Colors.deepPurple,
           inactiveColorPrimary: Colors.grey,
         ),
