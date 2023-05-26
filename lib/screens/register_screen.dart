@@ -284,7 +284,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       body: jsonEncode(
                                         {
                                           'email': email,
-                                          'confirmPassword': confirmPassword,
                                           'firstName': firstName,
                                           'lastName': lastName,
                                           'phoneNumber': phoneNumber,
