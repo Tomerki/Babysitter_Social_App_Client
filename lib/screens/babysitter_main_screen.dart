@@ -8,21 +8,27 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class BabysitterMainScreen extends StatefulWidget {
   const BabysitterMainScreen({Key? key}) : super(key: key);
-  static final routeName = 'ParentMainScreen';
+  static final routeName = 'BabysitterMainScreen';
 
   @override
   State<BabysitterMainScreen> createState() => _BabysitterMainScreenState();
 }
 
 class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
-  List<Widget> _buildScreens() {
-    return [
+  List<Widget> _screens = [];
+  @override
+  void didChangeDependencies() {
+    String user_body = ModalRoute.of(context)!.settings.arguments as String;
+    _screens = [
       JobsSearchScreen(),
       NotificationScreen(),
       BabysitterSearchScreen(),
       FilterScreen(),
-      BabysitterProfileScreen()
+      BabysitterProfileScreen(
+        user_body: user_body,
+      )
     ];
+    super.didChangeDependencies();
   }
 
   @override
@@ -69,7 +75,7 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
     return PersistentTabView(
       context,
       controller: _controller,
-      screens: _buildScreens(),
+      screens: _screens,
       items: _navBarsItems(),
       confineInSafeArea: true,
       backgroundColor: Colors.white, // Default is Colors.white.

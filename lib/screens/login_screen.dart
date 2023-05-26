@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:baby_sitter/screens/babysitter_main_screen.dart';
+import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
+import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -102,14 +107,36 @@ class _LoginScreenState extends State<LoginScreen> {
                               () => loading = false;
                             });
                           } else {
-                            var jobs = await ServerManager()
-                                .getRequest('items', 'Jobs')
-                                .then((value) {
-                              print(value.body);
+                            print(result.uid);
+                            var userType = await ServerManager()
+                                .getRequest(
+                                    'search/uid/' + result.uid.toString(),
+                                    'Users')
+                                .then((value) async {
+                              if (json.decode(value.body)['is_babysitter']) {
+                                await ServerManager()
+                                    .getRequest(
+                                        'search/email/' + email!, 'Babysitter')
+                                    .then((user) {
+                                  print(user.body);
+                                  Navigator.of(context).popAndPushNamed(
+                                    BabysitterMainScreen.routeName,
+                                    arguments: user.body,
+                                  );
+                                });
+                              } else {
+                                await ServerManager()
+                                    .getRequest(
+                                        'search/email/' + email!, 'Parent')
+                                    .then((user) {
+                                  print(user.body);
+                                  Navigator.of(context).popAndPushNamed(
+                                    ParentMainScreen.routeName,
+                                    arguments: user.body,
+                                  );
+                                });
+                              }
                             });
-                            print(jobs);
-                            Navigator.of(context)
-                                .popAndPushNamed(JobsSearchScreen.routeName);
                           }
                         } else {
                           print('not good');

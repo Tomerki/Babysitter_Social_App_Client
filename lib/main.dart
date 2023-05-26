@@ -35,8 +35,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
-          BabysitterProfileScreen.routeName: (context) =>
-              BabysitterProfileScreen(),
+          // BabysitterProfileScreen.routeName: (context) =>
+          //     BabysitterProfileScreen(),
           WelcomeScreen.routeName: (context) => WelcomeScreen(),
           RegisterScreen.routeName: (context) => RegisterScreen(),
           BabysitterRegisterScreen.routeName: (context) =>
@@ -49,8 +49,9 @@ class MyApp extends StatelessWidget {
           BabysitterSearchScreen.routeName: (context) =>
               BabysitterSearchScreen(),
           ParentMainScreen.routeName: (context) => ParentMainScreen(),
+          BabysitterMainScreen.routeName: (context) => BabysitterMainScreen(),
         },
-        home: BabysitterMainScreen(),
+        home: WelcomeScreen(),
       ),
     );
   }

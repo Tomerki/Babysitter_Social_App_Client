@@ -1,6 +1,5 @@
 class Babysitter {
   String id;
-  String password;
   String firstName;
   String lastName;
   String phoneNumber;
@@ -27,7 +26,6 @@ class Babysitter {
 
   Babysitter({
     required this.id,
-    required this.password,
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
