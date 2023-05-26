@@ -3,8 +3,10 @@ import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/notifications_screen.dart';
 import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/services/auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import './screens/chat_page_screen.dart';
 import './screens/babysitter_profile_screen.dart';
 import './screens/login_screen.dart';
 import './screens/welcome_screen.dart';
@@ -48,8 +50,9 @@ class MyApp extends StatelessWidget {
           BabysitterSearchScreen.routeName: (context) =>
               BabysitterSearchScreen(),
           ParentMainScreen.routeName: (context) => ParentMainScreen(),
+          ChatPageScreen.routeName: (context) => ChatPageScreen(),
         },
-        home: ParentMainScreen(),
+        home: WelcomeScreen(),
       ),
     );
   }
