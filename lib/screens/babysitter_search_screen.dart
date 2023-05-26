@@ -48,7 +48,10 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                 ),
                 IconButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed(FilterScreen.routeName);
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new FilterScreen()));
                   },
                   icon: Icon(Icons.tune),
                   iconSize: 32,
