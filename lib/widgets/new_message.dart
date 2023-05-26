@@ -27,6 +27,7 @@ class _NewMessageState extends State<NewMessage> {
     }
 
     final user = FirebaseAuth.instance.currentUser!;
+    
 
     FirebaseFirestore.instance.collection('chat').add({
       'text': enteredMessage,

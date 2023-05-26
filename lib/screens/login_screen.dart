@@ -6,6 +6,7 @@ import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../models/appUser.dart';
 import './jobs_search_screen.dart';
 import '../widgets/loading.dart';
 import '../services/auth.dart';
@@ -113,7 +114,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     'search/uid/' + result.uid.toString(),
                                     'Users')
                                 .then((value) async {
-                              if (json.decode(value.body)['is_babysitter']) {
+                              if (json.decode(
+                                  value.body.toString())['isBabysitter']) {
                                 await ServerManager()
                                     .getRequest(
                                         'search/email/' + email!, 'Babysitter')
