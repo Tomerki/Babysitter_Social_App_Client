@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
               BabysitterSearchScreen(),
           ParentMainScreen.routeName: (context) => ParentMainScreen(),
         },
-        home: BabysitterMainScreen(),
+        home: WelcomeScreen(),
       ),
     );
   }

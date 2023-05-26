@@ -283,7 +283,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       body: jsonEncode(
                                         {
                                           'email': email,
-                                          'password': password,
                                           'confirmPassword': confirmPassword,
                                           'firstName': firstName,
                                           'lastName': lastName,
@@ -293,7 +292,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         },
                                       ),
                                     )
-                                        .then((value) {
+                                        .then((value) async {
+                                      await ServerManager()
+                                          .postRequest(
+                                        'add_doc',
+                                        'Users',
+                                        body: jsonEncode(
+                                          {
+                                            'uid': result.uid.toString(),
+                                            'is_babysitter':
+                                                userType == 'Babysitter'
+                                                    ? true
+                                                    : false,
+                                          },
+                                        ),
+                                      )
+                                          .then((value) {
+                                        setState(
+                                          () {
+                                            response = value;
+                                          },
+                                        );
+                                      });
                                       setState(
                                         () {
                                           response = value;

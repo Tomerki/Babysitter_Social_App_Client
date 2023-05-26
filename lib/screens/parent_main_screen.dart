@@ -5,8 +5,7 @@ import 'package:baby_sitter/screens/notifications_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-
-class ParentMainScreen extends StatelessWidget {
+class ParentMainScreen extends StatefulWidget {
   const ParentMainScreen({Key? key}) : super(key: key);
   static final routeName = 'ParentMainScreen';
 
