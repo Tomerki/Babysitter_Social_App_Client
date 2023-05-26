@@ -201,37 +201,43 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                 ),
                 Divider(),
                 CircleButtonOne(
-                  handler: () {
+                  handler: () async {
                     String id =
                         ModalRoute.of(context)!.settings.arguments as String;
-                    ServerManager().putRequest(
-                      'items/$id',
-                      'Babysitter',
-                      body: jsonEncode(
-                        {
-                          'image': _imageFile!.path,
-                          'about': about,
-                          'age': age,
-                          'ComeToClient': texts['Come to client'].toString(),
-                          'InMyPlace': texts['In my place'].toString(),
-                          'HelpingWithHouseWork':
-                              texts['Helping with housework'].toString(),
-                          'KnowsHowToCook':
-                              texts['Knows how to cook'].toString(),
-                          'FirstAidCertified':
-                              texts['First aid certified'].toString(),
-                          'HasDriverLicense':
-                              texts['Has a driver\'s license'].toString(),
-                          'HasPastExperience':
-                              texts['Has past experience'].toString(),
-                          'HasAnEducationInEducation':
-                              texts['Has an education in education'].toString(),
-                          'TakesToActivities':
-                              texts['Takes to activities'].toString(),
-                        },
-                      ),
-                    );
-                    Navigator.of(context).pushNamed(LoginScreen.routeName);
+                    await ServerManager()
+                        .putRequest(
+                          'items/$id',
+                          'Babysitter',
+                          body: jsonEncode(
+                            {
+                              'image': _imageFile != null
+                                  ? _imageFile!.path
+                                  : '.path',
+                              'about': about,
+                              'age': age,
+                              'ComeToClient':
+                                  texts['Come to client'].toString(),
+                              'InMyPlace': texts['In my place'].toString(),
+                              'HelpingWithHouseWork':
+                                  texts['Helping with housework'].toString(),
+                              'KnowsHowToCook':
+                                  texts['Knows how to cook'].toString(),
+                              'FirstAidCertified':
+                                  texts['First aid certified'].toString(),
+                              'HasDriverLicense':
+                                  texts['Has a driver\'s license'].toString(),
+                              'HasPastExperience':
+                                  texts['Has past experience'].toString(),
+                              'HasAnEducationInEducation':
+                                  texts['Has an education in education']
+                                      .toString(),
+                              'TakesToActivities':
+                                  texts['Takes to activities'].toString(),
+                            },
+                          ),
+                        )
+                        .then((value) => Navigator.of(context)
+                            .pushNamed(LoginScreen.routeName));
                   },
                   text: 'Sign-up!',
                   cWidth: 0.8,

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
 import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
@@ -7,6 +9,9 @@ import 'babysitter_recommendations_screen.dart';
 
 class BabysitterProfileScreen extends StatefulWidget {
   static final routeName = 'BabysitterProfileScreen';
+  final String user_body;
+
+  const BabysitterProfileScreen({super.key, required this.user_body});
 
   @override
   State<BabysitterProfileScreen> createState() =>
@@ -176,6 +181,8 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var decoded_user_body = json.decode(widget.user_body);
+    print(decoded_user_body);
     MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
       floatingActionButton: Row(
