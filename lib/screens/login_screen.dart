@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:baby_sitter/screens/babysitter_main_screen.dart';
 import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
+import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -111,24 +113,27 @@ class _LoginScreenState extends State<LoginScreen> {
                                     'search/uid/' + result.uid.toString(),
                                     'Users')
                                 .then((value) async {
-                              if (json.decode(value.body)['is_babysitter'] ==
-                                  true) {
-                                var user = await ServerManager()
+                              if (json.decode(value.body)['is_babysitter']) {
+                                await ServerManager()
                                     .getRequest(
                                         'search/email/' + email!, 'Babysitter')
                                     .then((user) {
                                   print(user.body);
                                   Navigator.of(context).popAndPushNamed(
-                                      BabysitterProfileScreen.routeName);
+                                    BabysitterMainScreen.routeName,
+                                    arguments: user.body,
+                                  );
                                 });
                               } else {
-                                var user = await ServerManager()
+                                await ServerManager()
                                     .getRequest(
                                         'search/email/' + email!, 'Parent')
                                     .then((user) {
                                   print(user.body);
                                   Navigator.of(context).popAndPushNamed(
-                                      JobsSearchScreen.routeName);
+                                    ParentMainScreen.routeName,
+                                    arguments: user.body,
+                                  );
                                 });
                               }
                             });
