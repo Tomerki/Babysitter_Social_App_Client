@@ -279,7 +279,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   } else {
                                     await ServerManager()
                                         .postRequest(
-                                      'add_doc',
+                                      'add_doc/' + result.uid,
                                       userType,
                                       body: jsonEncode(
                                         {
@@ -300,10 +300,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         body: jsonEncode(
                                           {
                                             'uid': result.uid.toString(),
-                                            'is_babysitter':
-                                                userType == 'Babysitter'
-                                                    ? true
-                                                    : false,
+                                            'isBabysitter': isBabysitter
                                           },
                                         ),
                                       )
