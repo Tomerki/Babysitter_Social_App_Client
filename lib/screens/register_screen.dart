@@ -24,9 +24,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _controller = PageController(
-    initialPage: 0,
-  );
   final AuthService _auth = AuthService();
   //instance of firestore
 
@@ -66,6 +63,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           if (text == 'Babysitter') {
             isBabysitter = true;
           }
+          // await ServerManager().postRequest('/add_doc', 'Users', body: jsonEncode({
+
+          // }));
         });
       },
       cMarginTop: 25,
@@ -320,6 +320,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         },
                                       );
                                     });
+
                                     Navigator.of(context).pop();
                                     if (userType == 'Parent') {
                                       Navigator.of(context)
