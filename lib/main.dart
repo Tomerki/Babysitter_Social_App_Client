@@ -1,4 +1,5 @@
 import 'package:baby_sitter/models/appUser.dart';
+import 'package:baby_sitter/screens/babysitter_main_screen.dart';
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/notifications_screen.dart';
 import 'package:baby_sitter/screens/parent_main_screen.dart';
@@ -47,8 +48,9 @@ class MyApp extends StatelessWidget {
               BabysitterRecommendationScreen(),
           BabysitterSearchScreen.routeName: (context) =>
               BabysitterSearchScreen(),
+          ParentMainScreen.routeName: (context) => ParentMainScreen(),
         },
-        home: ParentMainScreen(),
+        home: BabysitterMainScreen(),
       ),
     );
   }
