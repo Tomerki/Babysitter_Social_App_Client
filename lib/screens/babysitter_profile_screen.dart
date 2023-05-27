@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
 import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
@@ -184,45 +183,47 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     var decoded_user_body = json.decode(widget.user_body);
     print(decoded_user_body);
     MediaQueryData queryData = MediaQuery.of(context);
-    return Scaffold(
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          ElevatedButton(
-            onPressed: _presentDatePicker,
-            child: Text('  BOOK  '),
-            style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white,
-              backgroundColor: Color.fromARGB(255, 174, 194, 182),
-              padding: EdgeInsets.all(15),
-              textStyle: TextStyle(
-                color: Colors.black,
-                fontSize: 26,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(50),
-              ),
-              elevation: 5,
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            child: const Icon(
-              Icons.chat,
-              size: 26,
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 183, 202, 219),
-              elevation: 5,
-              padding: EdgeInsets.all(15),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50)),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Padding(
+    // return Scaffold(
+    //   floatingActionButton: Row(
+    //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //     children: [
+    //       ElevatedButton(
+    //         onPressed: _presentDatePicker,
+    //         child: Text('  BOOK  '),
+    //         style: ElevatedButton.styleFrom(
+    //           foregroundColor: Colors.white,
+    //           backgroundColor: Color.fromARGB(255, 174, 194, 182),
+    //           padding: EdgeInsets.all(15),
+    //           textStyle: TextStyle(
+    //             color: Colors.black,
+    //             fontSize: 26,
+    //           ),
+    //           shape: RoundedRectangleBorder(
+    //             borderRadius: BorderRadius.circular(50),
+    //           ),
+    //           elevation: 5,
+    //         ),
+    //       ),
+    //       ElevatedButton(
+    //         onPressed: () {},
+    //         child: const Icon(
+    //           Icons.chat,
+    //           size: 26,
+    //         ),
+    //         style: ElevatedButton.styleFrom(
+    //           backgroundColor: Color.fromARGB(255, 183, 202, 219),
+    //           elevation: 5,
+    //           padding: EdgeInsets.all(15),
+    //           shape: RoundedRectangleBorder(
+    //               borderRadius: BorderRadius.circular(50)),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    //   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    //   body:
+    return SingleChildScrollView(
+      child: Padding(
         padding: const EdgeInsets.only(top: 0),
         child: Center(
           child: Container(
@@ -271,8 +272,11 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pushNamed(
-                              BabysitterRecommendationScreen.routeName);
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) =>
+                                      new BabysitterRecommendationScreen()));
                         },
                       ),
                     ],
@@ -287,6 +291,9 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                       pageHight:
                           (queryData.size.height - queryData.padding.top),
                       pagewidth: queryData.size.width,
+                      name: decoded_user_body['firstName'] +
+                          ' ' +
+                          decoded_user_body['lastName'],
                     ),
                   ),
                 ),
@@ -304,8 +311,9 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
             ),
           ),
         ),
+        // ),
+        // ),
       ),
-      // ),
     );
   }
 }

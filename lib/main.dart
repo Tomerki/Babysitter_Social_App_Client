@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
               BabysitterRegisterScreen(),
           MapPlacePicker.routeName: (context) => MapPlacePicker(),
           FilterScreen.routeName: (context) => FilterScreen(),
-          JobsSearchScreen.routeName: (context) => JobsSearchScreen(),
+          // JobsSearchScreen.routeName: (context) => JobsSearchScreen(),
           BabysitterRecommendationScreen.routeName: (context) =>
               BabysitterRecommendationScreen(),
           BabysitterSearchScreen.routeName: (context) =>

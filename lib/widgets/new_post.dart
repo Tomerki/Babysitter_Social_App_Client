@@ -9,7 +9,8 @@ import '../widgets/circle_button_one.dart';
 
 class NewPost extends StatefulWidget {
   Function(List jobs) callback;
-  NewPost({super.key, required this.callback});
+  String publisherName;
+  NewPost({super.key, required this.callback, required this.publisherName});
 
   @override
   State<NewPost> createState() => _NewPostState();
@@ -319,6 +320,7 @@ class _NewPostState extends State<NewPost> {
                         setState(
                           () {
                             jobs.add({
+                              "publisher": widget.publisherName,
                               "date":
                                   DateFormat.yMMMMEEEEd().format(selectedDate),
                               "startHour": startTime,
@@ -334,6 +336,7 @@ class _NewPostState extends State<NewPost> {
                           'Jobs',
                           body: jsonEncode(
                             {
+                              "publisher": widget.publisherName,
                               "date": selectedDate.toString(),
                               "startHour": startTime,
                               "endHour": endTime,

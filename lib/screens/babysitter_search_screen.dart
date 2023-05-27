@@ -14,53 +14,55 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
   @override
   Widget build(BuildContext context) {
     final queryData = MediaQuery.of(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Search for babysitter'),
-        centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 219, 163, 154),
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     title: Text('Search for babysitter'),
+    //     centerTitle: true,
+    //     backgroundColor: Color.fromARGB(255, 219, 163, 154),
+    //   ),
+    //   body:
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.centerRight,
+          colors: [
+            Color.fromARGB(188, 227, 183, 160),
+            Color.fromARGB(255, 236, 232, 217),
+            Color.fromARGB(255, 250, 246, 233),
+          ],
+        ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.centerRight,
-            colors: [
-              Color.fromARGB(188, 227, 183, 160),
-              Color.fromARGB(255, 236, 232, 217),
-              Color.fromARGB(255, 250, 246, 233),
+      child: Column(children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Container(
+                width: queryData.size.width * 0.8,
+                child: InputBox(
+                  keyType: TextInputType.name,
+                  text: "Enter a name",
+                  validator: () {},
+                  onChanged: () {},
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          fullscreenDialog: true,
+                          builder: (context) => new FilterScreen()));
+                },
+                icon: Icon(Icons.tune),
+                iconSize: 32,
+              ),
             ],
           ),
-        ),
-        child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Container(
-                  width: queryData.size.width * 0.8,
-                  child: InputBox(
-                    keyType: TextInputType.name,
-                    text: "Enter a name",
-                    validator: () {},
-                    onChanged: () {},
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => new FilterScreen()));
-                  },
-                  icon: Icon(Icons.tune),
-                  iconSize: 32,
-                ),
-              ],
-            ),
-          )
-        ]),
-      ),
+        )
+      ]),
+      // ),
     );
   }
 }

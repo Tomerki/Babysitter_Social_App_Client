@@ -25,7 +25,7 @@ class _JobPostState extends State<JobPost> {
                 Padding(
                   padding: const EdgeInsets.only(right: 170, left: 8.0),
                   child: Text(
-                    'Full Name',
+                    widget.job['publisher'],
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
@@ -52,7 +52,7 @@ class _JobPostState extends State<JobPost> {
                 child: Text(
                   'job date: ${widget.job['date']}\n' +
                       'hours: ${widget.job['startHour']} - ${widget.job['endHour']}\n' +
-                      'Number of children: ${widget.job['childrens'].length}\n' +
+                      'Number of children: ${widget.job['childrens']}\n' +
                       'description: ${widget.job['description']}',
                 ),
               ),

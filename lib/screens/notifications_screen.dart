@@ -20,16 +20,17 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Notifications'),
-      ),
-      body: ListView.builder(
-        itemCount: notifications.length,
-        itemBuilder: (context, index) {
-          return NotificationWidget(notification: notifications[index]);
-        },
-      ),
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     title: Text('Notifications'),
+    //   ),
+    //   body:
+    return ListView.builder(
+      itemCount: notifications.length,
+      itemBuilder: (context, index) {
+        return NotificationWidget(notification: notifications[index]);
+      },
+      // ),
     );
   }
 }

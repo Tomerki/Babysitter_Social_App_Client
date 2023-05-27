@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 class BabysitterUpperPage extends StatelessWidget {
   final double pageHight;
   final double pagewidth;
+  final String name;
 
   const BabysitterUpperPage(
-      {super.key, required this.pageHight, required this.pagewidth});
+      {super.key,
+      required this.pageHight,
+      required this.pagewidth,
+      required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class BabysitterUpperPage extends StatelessWidget {
               ),
               //ToDo: Full Name in bold, Country and City in light
               Text(
-                'Full Name',
+                name,
                 style: TextStyle(
                   fontSize: 20,
                 ),
