@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
 import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
@@ -272,11 +271,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        // onPressed: () {
-
-                        //   Navigator.of(context).pushNamed(
-                        //       BabysitterRecommendationScreen.routeName);
-                        // },
                         onPressed: () {
                           Navigator.push(
                               context,
