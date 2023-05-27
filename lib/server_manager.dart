@@ -9,7 +9,7 @@ class ServerManager {
 
   ServerManager._internal();
 
-  static const String _baseUrl = 'http://192.168.1.43:8080';
+  static const String _baseUrl = 'http://192.168.0.189:8080';
 
   Future<http.Response> getRequest(
     String path,
