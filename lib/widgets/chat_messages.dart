@@ -1,3 +1,4 @@
+import 'package:baby_sitter/models/AppUser.dart';
 import 'package:baby_sitter/widgets/message_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

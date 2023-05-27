@@ -288,7 +288,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       ),
                                     ));
                                   } else {
-                                    final storageRef;
                                     if (_selectedImage != null) {
                                       final storageRef = FirebaseStorage
                                           .instance

@@ -14,9 +14,6 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Chats'),
-      // ),
       body: Column(children: const [
         Expanded(
           child: ChatMessages(),
