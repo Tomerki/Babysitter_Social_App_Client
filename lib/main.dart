@@ -1,4 +1,4 @@
-import 'package:baby_sitter/models/appUser.dart';
+import 'package:baby_sitter/models/AppUser.dart';
 import 'package:baby_sitter/screens/babysitter_main_screen.dart';
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/notifications_screen.dart';
@@ -30,7 +30,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<appUser?>.value(
+    return StreamProvider<AppUser?>.value(
       value: AuthService().user,
       initialData: null,
       child: MaterialApp(

@@ -2,6 +2,7 @@ import 'package:baby_sitter/server_manager.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/AppUser.dart';
 
 class NewMessage extends StatefulWidget {
   const NewMessage({super.key});
@@ -12,6 +13,7 @@ class NewMessage extends StatefulWidget {
 
 class _NewMessageState extends State<NewMessage> {
   final _messageController = TextEditingController();
+  bool type = AppUser.getUserKind();
 
   @override
   void dispose() {
@@ -19,25 +21,29 @@ class _NewMessageState extends State<NewMessage> {
     super.dispose();
   }
 
-  void _submitMessage() {
+  void _submitMessage() async {
     final enteredMessage = _messageController.text;
 
     if (enteredMessage.trim().isEmpty) {
       return;
     }
+    // FocusScope.of(context).unfocus();
+    _messageController.clear();
 
+    String collectionName = type ? 'Babysitter' : 'Parent';
     final user = FirebaseAuth.instance.currentUser!;
-    
+    final userData = await FirebaseFirestore.instance
+        .collection(collectionName)
+        .doc(AppUser.getUid())
+        .get();
 
     FirebaseFirestore.instance.collection('chat').add({
       'text': enteredMessage,
       'createdAt': Timestamp.now(),
       'userId': user.uid,
-      'username': '...',
-      'userImage': '...',
+      'username': userData.data()!['firstName'],
+      'userImage': userData.data()!['image'],
     });
-
-    _messageController.clear();
   }
 
   @override

@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:baby_sitter/screens/babysitter_main_screen.dart';
 import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
+import 'package:baby_sitter/screens/chat_page_screen.dart';
 import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../models/appUser.dart';
+import '../models/AppUser.dart';
 import './jobs_search_screen.dart';
 import '../widgets/loading.dart';
 import '../services/auth.dart';
@@ -26,6 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   var _formKey = GlobalKey<FormState>();
   bool loading = false;
   String? email, password;
+  dynamic result;
+  bool isBabysitter = false;
   @override
   Widget build(BuildContext context) {
     return loading
@@ -94,8 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           setState(() {
                             () => loading = true;
                           });
-                          dynamic result = await _auth
-                              .signInWithEmailAndpassword(email!, password!);
+                          result = await _auth.signInWithEmailAndpassword(
+                              email!, password!);
                           if (result == null) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               backgroundColor: Colors.red,
@@ -109,13 +112,18 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
                           } else {
                             print(result.uid);
-                            var userType = await ServerManager()
+                            await ServerManager()
                                 .getRequest(
                                     'search/uid/' + result.uid.toString(),
                                     'Users')
                                 .then((value) async {
-                              if (json.decode(
-                                  value.body.toString())['isBabysitter']) {
+                              isBabysitter = json.decode(
+                                  value.body.toString())['isBabysitter'];
+                              AppUser(
+                                uid: result.uid.toString(),
+                                isBabysitter: isBabysitter,
+                              );
+                              if (isBabysitter) {
                                 await ServerManager()
                                     .getRequest(
                                         'search/email/' + email!, 'Babysitter')
@@ -132,8 +140,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                         'search/email/' + email!, 'Parent')
                                     .then((user) {
                                   print(user.body);
+                                  // Navigator.of(context).popAndPushNamed(
+                                  //   ParentMainScreen.routeName,
+                                  //   arguments: user.body,
+                                  // );
                                   Navigator.of(context).popAndPushNamed(
-                                    ParentMainScreen.routeName,
+                                    ChatPageScreen.routeName,
                                     arguments: user.body,
                                   );
                                 });
