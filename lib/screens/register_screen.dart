@@ -1,6 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:baby_sitter/screens/babysitter_main_screen.dart';
+import 'package:baby_sitter/widgets/user_image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart';
 
 import '../server_manager.dart';
@@ -32,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String userType = '';
   String _selectedCountry = '';
   Response? response;
-
+  File? _selectedImage;
   bool loading = false;
   bool isBabysitter = false;
 
@@ -43,7 +46,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       phoneNumber,
       address = 'Pick address',
       county,
-      confirmPassword;
+      confirmPassword,
+      imageUrl;
 
   callback(String newAddress) {
     setState(() {
@@ -63,9 +67,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           if (text == 'Babysitter') {
             isBabysitter = true;
           }
-          // await ServerManager().postRequest('/add_doc', 'Users', body: jsonEncode({
-
-          // }));
         });
       },
       cMarginTop: 25,
@@ -108,27 +109,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   children: [
                     Container(
                       padding:
-                          const EdgeInsets.only(top: 60, bottom: 30, right: 20),
+                          const EdgeInsets.only(top: 40, bottom: 20, right: 10),
                       width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: const [
-                          Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                            ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          UserImagePicker(
+                            onPickImage: (pickedImage) {
+                              _selectedImage = pickedImage;
+                            },
                           ),
-                          SizedBox(height: 10),
-                          Text(
-                            'Welcome',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: const [
+                              Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                'Welcome',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -277,6 +288,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       ),
                                     ));
                                   } else {
+                                    final storageRef;
+                                    if (_selectedImage != null) {
+                                      final storageRef = FirebaseStorage
+                                          .instance
+                                          .ref()
+                                          .child('user_images')
+                                          .child('${result.uid}.jpg');
+
+                                      await storageRef.putFile(_selectedImage!);
+                                      imageUrl =
+                                          await storageRef.getDownloadURL();
+                                    }
                                     await ServerManager()
                                         .postRequest(
                                       'add_doc/' + result.uid,
@@ -289,6 +312,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           'phoneNumber': phoneNumber,
                                           'address': address,
                                           'county': _selectedCountry,
+                                          'image': imageUrl,
                                         },
                                       ),
                                     )

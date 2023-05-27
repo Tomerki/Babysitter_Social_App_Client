@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:baby_sitter/screens/login_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
 import 'package:baby_sitter/widgets/circle_button_one.dart';
+import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 class BabysitterRegisterScreen extends StatefulWidget {
   static const routeName = 'babysitter-register-screen';
@@ -33,13 +33,6 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
     'Has an education in education': false,
     'Takes to activities': false,
   };
-
-  Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await ImagePicker().pickImage(source: source);
-    setState(() {
-      _imageFile = pickedFile != null ? File(pickedFile.path) : null;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,41 +63,6 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      if (_imageFile != null) ...[
-                        FloatingActionButton.large(
-                          backgroundColor: Colors.grey[300],
-                          onPressed: () => _pickImage(ImageSource.gallery),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: FileImage(_imageFile!),
-                                fit: BoxFit.fill,
-                              ),
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
-                      ] else ...[
-                        FloatingActionButton.large(
-                          backgroundColor: Colors.grey[300],
-                          foregroundColor: Colors.black,
-                          onPressed: () => _pickImage(ImageSource.gallery),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.photo,
-                              ),
-                              Text(
-                                'Profile Picture',
-                                textAlign: TextAlign.center,
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: const [
@@ -210,9 +168,6 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                           'Babysitter',
                           body: jsonEncode(
                             {
-                              'image': _imageFile != null
-                                  ? _imageFile!.path
-                                  : '.path',
                               'about': about,
                               'age': age,
                               'ComeToClient':

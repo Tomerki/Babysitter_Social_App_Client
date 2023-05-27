@@ -1,14 +1,17 @@
-import 'package:baby_sitter/models/appUser.dart';
+import 'dart:io';
+
+import 'package:baby_sitter/models/AppUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  appUser? _userFromFirebaseUser(User? user) {
-    return user != null ? appUser(uid: user.uid) : null;
+  AppUser? _userFromFirebaseUser(User? user) {
+    return user != null ? AppUser(uid: user.uid) : null;
   }
 
-  Stream<appUser?> get user {
+  Stream<AppUser?> get user {
     return _auth.authStateChanges().map(_userFromFirebaseUser);
   }
 
