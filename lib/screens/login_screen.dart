@@ -139,14 +139,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                         'search/email/' + email!, 'Parent')
                                     .then((user) {
                                   print(user.body);
-                                  // Navigator.of(context).popAndPushNamed(
-                                  //   ParentMainScreen.routeName,
-                                  //   arguments: user.body,
-                                  // );
                                   Navigator.of(context).popAndPushNamed(
-                                    ChatPageScreen.routeName,
+                                    ParentMainScreen.routeName,
                                     arguments: user.body,
                                   );
+                                  // Navigator.of(context).popAndPushNamed(
+                                  //   ChatPageScreen.routeName,
+                                  //   arguments: user.body,
+                                  // );
                                 });
                               }
                             });

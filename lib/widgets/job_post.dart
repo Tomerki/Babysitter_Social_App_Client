@@ -52,7 +52,7 @@ class _JobPostState extends State<JobPost> {
                 child: Text(
                   'job date: ${widget.job['date']}\n' +
                       'hours: ${widget.job['startHour']} - ${widget.job['endHour']}\n' +
-                      'Number of children: ${widget.job['childrens']}\n' +
+                      'Number of children: ${widget.job['childrens'] == null ? 0 : widget.job['childrens'].length}\n' +
                       'description: ${widget.job['description']}',
                 ),
               ),
