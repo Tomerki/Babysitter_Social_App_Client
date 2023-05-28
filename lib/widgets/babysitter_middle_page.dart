@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 class BabysitterMiddlePage extends StatelessWidget {
   final double pageHight;
   final double pagewidth;
+  final String price;
 
   const BabysitterMiddlePage(
-      {super.key, required this.pageHight, required this.pagewidth});
+      {super.key,
+      required this.pageHight,
+      required this.pagewidth,
+      required this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,7 @@ class BabysitterMiddlePage extends StatelessWidget {
                   ],
                 ),
                 title: Text(
-                  '20\$\h',
+                  '${price}\$\h',
                   style: TextStyle(
                     color: Colors.white70,
                   ),

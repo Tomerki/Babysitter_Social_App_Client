@@ -19,19 +19,30 @@ class ParentMainScreen extends StatefulWidget {
 
 class _ParentMainScreenState extends State<ParentMainScreen> {
   List<Widget> _screens = [];
-  String? user_body;
+  List<String> _screenName = [];
+  String screen_name = '';
+
   @override
   void didChangeDependencies() {
-    user_body = ModalRoute.of(context)!.settings.arguments as String;
+    String user_body = ModalRoute.of(context)!.settings.arguments as String;
     _screens = [
       JobsSearchScreen(
-        user_body: user_body!,
+        user_body: user_body,
       ),
       NotificationScreen(),
       BabysitterSearchScreen(),
       ChatsScreen(),
       BabysitterSearchScreen(),
     ];
+
+    _screenName = [
+      'Job Search',
+      'Notifications',
+      'Search for babysitter',
+      'Inbox',
+      'Favorites'
+    ];
+    screen_name = _screenName[0];
     super.didChangeDependencies();
   }
 
@@ -79,6 +90,7 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        title: Text(screen_name),
         backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
       drawer: MainDrawer(),
@@ -88,6 +100,11 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
         screens: _screens,
         items: _navBarsItems(),
         confineInSafeArea: true,
+        onItemSelected: (index) {
+          setState(() {
+            screen_name = _screenName[index];
+          });
+        },
         backgroundColor: Colors.white, // Default is Colors.white.
         handleAndroidBackButtonPress: true, // Default is true.
         resizeToAvoidBottomInset:

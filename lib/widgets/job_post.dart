@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../models/appUser.dart';
+
 class JobPost extends StatefulWidget {
   final job;
   bool hide;
@@ -75,24 +77,32 @@ class _JobPostState extends State<JobPost> {
                 ),
               ),
             ),
-            Visibility(
-              visible: widget.hide,
-              child: Card(
-                elevation: 5,
-                borderOnForeground: true,
-                child: Row(
-                  children: [
-                    IconButton(
-                      alignment: Alignment.bottomLeft,
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.notification_add_outlined,
+            AppUser.getUserKind()
+                ? Visibility(
+                    visible: widget.hide,
+                    child: Card(
+                      elevation: 5,
+                      borderOnForeground: true,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            alignment: Alignment.bottomLeft,
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.notification_add_outlined,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            )
+                  )
+                : Visibility(
+                    visible: widget.hide,
+                    child: Card(
+                      elevation: 5,
+                      borderOnForeground: true,
+                    ),
+                  ),
           ],
         ),
       ),

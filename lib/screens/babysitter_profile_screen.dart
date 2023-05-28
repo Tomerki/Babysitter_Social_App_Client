@@ -301,6 +301,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                   child: BabysitterMiddlePage(
                     pageHight: (queryData.size.height - queryData.padding.top),
                     pagewidth: queryData.size.width,
+                    price: decoded_user_body['price'],
                   ),
                 ),
                 BabysitterDescription(

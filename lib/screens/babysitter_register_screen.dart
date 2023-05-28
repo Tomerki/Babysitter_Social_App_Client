@@ -5,6 +5,7 @@ import 'package:baby_sitter/server_manager.dart';
 import 'package:baby_sitter/widgets/circle_button_one.dart';
 import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BabysitterRegisterScreen extends StatefulWidget {
   static const routeName = 'babysitter-register-screen';
@@ -18,6 +19,7 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
   final _formKey2 = GlobalKey<FormState>();
   File? _imageFile;
   String about = '';
+  String price = '';
   String age = '18';
   List<String> ageList =
       List.generate(165, (index) => (18 + (index * 0.5)).toStringAsFixed(1));
@@ -133,6 +135,17 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                   ),
                 ),
                 Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      setState(() {
+                        price = value;
+                      });
+                    },
+                  ),
+                ),
+                Container(
                   padding: EdgeInsets.only(top: 30, bottom: 15),
                   child: Text(
                     'Your skills:',
@@ -168,6 +181,7 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                           'Babysitter',
                           body: jsonEncode(
                             {
+                              'price': price == '' ? 'no price' : price,
                               'about': about,
                               'age': age,
                               'ComeToClient':

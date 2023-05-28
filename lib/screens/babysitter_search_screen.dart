@@ -33,35 +33,37 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
           ],
         ),
       ),
-      child: Column(children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Container(
-                width: queryData.size.width * 0.8,
-                child: InputBox(
-                  keyType: TextInputType.name,
-                  text: "Enter a name",
-                  validator: () {},
-                  onChanged: () {},
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Container(
+                  width: queryData.size.width * 0.8,
+                  child: InputBox(
+                    keyType: TextInputType.name,
+                    text: "Enter a name",
+                    validator: () {},
+                    onChanged: () {},
+                  ),
                 ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          fullscreenDialog: true,
-                          builder: (context) => new FilterScreen()));
-                },
-                icon: Icon(Icons.tune),
-                iconSize: 32,
-              ),
-            ],
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (context) => new FilterScreen()));
+                  },
+                  icon: Icon(Icons.tune),
+                  iconSize: 32,
+                ),
+              ],
+            ),
           ),
-        )
-      ]),
+        ],
+      ),
       // ),
     );
   }
