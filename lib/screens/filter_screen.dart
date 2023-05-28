@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 const kTextLabelTheme = TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700);
 const kCardTextStyle = TextStyle(color: Colors.white, fontSize: 15);
 
-enum LocationOptions { at_your_house, at_her_house, never_mind }
+// enum LocationOptions { at_your_house, at_her_house, never_mind }
 
 class FilterScreen extends StatefulWidget {
   static final routeName = 'FilterScreen';
+  Function(Map<String, bool> booleanFilters, RangeValues priceValues) callback;
+
+  FilterScreen({required this.callback});
 
   @override
   State<FilterScreen> createState() => _FilterScreennState();
@@ -17,9 +20,11 @@ class _FilterScreennState extends State<FilterScreen>
   late double selectedValue;
   int? fromDropdownValue;
   int? toDropdownValue;
-  int? numOfChildren;
+  // int? numOfChildren;
 
   Map<String, bool> currentAdditionsFilters = {
+    'At your house': false,
+    'At her house': false,
     'Takes to/from activities': false,
     'Knows how to cook': false,
     'First aid certified': false,
@@ -29,7 +34,10 @@ class _FilterScreennState extends State<FilterScreen>
     'Has past experience': false,
     'Has an education in education': false,
   };
+
   List<String> currentAdditionsFiltersList = [
+    'At your house',
+    'At her house',
     'Takes to/from activities',
     'Knows how to cook',
     'First aid certified',
@@ -44,7 +52,7 @@ class _FilterScreennState extends State<FilterScreen>
   bool isCheckedTwo = false;
   RangeValues priceValues = RangeValues(0.0, 100.0);
   RangeValues distanceValues = RangeValues(0.0, 50.0);
-  LocationOptions? _locationOprions = LocationOptions.at_your_house;
+  // LocationOptions? _locationOprions = LocationOptions.at_your_house;
   String? name;
 
   void _presentDatePicker() {
@@ -177,57 +185,64 @@ class _FilterScreennState extends State<FilterScreen>
                   },
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: 10.0),
-                child: Text(
-                  'Location:',
-                  style: kTextLabelTheme,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Expanded(
-                    child: RadioListTile<LocationOptions>(
-                      contentPadding: EdgeInsets.all(0),
-                      title: const Text('At Your House'),
-                      value: LocationOptions.at_your_house,
-                      groupValue: _locationOprions,
-                      onChanged: (LocationOptions? value) {
-                        setState(() {
-                          _locationOprions = value;
-                        });
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: RadioListTile<LocationOptions>(
-                      contentPadding: EdgeInsets.all(0),
-                      title: const Text('At Her House'),
-                      value: LocationOptions.at_her_house,
-                      groupValue: _locationOprions,
-                      onChanged: (LocationOptions? value) {
-                        setState(() {
-                          _locationOprions = value;
-                        });
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: RadioListTile<LocationOptions>(
-                      contentPadding: EdgeInsets.all(0),
-                      title: const Text('Never Mind'),
-                      value: LocationOptions.never_mind,
-                      groupValue: _locationOprions,
-                      onChanged: (LocationOptions? value) {
-                        setState(() {
-                          _locationOprions = value;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              // Padding(
+              //   padding: EdgeInsets.only(top: 10.0),
+              //   child: Text(
+              //     'Location:',
+              //     style: kTextLabelTheme,
+              //   ),
+              // ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: [
+              //     Expanded(
+              //       child: RadioListTile<LocationOptions>(
+              //         contentPadding: EdgeInsets.all(0),
+              //         title: const Text('At Your House'),
+              //         value: LocationOptions.at_your_house,
+              //         groupValue: _locationOprions,
+              //         onChanged: (LocationOptions? value) {
+              //           setState(() {
+              //             _locationOprions = value;
+              //             currentAdditionsFilters['ComeToClient'] = false;
+              //             currentAdditionsFilters['InMyPlace'] = true;
+              //           });
+              //         },
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: RadioListTile<LocationOptions>(
+              //         contentPadding: EdgeInsets.all(0),
+              //         title: const Text('At Her House'),
+              //         value: LocationOptions.at_her_house,
+              //         groupValue: _locationOprions,
+              //         onChanged: (LocationOptions? value) {
+              //           setState(() {
+              //             _locationOprions = value;
+              //             currentAdditionsFilters['ComeToClient'] = true;
+              //             currentAdditionsFilters['InMyPlace'] = false;
+              //           });
+              //         },
+              //       ),
+              //     ),
+              //     Expanded(
+              //       child: RadioListTile<LocationOptions>(
+              //         contentPadding: EdgeInsets.all(0),
+              //         title: const Text('Never Mind'),
+              //         value: LocationOptions.never_mind,
+              //         groupValue: _locationOprions,
+              //         onChanged: (LocationOptions? value) {
+              //           setState(() {
+              //             _locationOprions = value;
+              //             currentAdditionsFilters['ComeToClient'] = true;
+              //             currentAdditionsFilters['InMyPlace'] = true;
+              //           });
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -338,64 +353,64 @@ class _FilterScreennState extends State<FilterScreen>
                   )
                 ],
               ),
+              // Padding(
+              //   padding: EdgeInsets.only(top: 20.0, bottom: 5.0),
+              //   child: Text(
+              //     'Number Of Children: ',
+              //     style: kTextLabelTheme,
+              //   ),
+              // ),
+              // Column(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     DropdownButton<int>(
+              //       hint: Text('num of children'),
+              //       value: numOfChildren,
+              //       items: List<int>.generate(5, (index) => index + 1)
+              //           .map<DropdownMenuItem<int>>((int value) {
+              //         return DropdownMenuItem<int>(
+              //           value: value,
+              //           child: Text('${value.toString()}'),
+              //         );
+              //       }).toList(),
+              //       onChanged: (int? newValue) {
+              //         setState(() {
+              //           numOfChildren = newValue!;
+              //         });
+              //       },
+              //     ),
+              //   ],
+              // ),
+              // numOfChildren == null
+              //     ? Text('')
+              //     : Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           Padding(
+              //             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+              //             child: Text(
+              //               'Ages: ',
+              //               style: kTextLabelTheme,
+              //             ),
+              //           ),
+              //           Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //             children: List<int>.generate(
+              //                     numOfChildren!, (index) => index + 1)
+              //                 .map((number) {
+              //               return Expanded(
+              //                 child: TextField(
+              //                   keyboardType: TextInputType.number,
+              //                   decoration: InputDecoration(
+              //                       labelText: '${number.toString()}'),
+              //                 ),
+              //               );
+              //             }).toList(),
+              //           ),
+              //         ],
+              //       ),
               Padding(
-                padding: EdgeInsets.only(top: 20.0, bottom: 5.0),
-                child: Text(
-                  'Number Of Children: ',
-                  style: kTextLabelTheme,
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DropdownButton<int>(
-                    hint: Text('num of children'),
-                    value: numOfChildren,
-                    items: List<int>.generate(5, (index) => index + 1)
-                        .map<DropdownMenuItem<int>>((int value) {
-                      return DropdownMenuItem<int>(
-                        value: value,
-                        child: Text('${value.toString()}'),
-                      );
-                    }).toList(),
-                    onChanged: (int? newValue) {
-                      setState(() {
-                        numOfChildren = newValue!;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              numOfChildren == null
-                  ? Text('')
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                          child: Text(
-                            'Ages: ',
-                            style: kTextLabelTheme,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: List<int>.generate(
-                                  numOfChildren!, (index) => index + 1)
-                              .map((number) {
-                            return Expanded(
-                              child: TextField(
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                    labelText: '${number.toString()}'),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
-              Padding(
-                padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
                 child: Text(
                   'Additions: ',
                   style: kTextLabelTheme,
@@ -432,6 +447,12 @@ class _FilterScreennState extends State<FilterScreen>
                   );
                 }),
               ),
+              TextButton(
+                  onPressed: () {
+                    widget.callback(currentAdditionsFilters, priceValues);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Apply'))
             ],
           ),
         ),

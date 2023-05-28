@@ -33,7 +33,7 @@ class BabysitterMiddlePage extends StatelessWidget {
                   ],
                 ),
                 title: Text(
-                  '${price}\$\h',
+                  '${price}',
                   style: TextStyle(
                     color: Colors.white70,
                   ),

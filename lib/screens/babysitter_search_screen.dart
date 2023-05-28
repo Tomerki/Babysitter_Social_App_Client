@@ -8,6 +8,19 @@ import 'package:http/http.dart';
 
 import '../server_manager.dart';
 
+Map<String, String> mapTextToFieldName = {
+  'At your house': 'ComeToClient',
+  'At her house': 'InMyPlace',
+  'Takes to/from activities': 'TakesToActivities',
+  'Knows how to cook': 'KnowsHowToCook',
+  'First aid certified': 'FirstAidCertified',
+  'Helping with housework': 'HelpingWithHouseWork',
+  'Has a driver\'s license': 'HasDriverLicense',
+  'Change a diaper': 'ChangeADiaper',
+  'Has past experience': 'HasPastExperience',
+  'Has an education in education': 'HasAnEducationInEducation',
+};
+
 class BabysitterSearchScreen extends StatefulWidget {
   const BabysitterSearchScreen({super.key});
   static final routeName = 'BabysitterSearchScreen';
@@ -18,16 +31,31 @@ class BabysitterSearchScreen extends StatefulWidget {
 
 class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
   Future<List<dynamic>>? babysittersFuture;
-  Map<String, String> currentAdditionsFilters = {
-    'HelpingWithHouseWork': true.toString(),
-    'HasPastExperience': true.toString(),
-  };
 
-  @override
-  void initState() {
-    super.initState();
-    babysittersFuture = fetchBabysittersByBooleans();
+  Map<String, String> currentAdditionsFilters = {};
+  callback(Map<String, bool> booleanFilters, RangeValues priceValues) {
+    double startPrice = priceValues.start;
+    double endPrice = priceValues.end;
+
+    setState(() {
+      Map<String, String> transformedFilters = {};
+      booleanFilters.forEach((key, value) {
+        if (value) {
+          transformedFilters[mapTextToFieldName[key]!] = value.toString();
+        }
+      });
+      currentAdditionsFilters = transformedFilters;
+      currentAdditionsFilters['endPrice_lte'] = priceValues.end.toString();
+      currentAdditionsFilters['startPrice_gte'] = priceValues.start.toString();
+      babysittersFuture = fetchBabysittersByBooleansAndPrice();
+    });
   }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   babysittersFuture = fetchBabysittersByBooleans();
+  // }
 
   // Future<List<dynamic>> fetchBabysittersByName() async {
   //   final response = await ServerManager().getRequest('items', 'Babysitter');
@@ -41,9 +69,19 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
   //   final decodedBody = json.decode(response.body);
   //   return decodedBody;
   // }
-  Future<List<dynamic>> fetchBabysittersByBooleans() async {
+
+  // Future<List<dynamic>> fetchBabysittersByBooleans() async {
+  //   final response = await ServerManager().getRequestwithManyParams(
+  //       'search_multiple', 'Babysitter', currentAdditionsFilters);
+  //   print(response.body);
+  //   final decodedBody = json.decode(response.body);
+  //   return decodedBody;
+  // }
+
+  Future<List<dynamic>> fetchBabysittersByBooleansAndPrice() async {
     final response = await ServerManager().getRequestwithManyParams(
-        'search_multiple', 'Babysitter', currentAdditionsFilters);
+        'search_multiple2', 'Babysitter', currentAdditionsFilters);
+    print(response.body);
     final decodedBody = json.decode(response.body);
     return decodedBody;
   }
@@ -91,7 +129,9 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                         context,
                         new MaterialPageRoute(
                             fullscreenDialog: true,
-                            builder: (context) => new FilterScreen()));
+                            builder: (context) => new FilterScreen(
+                                  callback: callback,
+                                )));
                   },
                   icon: Icon(Icons.tune),
                   iconSize: 32,

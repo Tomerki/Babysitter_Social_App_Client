@@ -19,7 +19,7 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
   final _formKey2 = GlobalKey<FormState>();
   File? _imageFile;
   String about = '';
-  String price = '';
+  double price = -1.0;
   String age = '18';
   List<String> ageList =
       List.generate(165, (index) => (18 + (index * 0.5)).toStringAsFixed(1));
@@ -141,7 +141,7 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       setState(() {
-                        price = value;
+                        price = double.parse(value);
                       });
                     },
                   ),
@@ -182,7 +182,7 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                           'Babysitter',
                           body: jsonEncode(
                             {
-                              'price': price == '' ? 'no price' : price,
+                              'price': price == '' ? 0 : price,
                               'about': about,
                               'age': age,
                               'ComeToClient':
