@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class ChatPageScreen extends StatefulWidget {
   static final routeName = 'ChatPageScreen';
+  
   const ChatPageScreen({super.key});
 
   @override

@@ -1,13 +1,10 @@
 import 'dart:convert';
 import 'package:baby_sitter/screens/babysitter_main_screen.dart';
-import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
 import 'package:baby_sitter/screens/chat_page_screen.dart';
 import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../models/AppUser.dart';
-import './jobs_search_screen.dart';
 import '../widgets/loading.dart';
 import '../services/auth.dart';
 import '../services/validation.dart';
@@ -118,9 +115,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .then((value) async {
                               isBabysitter = json.decode(
                                   value.body.toString())['isBabysitter'];
+                              final type =
+                                  isBabysitter ? 'Babysitter' : 'Parent';
                               AppUser(
                                 uid: result.uid.toString(),
                                 isBabysitter: isBabysitter,
+                                userType: type,
                               );
                               if (isBabysitter) {
                                 await ServerManager()
@@ -139,14 +139,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                         'search/email/' + email!, 'Parent')
                                     .then((user) {
                                   print(user.body);
-                                  // Navigator.of(context).popAndPushNamed(
-                                  //   ParentMainScreen.routeName,
-                                  //   arguments: user.body,
-                                  // );
                                   Navigator.of(context).popAndPushNamed(
-                                    ChatPageScreen.routeName,
+                                    ParentMainScreen.routeName,
                                     arguments: user.body,
                                   );
+                                  // Navigator.of(context).popAndPushNamed(
+                                  //   ChatPageScreen.routeName,
+                                  //   arguments: user.body,
+                                  // );
                                 });
                               }
                             });

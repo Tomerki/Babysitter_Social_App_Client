@@ -1,30 +1,21 @@
-// class appUser {
-//   final String uid;
-//   bool isBabysitter;
-
-//   appUser({required this.uid, this.isBabysitter = false});
-
-//   String getUid() {
-//     return uid;
-//   }
-
-//   bool getUserKind() {
-//     return isBabysitter;
-//   }
-// }
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AppUser {
   final String uid;
   bool isBabysitter;
+  final String userType;
 
   static AppUser? _instance;
 
-  factory AppUser({required String uid, bool isBabysitter = false}) {
-    _instance ??= AppUser._internal(uid: uid, isBabysitter: isBabysitter);
+  factory AppUser(
+      {required String uid, bool isBabysitter = false, String userType = ''}) {
+    _instance ??= AppUser._internal(
+        uid: uid, isBabysitter: isBabysitter, userType: userType);
     return _instance!;
   }
 
-  AppUser._internal({required this.uid, this.isBabysitter = false});
+  AppUser._internal(
+      {required this.uid, required this.userType, this.isBabysitter = false});
 
   static String getUid() {
     return _instance?.uid ?? '';
@@ -32,5 +23,9 @@ class AppUser {
 
   static bool getUserKind() {
     return _instance?.isBabysitter ?? false;
+  }
+
+  static String getUserType() {
+    return _instance?.userType ?? '';
   }
 }
