@@ -65,6 +65,7 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
                     return Column(
                       children: jobs != null
                           ? jobs.reversed.map((job) {
+                              print(job);
                               return JobPost(
                                 job: job,
                                 hide: true,
