@@ -20,24 +20,24 @@ class _FilterScreennState extends State<FilterScreen>
   int? numOfChildren;
 
   Map<String, bool> currentAdditionsFilters = {
-    'Take out of school or kindergarten': false,
-    'Knowledge of first aid': false,
+    'Takes to/from activities': false,
+    'Knows how to cook': false,
+    'First aid certified': false,
     'Helping with housework': false,
-    'Take to outdoor activities': false,
-    'Have a driver\'s license': false,
-    'change a diaper': false,
-    'have experience': false,
-    'Studied education': false,
+    'Has a driver\'s license': false,
+    'Change a diaper': false,
+    'Has past experience': false,
+    'Has an education in education': false,
   };
   List<String> currentAdditionsFiltersList = [
-    'Take out of school or kindergarten',
-    'Knowledge of first aid',
+    'Takes to/from activities',
+    'Knows how to cook',
+    'First aid certified',
     'Helping with housework',
-    'Take to outdoor activities',
-    'Have a driver\'s license',
-    'change a diaper',
-    'have experience',
-    'Studied education',
+    'Has a driver\'s license',
+    'Change a diaper',
+    'Has past experience',
+    'Has an education in education',
   ];
 
   bool isCheckedOne = false;

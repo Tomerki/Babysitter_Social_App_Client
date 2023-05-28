@@ -308,6 +308,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           'email': email,
                                           'firstName': firstName,
                                           'lastName': lastName,
+                                          'fullName':
+                                              firstName! + ' ' + lastName!,
                                           'phoneNumber': phoneNumber,
                                           'address': address,
                                           'county': _selectedCountry,

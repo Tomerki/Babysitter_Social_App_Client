@@ -27,13 +27,14 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
   Map<String, bool> texts = {
     'Come to client': false,
     'In my place': false,
-    'Helping with housework': false,
+    'Takes to/from activities': false,
     'Knows how to cook': false,
     'First aid certified': false,
+    'Helping with housework': false,
     'Has a driver\'s license': false,
+    'Change a diaper': false,
     'Has past experience': false,
     'Has an education in education': false,
-    'Takes to activities': false,
   };
 
   @override
@@ -201,7 +202,9 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                                   texts['Has an education in education']
                                       .toString(),
                               'TakesToActivities':
-                                  texts['Takes to activities'].toString(),
+                                  texts['Takes to/from activities'].toString(),
+                              'ChangeADiaper':
+                                  texts['Change a diaper'].toString(),
                             },
                           ),
                         )

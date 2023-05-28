@@ -1,6 +1,12 @@
+import 'dart:convert';
+
 import 'package:baby_sitter/screens/filter_screen.dart';
+import 'package:baby_sitter/widgets/babysitter_search_card.dart';
 import 'package:baby_sitter/widgets/input_box.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+
+import '../server_manager.dart';
 
 class BabysitterSearchScreen extends StatefulWidget {
   const BabysitterSearchScreen({super.key});
@@ -11,6 +17,37 @@ class BabysitterSearchScreen extends StatefulWidget {
 }
 
 class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
+  Future<List<dynamic>>? babysittersFuture;
+  Map<String, String> currentAdditionsFilters = {
+    'HelpingWithHouseWork': true.toString(),
+    'HasPastExperience': true.toString(),
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    babysittersFuture = fetchBabysittersByBooleans();
+  }
+
+  // Future<List<dynamic>> fetchBabysittersByName() async {
+  //   final response = await ServerManager().getRequest('items', 'Babysitter');
+  //   final decodedBody = json.decode(response.body);
+  //   return decodedBody;
+  // }
+
+  // Future<List<dynamic>> fetchBabysittersByName() async {
+  //   final response = await ServerManager()
+  //       .getRequest('search_contain/fullName/' + 'c', 'Babysitter');
+  //   final decodedBody = json.decode(response.body);
+  //   return decodedBody;
+  // }
+  Future<List<dynamic>> fetchBabysittersByBooleans() async {
+    final response = await ServerManager().getRequestwithManyParams(
+        'search_multiple', 'Babysitter', currentAdditionsFilters);
+    final decodedBody = json.decode(response.body);
+    return decodedBody;
+  }
+
   @override
   Widget build(BuildContext context) {
     final queryData = MediaQuery.of(context);
@@ -61,6 +98,33 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                 ),
               ],
             ),
+          ),
+          FutureBuilder<List<dynamic>>(
+            future: babysittersFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // While waiting for the future to complete, show a progress indicator
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                // If there's an error, display an error message
+                return Text('Error: ${snapshot.error}');
+              } else {
+                // Once the future completes successfully, render the list
+                List? babysitters = snapshot.data;
+                return Column(
+                  children: babysitters != null
+                      ? babysitters.reversed.map((babysitter) {
+                          return BabysitterSearchCard(
+                              imageUrl: 'bla',
+                              babysitter_email: babysitter['email'],
+                              babysitter_name: babysitter['firstName'] +
+                                  ' ' +
+                                  babysitter['lastName']);
+                        }).toList()
+                      : [Text('No Posts Yet')],
+                );
+              }
+            },
           ),
         ],
       ),

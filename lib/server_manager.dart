@@ -23,6 +23,20 @@ class ServerManager {
     });
   }
 
+  Future<http.Response> getRequestwithManyParams(
+    String path,
+    String collectionName,
+    Map<String, String> queryParams,
+  ) async {
+    final url =
+        Uri.parse('$_baseUrl/$path').replace(queryParameters: queryParams);
+    print(url);
+    return await http.get(url, headers: <String, String>{
+      'Content-Type': 'application/json',
+      'Collection-Name': collectionName,
+    });
+  }
+
   Future<http.Response> postRequest(String path, String collectionName,
       {required String body}) async {
     final url = '$_baseUrl/$path';
