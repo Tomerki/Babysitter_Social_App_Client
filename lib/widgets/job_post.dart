@@ -49,11 +49,29 @@ class _JobPostState extends State<JobPost> {
               visible: widget.hide,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'job date: ${widget.job['date']}\n' +
-                      'hours: ${widget.job['startHour']} - ${widget.job['endHour']}\n' +
-                      'Number of children: ${widget.job['childrens']}\n' +
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'job date: ${widget.job['date']}\n' +
+                          'hours: ${widget.job['startHour']} - ${widget.job['endHour']}\n' +
+                          'Number of children: ${widget.job['childrens'] == null ? 0 : widget.job['childrens'].length}\n',
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: widget.job['childrens'].length,
+                      itemBuilder: (context, index) {
+                        final child = widget.job['childrens'][index];
+                        return Text(
+                          'child number ${index + 1}: ${child['gender']}, ${child['age']} years old',
+                          style: TextStyle(fontSize: 14),
+                        );
+                      },
+                    ),
+                    Text(
                       'description: ${widget.job['description']}',
+                    ),
+                  ],
                 ),
               ),
             ),
