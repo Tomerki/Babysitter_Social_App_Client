@@ -31,7 +31,7 @@ class BabysitterSearchScreen extends StatefulWidget {
 
 class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
   Future<List<dynamic>>? babysittersFuture;
-
+  String? name;
   Map<String, String> currentAdditionsFilters = {};
   callback(Map<String, bool> booleanFilters, RangeValues priceValues) {
     double startPrice = priceValues.start;
@@ -45,43 +45,24 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
         }
       });
       currentAdditionsFilters = transformedFilters;
-      currentAdditionsFilters['endPrice_lte'] = priceValues.end.toString();
-      currentAdditionsFilters['startPrice_gte'] = priceValues.start.toString();
-      babysittersFuture = fetchBabysittersByBooleansAndPrice();
+      babysittersFuture =
+          fetchBabysittersByBooleansAndPrice(startPrice, endPrice);
     });
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   babysittersFuture = fetchBabysittersByBooleans();
-  // }
-
-  // Future<List<dynamic>> fetchBabysittersByName() async {
-  //   final response = await ServerManager().getRequest('items', 'Babysitter');
-  //   final decodedBody = json.decode(response.body);
-  //   return decodedBody;
-  // }
-
-  // Future<List<dynamic>> fetchBabysittersByName() async {
-  //   final response = await ServerManager()
-  //       .getRequest('search_contain/fullName/' + 'c', 'Babysitter');
-  //   final decodedBody = json.decode(response.body);
-  //   return decodedBody;
-  // }
-
-  // Future<List<dynamic>> fetchBabysittersByBooleans() async {
-  //   final response = await ServerManager().getRequestwithManyParams(
-  //       'search_multiple', 'Babysitter', currentAdditionsFilters);
-  //   print(response.body);
-  //   final decodedBody = json.decode(response.body);
-  //   return decodedBody;
-  // }
-
-  Future<List<dynamic>> fetchBabysittersByBooleansAndPrice() async {
+  Future<List<dynamic>> fetchBabysittersByBooleansAndPrice(
+      double startPrice, double endPrice) async {
     final response = await ServerManager().getRequestwithManyParams(
-        'search_multiple2', 'Babysitter', currentAdditionsFilters);
-    print(response.body);
+        'search_multiple/' + startPrice.toString() + '/' + endPrice.toString(),
+        'Babysitter',
+        currentAdditionsFilters);
+    final decodedBody = json.decode(response.body);
+    return decodedBody;
+  }
+
+  Future<List<dynamic>> fetchBabysittersByName() async {
+    final response = await ServerManager()
+        .getRequest('/search_contain/fullName/' + name!, 'Babysitter');
     final decodedBody = json.decode(response.body);
     return decodedBody;
   }
@@ -115,26 +96,46 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
             child: Row(
               children: [
                 Container(
-                  width: queryData.size.width * 0.8,
+                  width: queryData.size.width * 0.7,
                   child: InputBox(
                     keyType: TextInputType.name,
                     text: "Enter a name",
                     validator: () {},
-                    onChanged: () {},
+                    onChanged: (value) {
+                      name = value;
+                      print(name);
+                    },
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (context) => new FilterScreen(
-                                  callback: callback,
-                                )));
-                  },
-                  icon: Icon(Icons.tune),
-                  iconSize: 32,
+                Container(
+                  width: queryData.size.width * 0.1,
+                  child: IconButton(
+                    onPressed: () {
+                      if (name != null && name!.length > 0) {
+                        setState(() {
+                          babysittersFuture = fetchBabysittersByName();
+                        });
+                      }
+                    },
+                    icon: Icon(Icons.search),
+                    iconSize: 32,
+                  ),
+                ),
+                Container(
+                  width: queryData.size.width * 0.1,
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              fullscreenDialog: true,
+                              builder: (context) => new FilterScreen(
+                                    callback: callback,
+                                  )));
+                    },
+                    icon: Icon(Icons.tune),
+                    iconSize: 32,
+                  ),
                 ),
               ],
             ),
@@ -152,7 +153,7 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                 // Once the future completes successfully, render the list
                 List? babysitters = snapshot.data;
                 return Column(
-                  children: babysitters != null
+                  children: (babysitters != null && babysitters.isNotEmpty)
                       ? babysitters.reversed.map((babysitter) {
                           return BabysitterSearchCard(
                               imageUrl: 'bla',
@@ -161,7 +162,7 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                                   ' ' +
                                   babysitter['lastName']);
                         }).toList()
-                      : [Text('No Posts Yet')],
+                      : [Text('No Results')],
                 );
               }
             },
