@@ -230,7 +230,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var decoded_user_body = json.decode(widget.user_body);
-    // print(decoded_user_body);
     MediaQueryData queryData = MediaQuery.of(context);
     // return Scaffold(
 
@@ -315,7 +314,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                                 widget.user_body)['email'],
                                         'Babysitter')
                                     .then((value) async {
-                                  print(value.body);
                                   if (!isFavorite) {
                                     await ServerManager()
                                         .updateElementFromArray(

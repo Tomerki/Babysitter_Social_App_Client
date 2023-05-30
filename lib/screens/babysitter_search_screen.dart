@@ -103,7 +103,6 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                     validator: () {},
                     onChanged: (value) {
                       name = value;
-                      print(name);
                     },
                   ),
                 ),

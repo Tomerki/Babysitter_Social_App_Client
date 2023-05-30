@@ -159,7 +159,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   text: 'First Name',
                                   validator: (value) {
                                     if (value.isEmpty) {
-                                      print('value.isEmpty = true');
                                       return "First Name cannot be empty";
                                     }
                                   },

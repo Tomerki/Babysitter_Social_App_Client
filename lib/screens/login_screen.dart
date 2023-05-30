@@ -128,7 +128,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     .getRequest(
                                         'search/email/' + email!, 'Babysitter')
                                     .then((user) {
-                                  print(user.body);
                                   Navigator.of(context).popAndPushNamed(
                                     BabysitterMainScreen.routeName,
                                     arguments: user.body,
@@ -139,7 +138,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     .getRequest(
                                         'search/email/' + email!, 'Parent')
                                     .then((user) {
-                                  print(user.body);
                                   Navigator.of(context).popAndPushNamed(
                                     ParentMainScreen.routeName,
                                     arguments: user.body,

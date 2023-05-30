@@ -39,15 +39,15 @@ class MainDrawer extends StatelessWidget {
               // Navigator.of(context).pushReplacementNamed('/');
             },
           ),
-          buildListTile(
-            'Last Orders',
-            Icons.shopping_cart,
-            () {
-              // dynamic result = await _auth.singOut;
-              // Navigator.of(context)
-              //     .pushReplacementNamed(FilterScreen.routename);
-            },
-          ),
+          // buildListTile(
+          //   'Last Orders',
+          //   Icons.shopping_cart,
+          //   () {
+          //     // dynamic result = await _auth.singOut;
+          //     // Navigator.of(context)
+          //     //     .pushReplacementNamed(FilterScreen.routename);
+          //   },
+          // ),
           ListTile(
             leading: Icon(
               Icons.logout,
@@ -64,15 +64,6 @@ class MainDrawer extends StatelessWidget {
                       builder: (context) => new WelcomeScreen()));
             },
           ),
-          // buildListTile(
-          //   'Logout',
-          //   Icons.logout,
-          //   () async {
-          //     dynamic result = await _auth.singOut;
-          //     Navigator.of(context)
-          //         .pushReplacementNamed(FilterScreen.routename);
-          //   },
-          // ),
         ],
       ),
     );
