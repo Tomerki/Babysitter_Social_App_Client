@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/widgets/job_post.dart';
 import 'package:flutter/material.dart';
 import '../server_manager.dart';
@@ -44,12 +45,14 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              NewPost(
-                callback: updateJobs,
-                publisherName: decoded_user_body['firstName'] +
-                    ' ' +
-                    decoded_user_body['lastName'],
-              ),
+              (!AppUser.getUserKind()
+                  ? NewPost(
+                      callback: updateJobs,
+                      publisherName: decoded_user_body['firstName'] +
+                          ' ' +
+                          decoded_user_body['lastName'],
+                    )
+                  : SizedBox()),
               FutureBuilder<List<dynamic>>(
                 future: jobsFuture,
                 builder: (context, snapshot) {
@@ -65,7 +68,6 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
                     return Column(
                       children: jobs != null
                           ? jobs.reversed.map((job) {
-                              print(job);
                               return JobPost(
                                 job: job,
                                 hide: true,

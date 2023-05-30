@@ -1,5 +1,6 @@
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/chats_screen.dart';
+import 'package:baby_sitter/screens/favorites_screen.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:baby_sitter/screens/jobs_search_screen.dart';
 import 'package:baby_sitter/screens/notifications_screen.dart';
@@ -17,26 +18,47 @@ class ParentMainScreen extends StatefulWidget {
   State<ParentMainScreen> createState() => _ParentMainScreenState();
 }
 
-class _ParentMainScreenState extends State<ParentMainScreen> {
+class _ParentMainScreenState extends State<ParentMainScreen>
+    with AutomaticKeepAliveClientMixin {
   List<Widget> _screens = [];
-  String? user_body;
+  List<String> _screenName = [];
+  String screen_name = '';
+
+  @override
+  void initState() {
+    super.initState();
+    screen_name = 'Job Search';
+  }
+
   @override
   void didChangeDependencies() {
-    user_body = ModalRoute.of(context)!.settings.arguments as String;
+    String user_body = ModalRoute.of(context)!.settings.arguments as String;
     _screens = [
       JobsSearchScreen(
-        user_body: user_body!,
+        user_body: user_body,
       ),
       NotificationScreen(),
       BabysitterSearchScreen(),
       ChatsScreen(),
-      BabysitterSearchScreen(),
+      FavoritesScreen(),
+    ];
+
+    _screenName = [
+      'Job Search',
+      'Notifications',
+      'Search for babysitter',
+      'Inbox',
+      'Favorites'
     ];
     super.didChangeDependencies();
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
         PersistentBottomNavBarItem(
@@ -79,6 +101,7 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        title: Text(screen_name),
         backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
       drawer: MainDrawer(),
@@ -88,11 +111,20 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
         screens: _screens,
         items: _navBarsItems(),
         confineInSafeArea: true,
+        onItemSelected: (index) {
+          setState(() {
+            screen_name = _screenName[index];
+            // if (index == 4) {
+            //   FavoritesScreen();
+            // }
+          });
+        },
         backgroundColor: Colors.white, // Default is Colors.white.
         handleAndroidBackButtonPress: true, // Default is true.
         resizeToAvoidBottomInset:
             true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-        stateManagement: true, // Default is true.
+        stateManagement: false,
+        // (_controller.index == 4) ? false : true, // Default is true.
         hideNavigationBarWhenKeyboardShows:
             true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         decoration: NavBarDecoration(

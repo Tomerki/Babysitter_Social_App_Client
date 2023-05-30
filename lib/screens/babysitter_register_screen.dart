@@ -5,6 +5,7 @@ import 'package:baby_sitter/server_manager.dart';
 import 'package:baby_sitter/widgets/circle_button_one.dart';
 import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BabysitterRegisterScreen extends StatefulWidget {
   static const routeName = 'babysitter-register-screen';
@@ -18,6 +19,7 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
   final _formKey2 = GlobalKey<FormState>();
   File? _imageFile;
   String about = '';
+  double price = -1.0;
   String age = '18';
   List<String> ageList =
       List.generate(165, (index) => (18 + (index * 0.5)).toStringAsFixed(1));
@@ -25,15 +27,15 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
   Map<String, bool> texts = {
     'Come to client': false,
     'In my place': false,
-    'Helping with housework': false,
+    'Takes to/from activities': false,
     'Knows how to cook': false,
     'First aid certified': false,
+    'Helping with housework': false,
     'Has a driver\'s license': false,
+    'Change a diaper': false,
     'Has past experience': false,
     'Has an education in education': false,
-    'Takes to activities': false,
   };
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,6 +135,17 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                   ),
                 ),
                 Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: TextField(
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      setState(() {
+                        price = double.parse(value);
+                      });
+                    },
+                  ),
+                ),
+                Container(
                   padding: EdgeInsets.only(top: 30, bottom: 15),
                   child: Text(
                     'Your skills:',
@@ -168,6 +181,7 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                           'Babysitter',
                           body: jsonEncode(
                             {
+                              'price': price == '' ? 0 : price,
                               'about': about,
                               'age': age,
                               'ComeToClient':
@@ -187,7 +201,9 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                                   texts['Has an education in education']
                                       .toString(),
                               'TakesToActivities':
-                                  texts['Takes to activities'].toString(),
+                                  texts['Takes to/from activities'].toString(),
+                              'ChangeADiaper':
+                                  texts['Change a diaper'].toString(),
                             },
                           ),
                         )

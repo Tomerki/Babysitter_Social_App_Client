@@ -4,7 +4,7 @@ import 'package:baby_sitter/screens/chat_page_screen.dart';
 import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
 import 'package:flutter/material.dart';
-import '../models/AppUser.dart';
+import '../models/appUser.dart';
 import '../widgets/loading.dart';
 import '../services/auth.dart';
 import '../services/validation.dart';
@@ -115,6 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 .then((value) async {
                               isBabysitter = json.decode(
                                   value.body.toString())['isBabysitter'];
+
                               final type =
                                   isBabysitter ? 'Babysitter' : 'Parent';
                               AppUser(

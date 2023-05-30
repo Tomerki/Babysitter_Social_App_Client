@@ -328,11 +328,6 @@ class _NewPostState extends State<NewPost> {
                     TextButton(
                       child: Text("Submit"),
                       onPressed: () async {
-                        // setState(
-                        //   () {
-
-                        //   },
-                        // );
                         await serverManager
                             .postRequest(
                           'add_doc',
@@ -356,7 +351,6 @@ class _NewPostState extends State<NewPost> {
                           )
                               .then((newList) {
                             jobs = json.decode(newList.body);
-                            print(json.decode(response.body)['id']);
                             widget.callback(jobs);
                             Navigator.of(context, rootNavigator: true).pop();
                           });
