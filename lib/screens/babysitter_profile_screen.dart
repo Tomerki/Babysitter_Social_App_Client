@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
 import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
@@ -24,14 +25,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
   String startTime = '';
   String endTime = '';
   bool isFavorite = false;
-
-  Future<bool> fetchIsFavorite() async {
-    final response =
-        await ServerManager().getRequest('items/' + AppUser.getUid(), 'Parent');
-    final decodedBody = json.decode(response.body);
-    return (decodedBody['favorites'])
-        .contains(json.decode(widget.user_body)['email']);
-  }
 
   void _presentDatePicker() {
     showDialog(
@@ -188,16 +181,40 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     );
   }
 
+  Future<bool> fetchIsFavorite() async {
+    final response =
+        await ServerManager().getRequest('items/' + AppUser.getUid(), 'Parent');
+    final decodedBody = json.decode(response.body);
+
+    return (decodedBody['favorites'])
+        .contains(json.decode(widget.user_body)['uid']);
+  }
+
+  // @override
+  // void didChangeDependencies() {
+  //   if (!AppUser.getUserKind()) {
+  //     fetchIsFavorite().then((value) {
+  //       isFavorite = value;
+  //       setState(() {
+  //         isFavorite = value;
+  //       });
+  //     });
+  //   }
+  //   super.didChangeDependencies();
+  // }
+
   @override
   void initState() {
     super.initState();
     if (!AppUser.getUserKind()) {
       fetchIsFavorite().then((value) {
+        isFavorite = value;
         setState(() {
           isFavorite = value;
         });
       });
     }
+    _loadIsFavorite();
   }
 
   void _loadIsFavorite() {
@@ -213,9 +230,8 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var decoded_user_body = json.decode(widget.user_body);
-    print(decoded_user_body);
+    // print(decoded_user_body);
     MediaQueryData queryData = MediaQuery.of(context);
-    _loadIsFavorite();
     // return Scaffold(
 
     //   floatingActionButton: Row(
@@ -291,30 +307,39 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                   : Icon(
                                       Icons.favorite_border,
                                     ),
-                              onPressed: () {
-                                setState(() async {
-                                  isFavorite = !isFavorite;
-                                  if (isFavorite) {
+                              onPressed: () async {
+                                await ServerManager()
+                                    .getRequest(
+                                        'search/email/' +
+                                            json.decode(
+                                                widget.user_body)['email'],
+                                        'Babysitter')
+                                    .then((value) async {
+                                  print(value.body);
+                                  if (!isFavorite) {
                                     await ServerManager()
                                         .updateElementFromArray(
-                                            '/add_to_array/' + AppUser.getUid(),
+                                            'add_to_array/' + AppUser.getUid(),
                                             'Parent', {
                                       "field": "favorites",
-                                      "element": json
-                                          .decode(widget.user_body)['email'],
+                                      "element": json.decode(value.body)['uid'],
                                     });
                                   } else {
                                     await ServerManager()
                                         .updateElementFromArray(
-                                            '/delete_from_array/' +
+                                            'delete_from_array/' +
                                                 AppUser.getUid(),
                                             'Parent',
                                             {
                                           "field": "favorites",
-                                          "element": json.decode(
-                                              widget.user_body)['email'],
+                                          "element":
+                                              json.decode(value.body)['uid'],
                                         });
                                   }
+                                });
+
+                                setState(() {
+                                  isFavorite = !isFavorite;
                                 });
                               },
                             )

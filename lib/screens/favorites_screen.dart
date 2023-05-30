@@ -1,7 +1,95 @@
+// import 'dart:convert';
+// import 'package:flutter/material.dart';
+// import '../models/appUser.dart';
+// import '../server_manager.dart';
+
+// class FavoritesScreen extends StatefulWidget {
+//   static final routeName = 'FavoritesScreen';
+
+//   @override
+//   State<FavoritesScreen> createState() => _FavoritesScreenScreenState();
+// }
+
+// class _FavoritesScreenScreenState extends State<FavoritesScreen> {
+//   Future<List<dynamic>>? favoritesFuture;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     favoritesFuture = fetchFavorites();
+//   }
+
+//   @override
+//   void didChangeDependencies() {
+//     favoritesFuture = fetchFavorites();
+//     super.didChangeDependencies();
+//   }
+
+//   Future<List<dynamic>> fetchFavorites() async {
+//     var decodedBody;
+//     final response = await ServerManager()
+//         .getRequest('items/' + AppUser.getUid(), 'Parent')
+//         .then(
+//           (value) async => {
+//             decodedBody = json.decode(value.body),
+//             await ServerManager().getRequestwithManyParams('/search_multiple', 'Babysitter')
+//           },
+//         );
+
+//     print(decodedBody['favorites'][0]);
+//     return decodedBody['favorites'];
+//   }
+
+//   // void updateFavoritess(List<dynamic> newFavorites) {
+//   //   setState(() {
+//   //     favoritesFuture = Future.value(newFavorites);
+//   //   });
+//   // }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Container(
+//         alignment: Alignment.topCenter,
+//         padding: EdgeInsets.all(10),
+//         child: SingleChildScrollView(
+//           child: Column(
+//             children: [
+//               FutureBuilder<dynamic>(
+//                 future: favoritesFuture,
+//                 builder: (context, snapshot) {
+//                   if (snapshot.connectionState == ConnectionState.waiting) {
+//                     // While waiting for the future to complete, show a progress indicator
+//                     return CircularProgressIndicator();
+//                   } else if (snapshot.hasError) {
+//                     // If there's an error, display an error message
+//                     return Text('Error: ${snapshot.error}');
+//                   } else {
+//                     // Once the future completes successfully, render the list
+//                     List? favorites = snapshot.data;
+//                     return Column(
+//                       children: favorites != null && favorites.isNotEmpty
+//                           ? favorites.map((favorite) {
+//                               return Text(
+//                                   favorite); // Replace with your desired widget
+//                             }).toList()
+//                           : [Text('No Favorites')],
+//                     );
+//                   }
+//                 },
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import '../models/appUser.dart';
 import '../server_manager.dart';
+import '../widgets/babysitter_search_card.dart';
 
 class FavoritesScreen extends StatefulWidget {
   static final routeName = 'FavoritesScreen';
@@ -11,7 +99,7 @@ class FavoritesScreen extends StatefulWidget {
 }
 
 class _FavoritesScreenScreenState extends State<FavoritesScreen> {
-  Future<dynamic>? favoritesFuture;
+  Future<List<dynamic>>? favoritesFuture;
 
   @override
   void initState() {
@@ -25,17 +113,26 @@ class _FavoritesScreenScreenState extends State<FavoritesScreen> {
     super.didChangeDependencies();
   }
 
-  Future<dynamic> fetchFavorites() async {
-    final response =
-        await ServerManager().getRequest('items/' + AppUser.getUid(), 'Parent');
-    final decodedBody = json.decode(response.body);
-    return decodedBody['favorites'];
-  }
+  Future<List<dynamic>> fetchFavorites() async {
+    var decodedBody = {};
+    var result;
+    Map<String, String> favoritesMap = {};
+    await ServerManager()
+        .getRequest('items/' + AppUser.getUid(), 'Parent')
+        .then((value) async {
+      decodedBody['favorites'] = json.decode(value.body)['favorites'];
 
-  void updateFavoritess(List<dynamic> newFavorites) {
-    setState(() {
-      favoritesFuture = Future.value(newFavorites);
+      for (int i = 0; i < decodedBody['favorites'].length; i++) {
+        favoritesMap[decodedBody['favorites'][i]] = decodedBody['favorites'][i];
+      }
+      await ServerManager()
+          .getRequestwithManyParams('items_filter', 'Babysitter', favoritesMap)
+          .then((value) {
+        result = json.decode(value.body);
+      });
     });
+    print(result);
+    return result;
   }
 
   @override
@@ -47,7 +144,7 @@ class _FavoritesScreenScreenState extends State<FavoritesScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              FutureBuilder<dynamic>(
+              FutureBuilder<List<dynamic>>(
                 future: favoritesFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -58,14 +155,18 @@ class _FavoritesScreenScreenState extends State<FavoritesScreen> {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     // Once the future completes successfully, render the list
-                    List? favorites = snapshot.data;
+                    List? babysitters = snapshot.data;
                     return Column(
-                      children: favorites != null && favorites.isNotEmpty
-                          ? favorites.map((favorite) {
-                              return Text(
-                                  favorite); // Replace with your desired widget
+                      children: (babysitters != null && babysitters.isNotEmpty)
+                          ? babysitters.reversed.map((babysitter) {
+                              return BabysitterSearchCard(
+                                  imageUrl: 'bla',
+                                  babysitter_email: babysitter['email'],
+                                  babysitter_name: babysitter['firstName'] +
+                                      ' ' +
+                                      babysitter['lastName']);
                             }).toList()
-                          : [Text('No Favorites')],
+                          : [Text('No Results')],
                     );
                   }
                 },

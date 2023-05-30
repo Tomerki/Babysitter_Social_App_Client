@@ -18,7 +18,8 @@ class ParentMainScreen extends StatefulWidget {
   State<ParentMainScreen> createState() => _ParentMainScreenState();
 }
 
-class _ParentMainScreenState extends State<ParentMainScreen> {
+class _ParentMainScreenState extends State<ParentMainScreen>
+    with AutomaticKeepAliveClientMixin {
   List<Widget> _screens = [];
   List<String> _screenName = [];
   String screen_name = '';
@@ -53,7 +54,11 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
         PersistentBottomNavBarItem(
@@ -109,18 +114,17 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
         onItemSelected: (index) {
           setState(() {
             screen_name = _screenName[index];
+            // if (index == 4) {
+            //   FavoritesScreen();
+            // }
           });
-          if (index == 4) {
-            setState(() {
-              FavoritesScreen();
-            });
-          }
         },
         backgroundColor: Colors.white, // Default is Colors.white.
         handleAndroidBackButtonPress: true, // Default is true.
         resizeToAvoidBottomInset:
             true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-        stateManagement: true, // Default is true.
+        stateManagement: false,
+        // (_controller.index == 4) ? false : true, // Default is true.
         hideNavigationBarWhenKeyboardShows:
             true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         decoration: NavBarDecoration(

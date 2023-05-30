@@ -307,6 +307,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       body: isBabysitter
                                           ? jsonEncode(
                                               {
+                                                'uid': result.uid,
                                                 'email': email,
                                                 'firstName': firstName,
                                                 'lastName': lastName,
@@ -321,6 +322,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             )
                                           : jsonEncode(
                                               {
+                                                'uid': result.uid,
                                                 'email': email,
                                                 'firstName': firstName,
                                                 'lastName': lastName,
