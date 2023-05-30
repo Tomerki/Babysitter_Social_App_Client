@@ -21,6 +21,11 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
   List<Widget> _screens = [];
   List<String> _screenName = [];
   String screen_name = '';
+  @override
+  void initState() {
+    super.initState();
+    screen_name = 'Job Search';
+  }
 
   @override
   void didChangeDependencies() {
@@ -43,7 +48,6 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
       'Inbox',
       'Your Profile'
     ];
-    screen_name = _screenName[0];
     super.didChangeDependencies();
   }
 

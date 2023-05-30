@@ -45,14 +45,14 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              !AppUser.getUserKind()
+              (!AppUser.getUserKind()
                   ? NewPost(
                       callback: updateJobs,
                       publisherName: decoded_user_body['firstName'] +
                           ' ' +
                           decoded_user_body['lastName'],
                     )
-                  : SizedBox(),
+                  : SizedBox()),
               FutureBuilder<List<dynamic>>(
                 future: jobsFuture,
                 builder: (context, snapshot) {

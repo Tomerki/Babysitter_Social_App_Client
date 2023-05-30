@@ -36,7 +36,6 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
     'Has past experience': false,
     'Has an education in education': false,
   };
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,5 +1,6 @@
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/chats_screen.dart';
+import 'package:baby_sitter/screens/favorites_screen.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:baby_sitter/screens/jobs_search_screen.dart';
 import 'package:baby_sitter/screens/notifications_screen.dart';
@@ -23,6 +24,12 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
   String screen_name = '';
 
   @override
+  void initState() {
+    super.initState();
+    screen_name = 'Job Search';
+  }
+
+  @override
   void didChangeDependencies() {
     String user_body = ModalRoute.of(context)!.settings.arguments as String;
     _screens = [
@@ -32,7 +39,7 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
       NotificationScreen(),
       BabysitterSearchScreen(),
       ChatsScreen(),
-      BabysitterSearchScreen(),
+      FavoritesScreen(),
     ];
 
     _screenName = [
@@ -42,7 +49,6 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
       'Inbox',
       'Favorites'
     ];
-    screen_name = _screenName[0];
     super.didChangeDependencies();
   }
 
@@ -104,6 +110,11 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
           setState(() {
             screen_name = _screenName[index];
           });
+          if (index == 4) {
+            setState(() {
+              FavoritesScreen();
+            });
+          }
         },
         backgroundColor: Colors.white, // Default is Colors.white.
         handleAndroidBackButtonPress: true, // Default is true.

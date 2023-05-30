@@ -69,4 +69,18 @@ class ServerManager {
       rethrow;
     }
   }
+
+  Future<http.Response> updateElementFromArray(
+    String path,
+    String collectionName,
+    Map<String, String> queryParams,
+  ) async {
+    final url =
+        Uri.parse('$_baseUrl/$path').replace(queryParameters: queryParams);
+    print(url);
+    return await http.put(url, headers: <String, String>{
+      'Content-Type': 'application/json',
+      'Collection-Name': collectionName,
+    });
+  }
 }

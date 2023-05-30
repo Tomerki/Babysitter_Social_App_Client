@@ -1,6 +1,7 @@
 import 'package:baby_sitter/models/AppUser.dart';
 import 'package:baby_sitter/screens/babysitter_main_screen.dart';
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
+import 'package:baby_sitter/screens/favorites_screen.dart';
 import 'package:baby_sitter/screens/notifications_screen.dart';
 import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/services/auth.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
           ParentMainScreen.routeName: (context) => ParentMainScreen(),
           ChatPageScreen.routeName: (context) => ChatPageScreen(),
           BabysitterMainScreen.routeName: (context) => BabysitterMainScreen(),
+          FavoritesScreen.routeName: (context) => FavoritesScreen(),
         },
         home: WelcomeScreen(),
       ),

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
 import 'package:baby_sitter/widgets/babysitter_description.dart';
 import 'package:time_range_picker/time_range_picker.dart';
+import '../models/appUser.dart';
+import '../server_manager.dart';
 import 'babysitter_recommendations_screen.dart';
 
 class BabysitterProfileScreen extends StatefulWidget {
@@ -22,6 +24,14 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
   String startTime = '';
   String endTime = '';
   bool isFavorite = false;
+
+  Future<bool> fetchIsFavorite() async {
+    final response =
+        await ServerManager().getRequest('items/' + AppUser.getUid(), 'Parent');
+    final decodedBody = json.decode(response.body);
+    return (decodedBody['favorites'])
+        .contains(json.decode(widget.user_body)['email']);
+  }
 
   void _presentDatePicker() {
     showDialog(
@@ -179,11 +189,35 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (!AppUser.getUserKind()) {
+      fetchIsFavorite().then((value) {
+        setState(() {
+          isFavorite = value;
+        });
+      });
+    }
+  }
+
+  void _loadIsFavorite() {
+    if (!AppUser.getUserKind()) {
+      fetchIsFavorite().then((value) {
+        setState(() {
+          isFavorite = value;
+        });
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     var decoded_user_body = json.decode(widget.user_body);
     print(decoded_user_body);
     MediaQueryData queryData = MediaQuery.of(context);
+    _loadIsFavorite();
     // return Scaffold(
+
     //   floatingActionButton: Row(
     //     mainAxisAlignment: MainAxisAlignment.spaceAround,
     //     children: [
@@ -248,20 +282,43 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        icon: isFavorite
-                            ? Icon(
-                                Icons.favorite,
-                              )
-                            : Icon(
-                                Icons.favorite_border,
-                              ),
-                        onPressed: () {
-                          setState(() {
-                            isFavorite = !isFavorite;
-                          });
-                        },
-                      ),
+                      (!AppUser.getUserKind()
+                          ? IconButton(
+                              icon: isFavorite
+                                  ? Icon(
+                                      Icons.favorite,
+                                    )
+                                  : Icon(
+                                      Icons.favorite_border,
+                                    ),
+                              onPressed: () {
+                                setState(() async {
+                                  isFavorite = !isFavorite;
+                                  if (isFavorite) {
+                                    await ServerManager()
+                                        .updateElementFromArray(
+                                            '/add_to_array/' + AppUser.getUid(),
+                                            'Parent', {
+                                      "field": "favorites",
+                                      "element": json
+                                          .decode(widget.user_body)['email'],
+                                    });
+                                  } else {
+                                    await ServerManager()
+                                        .updateElementFromArray(
+                                            '/delete_from_array/' +
+                                                AppUser.getUid(),
+                                            'Parent',
+                                            {
+                                          "field": "favorites",
+                                          "element": json.decode(
+                                              widget.user_body)['email'],
+                                        });
+                                  }
+                                });
+                              },
+                            )
+                          : SizedBox()),
                       ElevatedButton(
                         child: Text("recommendation"),
                         style: ElevatedButton.styleFrom(
