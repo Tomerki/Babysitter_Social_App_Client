@@ -1,8 +1,41 @@
-import 'package:flutter/material.dart';
-import '../models/notification.dart';
+import 'dart:convert';
 
-class NotificationScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import '../models/AppUser.dart';
+import '../models/notification.dart';
+import '../server_manager.dart';
+import '../widgets/notification_widget.dart';
+
+class NotificationScreen extends StatefulWidget {
   static final routeName = 'NotificationScreen';
+
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
+  final String userType = AppUser.getUserType();
+  Future<List<dynamic>>? notificationsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    notificationsFuture = fetchNotifications();
+  }
+
+  Future<List<dynamic>> fetchNotifications() async {
+    final response = await ServerManager()
+        .getRequest('get_inner_collection/' + AppUser.getUid(), 'Parent');
+    final decodedBody = json.decode(response.body);
+    return decodedBody;
+  }
+
+  void updateNotifications(List<dynamic> newJobs) {
+    setState(() {
+      notificationsFuture = Future.value(newJobs);
+    });
+  }
+
   final List<AppNotification> notifications = [
     AppNotification(
       title: 'New Message',
@@ -20,37 +53,42 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: Text('Notifications'),
-    //   ),
-    //   body:
-    return ListView.builder(
-      itemCount: notifications.length,
-      itemBuilder: (context, index) {
-        return NotificationWidget(notification: notifications[index]);
-      },
-      // ),
+    return Center(
+      child: FutureBuilder<List<dynamic>>(
+        future: notificationsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // While waiting for the future to complete, show a progress indicator
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            // If there's an error, display an error message
+            return Text('Error: ${snapshot.error}');
+          } else {
+            // Once the future completes successfully, render the list
+            List? notifications = snapshot.data;
+            return Column(
+              children: notifications != null && !notifications.isEmpty
+                  ? (notifications.map((notification) {
+                      return NotificationWidget(
+                        notification: notification,
+                      );
+                    }).toList())
+                  : [
+                      Container(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text('No Notifications Yet'),
+                      )
+                    ],
+            );
+          }
+        },
+      ),
     );
-  }
-}
-
-class NotificationWidget extends StatelessWidget {
-  final AppNotification notification;
-
-  const NotificationWidget({Key? key, required this.notification})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(Icons.notifications),
-      title: Text(notification.title),
-      subtitle: Text(notification.message),
-      onTap: () {
-        // Handle notification tap
-        // You can navigate to a specific page or perform any action here
-      },
-    );
+    // ListView.builder(
+    //   itemCount: notifications.length,
+    //   itemBuilder: (context, index) {
+    //     return NotificationWidget(notification: notifications[index]);
+    //   },
+    // );
   }
 }

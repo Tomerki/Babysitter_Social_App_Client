@@ -1,17 +1,26 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../models/appUser.dart';
+import '../server_manager.dart';
 
 class JobPost extends StatefulWidget {
+  Function(List jobs) callback;
   final job;
   bool hide;
-  JobPost({super.key, required this.job, required this.hide});
+  JobPost(
+      {super.key,
+      required this.job,
+      required this.hide,
+      required this.callback});
 
   @override
   State<JobPost> createState() => _JobPostState();
 }
 
 class _JobPostState extends State<JobPost> {
+  List jobs = [];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -87,7 +96,21 @@ class _JobPostState extends State<JobPost> {
                         children: [
                           IconButton(
                             alignment: Alignment.bottomLeft,
-                            onPressed: () {},
+                            onPressed: () async {
+                              await ServerManager().postRequest(
+                                  'add_inner_collection/' +
+                                      (widget.job)['parent_id'],
+                                  'Parent',
+                                  body: jsonEncode(
+                                    {
+                                      'title':
+                                          "Babysitter is interested in your post",
+                                      'massage': "Click to see here page",
+                                      'babysitter_id': AppUser.getUid(),
+                                      'job_id': (widget.job)['doc_id'],
+                                    },
+                                  ));
+                            },
                             icon: Icon(
                               Icons.notification_add_outlined,
                             ),
@@ -96,13 +119,48 @@ class _JobPostState extends State<JobPost> {
                       ),
                     ),
                   )
-                : Visibility(
-                    visible: widget.hide,
-                    child: Card(
-                      elevation: 5,
-                      borderOnForeground: true,
-                    ),
-                  ),
+                : (AppUser.getUid() == widget.job['parent_id']
+                    ? Visibility(
+                        visible: widget.hide,
+                        child: Card(
+                          elevation: 5,
+                          borderOnForeground: true,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                alignment: Alignment.bottomLeft,
+                                onPressed: () async {
+                                  await ServerManager()
+                                      .deleteRequest(
+                                          'items/' + (widget.job)['doc_id'],
+                                          'Jobs')
+                                      .then((response) async {
+                                    await ServerManager()
+                                        .getRequest(
+                                      'items',
+                                      'Jobs',
+                                    )
+                                        .then((newList) {
+                                      jobs = json.decode(newList.body);
+                                      widget.callback(jobs);
+                                    });
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.delete,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Visibility(
+                        visible: widget.hide,
+                        child: Card(
+                          elevation: 5,
+                          borderOnForeground: true,
+                        ),
+                      )),
           ],
         ),
       ),

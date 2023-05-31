@@ -51,6 +51,7 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
                       publisherName: decoded_user_body['firstName'] +
                           ' ' +
                           decoded_user_body['lastName'],
+                      parentId: decoded_user_body['uid'],
                     )
                   : SizedBox()),
               FutureBuilder<List<dynamic>>(
@@ -66,14 +67,20 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
                     // Once the future completes successfully, render the list
                     List? jobs = snapshot.data;
                     return Column(
-                      children: jobs != null
-                          ? jobs.reversed.map((job) {
+                      children: jobs != null && !jobs.isEmpty
+                          ? (jobs.map((job) {
                               return JobPost(
+                                callback: updateJobs,
                                 job: job,
                                 hide: true,
                               );
-                            }).toList()
-                          : [Text('No Posts Yet')],
+                            }).toList())
+                          : [
+                              Container(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text('No Posts Yet'),
+                              )
+                            ],
                     );
                   }
                 },
