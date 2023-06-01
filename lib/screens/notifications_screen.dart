@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import '../models/AppUser.dart';
+import '../models/appUser.dart';
 import '../models/notification.dart';
 import '../server_manager.dart';
 import '../widgets/notification_widget.dart';
@@ -24,8 +24,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   Future<List<dynamic>> fetchNotifications() async {
-    final response = await ServerManager()
-        .getRequest('get_inner_collection/' + AppUser.getUid(), 'Parent');
+    final response = await ServerManager().getRequest(
+        'get_inner_collection/' + AppUser.getUid() + '/notification',
+        AppUser.getUserType());
     final decodedBody = json.decode(response.body);
     return decodedBody;
   }
@@ -69,6 +70,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             return Column(
               children: notifications != null && !notifications.isEmpty
                   ? (notifications.map((notification) {
+                      print(notification);
                       return NotificationWidget(
                         notification: notification,
                       );

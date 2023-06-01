@@ -99,7 +99,8 @@ class _JobPostState extends State<JobPost> {
                             onPressed: () async {
                               await ServerManager().postRequest(
                                   'add_inner_collection/' +
-                                      (widget.job)['parent_id'],
+                                      (widget.job)['parent_id'] +
+                                      '/notification',
                                   'Parent',
                                   body: jsonEncode(
                                     {
@@ -108,6 +109,7 @@ class _JobPostState extends State<JobPost> {
                                       'massage': "Click to see here page",
                                       'babysitter_id': AppUser.getUid(),
                                       'job_id': (widget.job)['doc_id'],
+                                      'was_tap': false,
                                     },
                                   ));
                             },
