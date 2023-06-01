@@ -19,11 +19,17 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  @override
+  void initState() {
+    print("init state of login");
+    super.initState();
+  }
+
   final AuthService _auth = AuthService();
   var _formKey = GlobalKey<FormState>();
   bool loading = false;
   String? email, password;
-  dynamic result;
+
   bool isBabysitter = false;
   @override
   Widget build(BuildContext context) {
@@ -87,13 +93,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     CircleButtonOne(
                       handler: () async {
+                        print(AppUser.getUserType());
+                        // FocusNode().unfocus();
                         if (_formKey.currentState == null) {
                           print('_formKey.currentState == null');
                         } else if (_formKey.currentState!.validate()) {
                           setState(() {
                             () => loading = true;
                           });
-                          result = await _auth.signInWithEmailAndpassword(
+                          var result = await _auth.signInWithEmailAndpassword(
                               email!, password!);
                           if (result == null) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -107,7 +115,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               () => loading = false;
                             });
                           } else {
-                            print(result.uid);
                             await ServerManager()
                                 .getRequest(
                                     'search/uid/' + result.uid.toString(),

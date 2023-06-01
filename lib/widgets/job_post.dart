@@ -110,6 +110,7 @@ class _JobPostState extends State<JobPost> {
                                       'babysitter_id': AppUser.getUid(),
                                       'job_id': (widget.job)['doc_id'],
                                       'was_tap': false,
+                                      'type': " job bell",
                                     },
                                   ));
                             },

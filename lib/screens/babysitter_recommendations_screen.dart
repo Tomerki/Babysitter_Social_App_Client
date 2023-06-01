@@ -205,6 +205,7 @@ class _BabysitterRecommendationScreenState
                                             'recommendation_id':
                                                 json.decode(value.body)['id'],
                                             'was_tap': false,
+                                            'type': 'new recommendation',
                                           },
                                         ));
                                   });

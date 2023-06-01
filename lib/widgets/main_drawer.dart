@@ -1,7 +1,9 @@
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:baby_sitter/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/wrapper.dart';
 import '../services/auth.dart';
 
 class MainDrawer extends StatelessWidget {
@@ -57,11 +59,16 @@ class MainDrawer extends StatelessWidget {
               'Logout',
             ),
             onTap: () async {
-              dynamic result = await _auth.singOut();
-              Navigator.pushReplacement(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new WelcomeScreen()));
+              dynamic result = await _auth.singOut().then((value) {
+                Navigator.of(context, rootNavigator: true).pop();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  WelcomeScreen.routeName,
+                  (Route<dynamic> route) => false,
+                );
+                // Navigator.of(context).popAndPushNamed(WelcomeScreen.routeName);
+                // AppUser.deleteInstance();
+                // HotRestartController.restartApp(context);
+              });
             },
           ),
         ],

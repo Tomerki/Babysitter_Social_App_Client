@@ -1,3 +1,4 @@
+import '../services/auth.dart';
 import './register_screen.dart';
 
 import './login_screen.dart';
@@ -6,6 +7,7 @@ import '../widgets/circle_button_one.dart';
 
 class WelcomeScreen extends StatelessWidget {
   static const routeName = 'welcome-screen';
+  final AuthService _auth = AuthService();
 
   Widget buildRow(String text, IconData icon) {
     return Padding(
