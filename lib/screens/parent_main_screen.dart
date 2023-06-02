@@ -1,3 +1,4 @@
+import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/chats_screen.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
@@ -30,7 +31,9 @@ class _ParentMainScreenState extends State<ParentMainScreen> {
       NotificationScreen(),
       BabysitterSearchScreen(),
       ChatsScreen(),
-      BabysitterSearchScreen(),
+      BabysitterProfileScreen(
+        user_body: user_body!,
+      ),
     ];
     super.didChangeDependencies();
   }

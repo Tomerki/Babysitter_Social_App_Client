@@ -46,9 +46,8 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
             children: [
               NewPost(
                 callback: updateJobs,
-                publisherName: decoded_user_body['firstName'] +
-                    ' ' +
-                    decoded_user_body['lastName'],
+                publisherName:
+                    '${decoded_user_body['firstName']} ${decoded_user_body['lastName']}',
               ),
               FutureBuilder<List<dynamic>>(
                 future: jobsFuture,

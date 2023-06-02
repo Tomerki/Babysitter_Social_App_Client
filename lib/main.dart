@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
           BabysitterSearchScreen.routeName: (context) =>
               BabysitterSearchScreen(),
           ParentMainScreen.routeName: (context) => ParentMainScreen(),
-          ChatPageScreen.routeName: (context) => ChatPageScreen(),
+          // ChatPageScreen.routeName: (context) => ChatPageScreen(),
           BabysitterMainScreen.routeName: (context) => BabysitterMainScreen(),
         },
         home: WelcomeScreen(),

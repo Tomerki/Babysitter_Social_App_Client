@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AppUser {
   final String uid;
   bool isBabysitter;
-  final String userType;
+  String userType;
 
   static AppUser? _instance;
 
@@ -27,5 +27,13 @@ class AppUser {
 
   static String getUserType() {
     return _instance?.userType ?? '';
+  }
+
+  static void setUserKind(bool kind) {
+    _instance?.isBabysitter = kind;
+  }
+
+  static void setUserType(String type) {
+    _instance?.userType = type;
   }
 }
