@@ -13,7 +13,9 @@ class ChatMessages extends StatelessWidget {
 
     return StreamBuilder(
       stream: FirebaseFirestore.instance
-          .collection('chat')
+          .collection(AppUser.getUserType())
+          .doc(AppUser.getUid())
+          .collection('chats')
           .orderBy(
             'createdAt',
             descending: true,
@@ -64,8 +66,8 @@ class ChatMessages extends StatelessWidget {
                 );
               } else {
                 return MessageBubble.first(
-                  userImage: chatMessage['userImage'],
-                  username: chatMessage['username'],
+                  userImage: chatMessage['image'],
+                  username: chatMessage['firstName'],
                   message: chatMessage['text'],
                   isMe: authenticatedUser.uid == currentMessageUserId,
                 );

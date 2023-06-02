@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:baby_sitter/models/AppUser.dart';
+import 'package:baby_sitter/screens/chat_page_screen.dart';
+import 'package:baby_sitter/services/auth.dart';
 import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
@@ -283,8 +286,21 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                 Container(
                   padding: EdgeInsets.all(20),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+
+                      IconButton(
+                        onPressed: () {
+                          // Navigator.of(context).pushNamed(
+                          //   ChatPageScreen.routeName,
+                          //   arguments: widget.user_body,
+                          // );
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  fullscreenDialog: true,
+                                  builder: (context) => new ChatPageScreen(
+                                      )));
                       (!AppUser.getUserKind()
                           ? IconButton(
                               icon: isFavorite
@@ -349,6 +365,30 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                             withNavBar: false,
                           );
                         },
+                        icon: Icon(
+                          Icons.message,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(left: queryData.size.width * 0.28),
+                        child: ElevatedButton(
+                          child: Text("recommendation"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color.fromARGB(255, 51, 65, 78),
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) =>
+                                        new BabysitterRecommendationScreen()));
+                          },
+                        ),
                       ),
                     ],
                   ),
