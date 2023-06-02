@@ -59,16 +59,20 @@ class MainDrawer extends StatelessWidget {
               'Logout',
             ),
             onTap: () async {
-              dynamic result = await _auth.singOut().then((value) {
-                Navigator.of(context, rootNavigator: true).pop();
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  WelcomeScreen.routeName,
-                  (Route<dynamic> route) => false,
-                );
-                // Navigator.of(context).popAndPushNamed(WelcomeScreen.routeName);
-                // AppUser.deleteInstance();
-                // HotRestartController.restartApp(context);
-              });
+              AppUser.deleteInstance();
+              await _auth.singOut();
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => WelcomeScreen()));
+              // dynamic result = await _auth.singOut().then((value) {
+              //   Navigator.of(context, rootNavigator: true).pop();
+              //   Navigator.of(context).pushNamedAndRemoveUntil(
+              //     WelcomeScreen.routeName,
+              //     (Route<dynamic> route) => false,
+              //   );
+              //   // Navigator.of(context).popAndPushNamed(WelcomeScreen.routeName);
+              //   // AppUser.deleteInstance();
+              //   // HotRestartController.restartApp(context);
+              // });
             },
           ),
         ],

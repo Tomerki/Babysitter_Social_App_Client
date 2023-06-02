@@ -1,4 +1,4 @@
-import 'package:baby_sitter/models/AppUser.dart';
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/babysitter_main_screen.dart';
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/favorites_screen.dart';

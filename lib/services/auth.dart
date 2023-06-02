@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:baby_sitter/models/AppUser.dart';
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 

@@ -103,6 +103,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                           var result = await _auth.signInWithEmailAndpassword(
                               email!, password!);
+                          print(email);
+                          print(password);
+                          print(result.uid);
                           if (result == null) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               backgroundColor: Colors.red,

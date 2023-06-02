@@ -5,8 +5,21 @@ import './login_screen.dart';
 import 'package:flutter/material.dart';
 import '../widgets/circle_button_one.dart';
 
-class WelcomeScreen extends StatelessWidget {
+class WelcomeScreen extends StatefulWidget {
   static const routeName = 'welcome-screen';
+
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  @override
+  void initState() {
+    print("init state of WelcomeScreen");
+    setState(() {});
+    super.initState();
+  }
+
   final AuthService _auth = AuthService();
 
   Widget buildRow(String text, IconData icon) {
