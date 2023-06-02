@@ -4,6 +4,7 @@ import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
 import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
 import 'package:baby_sitter/widgets/babysitter_description.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import '../models/appUser.dart';
 import '../server_manager.dart';
@@ -190,19 +191,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
         .contains(json.decode(widget.user_body)['uid']);
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   if (!AppUser.getUserKind()) {
-  //     fetchIsFavorite().then((value) {
-  //       isFavorite = value;
-  //       setState(() {
-  //         isFavorite = value;
-  //       });
-  //     });
-  //   }
-  //   super.didChangeDependencies();
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -230,7 +218,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
   @override
   Widget build(BuildContext context) {
     var decoded_user_body = json.decode(widget.user_body);
-    // print(decoded_user_body);
     MediaQueryData queryData = MediaQuery.of(context);
     // return Scaffold(
 
@@ -315,7 +302,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                                 widget.user_body)['email'],
                                         'Babysitter')
                                     .then((value) async {
-                                  print(value.body);
                                   if (!isFavorite) {
                                     await ServerManager()
                                         .updateElementFromArray(
@@ -354,11 +340,14 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) =>
-                                      new BabysitterRecommendationScreen()));
+                          PersistentNavBarNavigator.pushNewScreen(
+                            context,
+                            screen: BabysitterRecommendationScreen(
+                              babysitter_id:
+                                  json.decode(widget.user_body)['uid'],
+                            ),
+                            withNavBar: false,
+                          );
                         },
                       ),
                     ],

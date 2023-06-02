@@ -5,6 +5,7 @@ import 'package:baby_sitter/widgets/babysitter_search_card.dart';
 import 'package:baby_sitter/widgets/input_box.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../server_manager.dart';
 
@@ -103,7 +104,6 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                     validator: () {},
                     onChanged: (value) {
                       name = value;
-                      print(name);
                     },
                   ),
                 ),
@@ -125,13 +125,14 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                   width: queryData.size.width * 0.1,
                   child: IconButton(
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              fullscreenDialog: true,
-                              builder: (context) => new FilterScreen(
-                                    callback: callback,
-                                  )));
+                      PersistentNavBarNavigator.pushNewScreen(
+                        context,
+                        // settings: RouteSettings(name: FilterScreen.routeName),
+                        screen: FilterScreen(
+                          callback: callback,
+                        ),
+                        withNavBar: false,
+                      );
                     },
                     icon: Icon(Icons.tune),
                     iconSize: 32,

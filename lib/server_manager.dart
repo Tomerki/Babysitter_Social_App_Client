@@ -10,7 +10,6 @@ class ServerManager {
   ServerManager._internal();
 
   static const String _baseUrl = 'http://192.168.0.189:8080';
-
   Future<http.Response> getRequest(
     String path,
     String collectionName,
@@ -37,6 +36,18 @@ class ServerManager {
     });
   }
 
+  //   Future<http.Response> getRequestInnerCollection(
+  //   String path,
+  //   String collectionName,
+  // ) async {
+  //   final url = '$_baseUrl/$path';
+  //   print(url);
+  //   return await http.get(Uri.parse(url), headers: <String, String>{
+  //     'Content-Type': 'application/json',
+  //     'Collection-Name': collectionName,
+  //   });
+  // }
+
   Future<http.Response> postRequest(String path, String collectionName,
       {required String body}) async {
     final url = '$_baseUrl/$path';
@@ -61,6 +72,27 @@ class ServerManager {
           'Collection-Name': collectionName,
         },
         body: body,
+      );
+      return response;
+    } catch (e) {
+      // Handle any exceptions that may be thrown during the request
+      print('Error occurred during PUT request: $e');
+      rethrow;
+    }
+  }
+
+  Future<http.Response> deleteRequest(
+    String path,
+    String collectionName,
+  ) async {
+    final url = '$_baseUrl/$path';
+    try {
+      final response = await http.delete(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Collection-Name': collectionName,
+        },
       );
       return response;
     } catch (e) {

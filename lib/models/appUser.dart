@@ -28,4 +28,25 @@ class AppUser {
   static String getUserType() {
     return _instance?.userType ?? '';
   }
+
+  static bool isInstanceCreated() {
+    return _instance != null;
+  }
+
+  static void deleteInstance() {
+    _instance = null;
+  }
+
+  // Setter method to update the instance
+  static void updateInstance({
+    required String uid,
+    bool isBabysitter = false,
+    String userType = '',
+  }) {
+    _instance = AppUser._internal(
+      uid: uid,
+      isBabysitter: isBabysitter,
+      userType: userType,
+    );
+  }
 }

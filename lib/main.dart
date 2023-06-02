@@ -1,4 +1,4 @@
-import 'package:baby_sitter/models/AppUser.dart';
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/babysitter_main_screen.dart';
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/favorites_screen.dart';
@@ -47,8 +47,8 @@ class MyApp extends StatelessWidget {
           MapPlacePicker.routeName: (context) => MapPlacePicker(),
           // FilterScreen.routeName: (context) => FilterScreen(),
           // JobsSearchScreen.routeName: (context) => JobsSearchScreen(),
-          BabysitterRecommendationScreen.routeName: (context) =>
-              BabysitterRecommendationScreen(),
+          // BabysitterRecommendationScreen.routeName: (context) =>
+          //     BabysitterRecommendationScreen(),
           BabysitterSearchScreen.routeName: (context) =>
               BabysitterSearchScreen(),
           ParentMainScreen.routeName: (context) => ParentMainScreen(),
