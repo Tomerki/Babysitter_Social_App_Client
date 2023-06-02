@@ -137,6 +137,9 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'price per hour',
+                    ),
                     keyboardType: TextInputType.number,
                     onChanged: (value) {
                       setState(() {

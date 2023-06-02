@@ -4,12 +4,14 @@ class BabysitterUpperPage extends StatelessWidget {
   final double pageHight;
   final double pagewidth;
   final String name;
+  final String age;
 
   const BabysitterUpperPage(
       {super.key,
       required this.pageHight,
       required this.pagewidth,
-      required this.name});
+      required this.name,
+      required this.age});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,7 @@ class BabysitterUpperPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Review',
+                            'Reviews',
                             style: TextStyle(
                               fontSize: 16,
                             ),
@@ -67,7 +69,7 @@ class BabysitterUpperPage extends StatelessWidget {
                       Column(
                         children: [
                           Text(
-                            '25',
+                            age,
                             style: TextStyle(
                               fontSize: 20,
                             ),

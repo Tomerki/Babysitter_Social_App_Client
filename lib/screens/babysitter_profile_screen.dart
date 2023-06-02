@@ -216,6 +216,14 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     }
   }
 
+  AppBar build_appBar(var decoded_user_body) {
+    return AppBar(
+      centerTitle: true,
+      title: Text(decoded_user_body['fullName'] + ' ' + "profile"),
+      backgroundColor: Color.fromARGB(255, 219, 163, 154),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var decoded_user_body = json.decode(widget.user_body);
@@ -227,7 +235,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     return AppUser.getUid() == decoded_user_body['uid']
         ? SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(top: 0),
+              padding: const EdgeInsets.only(bottom: 10),
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
@@ -247,58 +255,10 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.all(10),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            (!AppUser.getUserKind()
-                                ? IconButton(
-                                    icon: isFavorite
-                                        ? Icon(
-                                            Icons.favorite,
-                                          )
-                                        : Icon(
-                                            Icons.favorite_border,
-                                          ),
-                                    onPressed: () async {
-                                      await ServerManager()
-                                          .getRequest(
-                                              'search/email/' +
-                                                  json.decode(widget.user_body)[
-                                                      'email'],
-                                              'Babysitter')
-                                          .then((value) async {
-                                        if (!isFavorite) {
-                                          await ServerManager()
-                                              .updateElementFromArray(
-                                                  'add_to_array/' +
-                                                      AppUser.getUid(),
-                                                  'Parent',
-                                                  {
-                                                "field": "favorites",
-                                                "element": json
-                                                    .decode(value.body)['uid'],
-                                              });
-                                        } else {
-                                          await ServerManager()
-                                              .updateElementFromArray(
-                                                  'delete_from_array/' +
-                                                      AppUser.getUid(),
-                                                  'Parent',
-                                                  {
-                                                "field": "favorites",
-                                                "element": json
-                                                    .decode(value.body)['uid'],
-                                              });
-                                        }
-                                      });
-
-                                      setState(() {
-                                        isFavorite = !isFavorite;
-                                      });
-                                    },
-                                  )
-                                : SizedBox()),
                             ElevatedButton(
                               child: Text("recommendation"),
                               style: ElevatedButton.styleFrom(
@@ -326,23 +286,28 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                       Center(
                         child: SizedBox(
                           // width: (queryData.size.width) * 0.9,
-                          height:
-                              (queryData.size.height - queryData.padding.top) *
-                                  0.4,
+                          height: (queryData.size.height -
+                                  queryData.padding.top -
+                                  queryData.padding.bottom) *
+                              0.4,
                           child: BabysitterUpperPage(
-                            pageHight:
-                                (queryData.size.height - queryData.padding.top),
+                            pageHight: (queryData.size.height -
+                                queryData.padding.top -
+                                queryData.padding.bottom),
                             pagewidth: queryData.size.width,
                             name: decoded_user_body['firstName'] +
                                 ' ' +
                                 decoded_user_body['lastName'],
+                            age: decoded_user_body['age'],
                           ),
                         ),
                       ),
                       Center(
                         child: BabysitterMiddlePage(
-                          pageHight:
-                              (queryData.size.height - queryData.padding.top),
+                          pageHight: (queryData.size.height -
+                                  queryData.padding.top -
+                                  queryData.padding.bottom) *
+                              0.1,
                           pagewidth: queryData.size.width,
                           price: decoded_user_body['price'] > 0
                               ? decoded_user_body['price'].toString() + '\$\h'
@@ -353,6 +318,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                         pageHight:
                             queryData.size.height - queryData.padding.top,
                         pagewidth: queryData.size.width,
+                        description: decoded_user_body['about'],
                       ),
                       !AppUser.getUserKind()
                           ? Container(
@@ -372,11 +338,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
             ),
           )
         : Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              title: Text(decoded_user_body['fullName'] + ' ' + "profile"),
-              backgroundColor: Color.fromARGB(255, 219, 163, 154),
-            ),
+            appBar: build_appBar(decoded_user_body),
             body: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.only(top: 0),
@@ -485,11 +447,13 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                             child: BabysitterUpperPage(
                               pageHight: (queryData.size.height -
                                   queryData.padding.top -
-                                  queryData.padding.bottom),
+                                  queryData.padding.bottom -
+                                  AppBar().preferredSize.height),
                               pagewidth: queryData.size.width,
                               name: decoded_user_body['firstName'] +
                                   ' ' +
                                   decoded_user_body['lastName'],
+                              age: decoded_user_body['age'],
                             ),
                           ),
                         ),
@@ -497,8 +461,9 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                           child: BabysitterMiddlePage(
                             pageHight: (queryData.size.height -
                                     queryData.padding.top -
-                                    queryData.padding.bottom) *
-                                0.4,
+                                    queryData.padding.bottom -
+                                    AppBar().preferredSize.height) *
+                                0.15,
                             pagewidth: queryData.size.width,
                             price: decoded_user_body['price'] > 0
                                 ? decoded_user_body['price'].toString() + '\$\h'
@@ -507,9 +472,12 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                         ),
                         BabysitterDescription(
                           pageHight: (queryData.size.height -
-                              queryData.padding.top -
-                              queryData.padding.bottom),
+                                  queryData.padding.top -
+                                  queryData.padding.bottom -
+                                  AppBar().preferredSize.height) *
+                              1.2,
                           pagewidth: queryData.size.width,
+                          description: decoded_user_body['about'],
                         ),
                         !AppUser.getUserKind()
                             ? Container(

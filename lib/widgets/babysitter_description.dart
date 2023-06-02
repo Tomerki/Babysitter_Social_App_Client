@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 class BabysitterDescription extends StatelessWidget {
   final double pageHight;
   final double pagewidth;
+  final String description;
 
   const BabysitterDescription(
-      {super.key, required this.pageHight, required this.pagewidth});
+      {super.key,
+      required this.pageHight,
+      required this.pagewidth,
+      required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class BabysitterDescription extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 5),
               child: Text(
-                'the description........ ',
+                description,
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.black87,
