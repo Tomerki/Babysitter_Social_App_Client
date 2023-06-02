@@ -28,7 +28,7 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
   final currentDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();
   final serverManager = ServerManager();
-  final List children = [];
+
   String startTime = '';
   String endTime = '';
   String childGender = 'male';
@@ -163,154 +163,6 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                               '${selectedDate}\n from: ${startTime}\nUntil: ${endTime}\n'),
                           // : Text('No hours/day selected yet'),
                           Divider(),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              for (var child in children)
-                                Card(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(
-                                        "${child["age"]} year old ${child["gender"]}",
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                      IconButton(
-                                          icon: Icon(
-                                            Icons.close,
-                                            color: Colors.red,
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              children.remove(child);
-                                            });
-                                          })
-                                    ],
-                                  ),
-                                )
-                            ],
-                          ),
-                          if (addChild)
-                            // For Adding Child
-                            Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(18.0),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      "Add Child",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 15),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Select Age",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 17),
-                                        ),
-                                        NumberPicker(
-                                            itemCount: 3,
-                                            axis: Axis.vertical,
-                                            minValue: 0,
-                                            maxValue: 18,
-                                            value: childAge,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                childAge = value;
-                                              });
-                                            }),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        CircleButtonOne(
-                                          bgColor: childGender == "male"
-                                              ? Colors.black
-                                              : Colors.white,
-                                          textColor: childGender == "male"
-                                              ? Colors.white
-                                              : Colors.black,
-                                          cWidth: 0.25,
-                                          text: "Male",
-                                          handler: () {
-                                            setState(() {
-                                              childGender = "male";
-                                            });
-                                          },
-                                          cPaddingBottom: 5,
-                                          cPaddingRight: 5,
-                                        ),
-                                        CircleButtonOne(
-                                          bgColor: childGender == "female"
-                                              ? Colors.black
-                                              : Colors.white,
-                                          textColor: childGender == "female"
-                                              ? Colors.white
-                                              : Colors.black,
-                                          cWidth: 0.25,
-                                          text: "female",
-                                          handler: () {
-                                            setState(() {
-                                              childGender = "female";
-                                            });
-                                          },
-                                          cPaddingBottom: 5,
-                                          cPaddingRight: 5,
-                                        ),
-                                      ],
-                                    ),
-                                    CircleButtonOne(
-                                      textColor: Colors.white,
-                                      bgColor: Colors.black,
-                                      text: "Add Child",
-                                      textSize: 15,
-                                      cWidth: 0.25,
-                                      handler: () {
-                                        children.add({
-                                          "gender": childGender,
-                                          "age": childAge
-                                        });
-
-                                        setState(() {
-                                          addChild = false;
-                                        });
-                                      },
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          if (!addChild)
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Text(
-                                    "Add Child",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 17),
-                                  ),
-                                  IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          addChild = true;
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.add,
-                                        color: Colors.black,
-                                      ))
-                                ],
-                              ),
-                            ),
                           Divider(),
                           Text('job description:'),
                           Card(
@@ -339,7 +191,45 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                   actions: [
                     TextButton(
                       child: Text("Submit"),
-                      onPressed: () {},
+                      onPressed: () async {
+                        await ServerManager()
+                            .postRequest(
+                                'add_inner_collection/' +
+                                    decoded_user_body['uid'] +
+                                    '/jobRequest',
+                                'Babysitter',
+                                body: jsonEncode(
+                                  {
+                                    "babysitter_id": decoded_user_body['uid'],
+                                    "date": selectedDate.toString(),
+                                    "startHour": startTime,
+                                    "endHour": endTime,
+                                    "description": jobDescription,
+                                    'parent_id': widget.parentId,
+                                  },
+                                ))
+                            .then(
+                          (value) async {
+                            await ServerManager().postRequest(
+                                'add_inner_collection/' +
+                                    decoded_user_body['uid'] +
+                                    '/notification',
+                                'Babysitter',
+                                body: jsonEncode(
+                                  {
+                                    'title': "A parent wants Schedule with you",
+                                    'massage': "Click to see more details",
+                                    'jobRequest_id':
+                                        json.decode(value.body)['id'],
+                                    'was_tap': false,
+                                    'type': 'new job request',
+                                  },
+                                ));
+                          },
+                        );
+                        Navigator.of(context, rootNavigator: true).pop();
+                      },
+
                       // onPressed: () async {
                       //   await serverManager
                       //       .postRequest(
