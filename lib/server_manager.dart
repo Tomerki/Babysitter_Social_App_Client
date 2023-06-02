@@ -9,8 +9,7 @@ class ServerManager {
 
   ServerManager._internal();
 
-  static const String _baseUrl = 'http://192.168.1.43:8080';
-
+  static const String _baseUrl = 'http://192.168.0.189:8080';
   Future<http.Response> getRequest(
     String path,
     String collectionName,
@@ -22,6 +21,32 @@ class ServerManager {
       'Collection-Name': collectionName,
     });
   }
+
+  Future<http.Response> getRequestwithManyParams(
+    String path,
+    String collectionName,
+    Map<String, String> queryParams,
+  ) async {
+    final url =
+        Uri.parse('$_baseUrl/$path').replace(queryParameters: queryParams);
+    print(url);
+    return await http.get(url, headers: <String, String>{
+      'Content-Type': 'application/json',
+      'Collection-Name': collectionName,
+    });
+  }
+
+  //   Future<http.Response> getRequestInnerCollection(
+  //   String path,
+  //   String collectionName,
+  // ) async {
+  //   final url = '$_baseUrl/$path';
+  //   print(url);
+  //   return await http.get(Uri.parse(url), headers: <String, String>{
+  //     'Content-Type': 'application/json',
+  //     'Collection-Name': collectionName,
+  //   });
+  // }
 
   Future<http.Response> postRequest(String path, String collectionName,
       {required String body}) async {
@@ -54,5 +79,40 @@ class ServerManager {
       print('Error occurred during PUT request: $e');
       rethrow;
     }
+  }
+
+  Future<http.Response> deleteRequest(
+    String path,
+    String collectionName,
+  ) async {
+    final url = '$_baseUrl/$path';
+    try {
+      final response = await http.delete(
+        Uri.parse(url),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Collection-Name': collectionName,
+        },
+      );
+      return response;
+    } catch (e) {
+      // Handle any exceptions that may be thrown during the request
+      print('Error occurred during PUT request: $e');
+      rethrow;
+    }
+  }
+
+  Future<http.Response> updateElementFromArray(
+    String path,
+    String collectionName,
+    Map<String, String> queryParams,
+  ) async {
+    final url =
+        Uri.parse('$_baseUrl/$path').replace(queryParameters: queryParams);
+    print(url);
+    return await http.put(url, headers: <String, String>{
+      'Content-Type': 'application/json',
+      'Collection-Name': collectionName,
+    });
   }
 }

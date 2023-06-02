@@ -38,6 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   File? _selectedImage;
   bool loading = false;
   bool isBabysitter = false;
+  List<String> favorites = [];
 
   String? email,
       password,
@@ -158,7 +159,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   text: 'First Name',
                                   validator: (value) {
                                     if (value.isEmpty) {
-                                      print('value.isEmpty = true');
                                       return "First Name cannot be empty";
                                     }
                                   },
@@ -303,17 +303,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         .postRequest(
                                       'add_doc/' + result.uid,
                                       userType,
-                                      body: jsonEncode(
-                                        {
-                                          'email': email,
-                                          'firstName': firstName,
-                                          'lastName': lastName,
-                                          'phoneNumber': phoneNumber,
-                                          'address': address,
-                                          'county': _selectedCountry,
-                                          'image': imageUrl,
-                                        },
-                                      ),
+                                      body: isBabysitter
+                                          ? jsonEncode(
+                                              {
+                                                'uid': result.uid,
+                                                'email': email,
+                                                'firstName': firstName,
+                                                'lastName': lastName,
+                                                'fullName': firstName! +
+                                                    ' ' +
+                                                    lastName!,
+                                                'phoneNumber': phoneNumber,
+                                                'address': address,
+                                                'county': _selectedCountry,
+                                                'image': imageUrl,
+                                              },
+                                            )
+                                          : jsonEncode(
+                                              {
+                                                'uid': result.uid,
+                                                'email': email,
+                                                'firstName': firstName,
+                                                'lastName': lastName,
+                                                'fullName': firstName! +
+                                                    ' ' +
+                                                    lastName!,
+                                                'phoneNumber': phoneNumber,
+                                                'address': address,
+                                                'county': _selectedCountry,
+                                                'image': imageUrl,
+                                                'favorites': favorites,
+                                              },
+                                            ),
                                     )
                                         .then((value) async {
                                       await ServerManager()

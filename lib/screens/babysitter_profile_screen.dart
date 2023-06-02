@@ -2,11 +2,15 @@ import 'dart:convert';
 import 'package:baby_sitter/models/AppUser.dart';
 import 'package:baby_sitter/screens/chat_page_screen.dart';
 import 'package:baby_sitter/services/auth.dart';
+import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
 import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
 import 'package:baby_sitter/widgets/babysitter_description.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:time_range_picker/time_range_picker.dart';
+import '../models/appUser.dart';
+import '../server_manager.dart';
 import 'babysitter_recommendations_screen.dart';
 
 class BabysitterProfileScreen extends StatefulWidget {
@@ -181,12 +185,45 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     );
   }
 
+  Future<bool> fetchIsFavorite() async {
+    final response =
+        await ServerManager().getRequest('items/' + AppUser.getUid(), 'Parent');
+    final decodedBody = json.decode(response.body);
+
+    return (decodedBody['favorites'])
+        .contains(json.decode(widget.user_body)['uid']);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (!AppUser.getUserKind()) {
+      fetchIsFavorite().then((value) {
+        isFavorite = value;
+        setState(() {
+          isFavorite = value;
+        });
+      });
+    }
+    _loadIsFavorite();
+  }
+
+  void _loadIsFavorite() {
+    if (!AppUser.getUserKind()) {
+      fetchIsFavorite().then((value) {
+        setState(() {
+          isFavorite = value;
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var decoded_user_body = json.decode(widget.user_body);
-    print(decoded_user_body);
     MediaQueryData queryData = MediaQuery.of(context);
     // return Scaffold(
+
     //   floatingActionButton: Row(
     //     mainAxisAlignment: MainAxisAlignment.spaceAround,
     //     children: [
@@ -251,20 +288,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      IconButton(
-                        icon: isFavorite
-                            ? Icon(
-                                Icons.favorite,
-                              )
-                            : Icon(
-                                Icons.favorite_border,
-                              ),
-                        onPressed: () {
-                          setState(() {
-                            isFavorite = !isFavorite;
-                          });
-                        },
-                      ),
+
                       IconButton(
                         onPressed: () {
                           // Navigator.of(context).pushNamed(
@@ -277,6 +301,69 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                   fullscreenDialog: true,
                                   builder: (context) => new ChatPageScreen(
                                       )));
+                      (!AppUser.getUserKind()
+                          ? IconButton(
+                              icon: isFavorite
+                                  ? Icon(
+                                      Icons.favorite,
+                                    )
+                                  : Icon(
+                                      Icons.favorite_border,
+                                    ),
+                              onPressed: () async {
+                                await ServerManager()
+                                    .getRequest(
+                                        'search/email/' +
+                                            json.decode(
+                                                widget.user_body)['email'],
+                                        'Babysitter')
+                                    .then((value) async {
+                                  if (!isFavorite) {
+                                    await ServerManager()
+                                        .updateElementFromArray(
+                                            'add_to_array/' + AppUser.getUid(),
+                                            'Parent', {
+                                      "field": "favorites",
+                                      "element": json.decode(value.body)['uid'],
+                                    });
+                                  } else {
+                                    await ServerManager()
+                                        .updateElementFromArray(
+                                            'delete_from_array/' +
+                                                AppUser.getUid(),
+                                            'Parent',
+                                            {
+                                          "field": "favorites",
+                                          "element":
+                                              json.decode(value.body)['uid'],
+                                        });
+                                  }
+                                });
+
+                                setState(() {
+                                  isFavorite = !isFavorite;
+                                });
+                              },
+                            )
+                          : SizedBox()),
+                      ElevatedButton(
+                        child: Text("recommendation"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 51, 65, 78),
+                          elevation: 5,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        onPressed: () {
+                          PersistentNavBarNavigator.pushNewScreen(
+                            context,
+                            screen: BabysitterRecommendationScreen(
+                              babysitter_id:
+                                  json.decode(widget.user_body)['uid'],
+                            ),
+                            withNavBar: false,
+                          );
                         },
                         icon: Icon(
                           Icons.message,
@@ -325,6 +412,9 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                   child: BabysitterMiddlePage(
                     pageHight: (queryData.size.height - queryData.padding.top),
                     pagewidth: queryData.size.width,
+                    price: decoded_user_body['price'] > 0
+                        ? decoded_user_body['price'].toString() + '\$\h'
+                        : 'unknown price',
                   ),
                 ),
                 BabysitterDescription(

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../widgets/main_drawer.dart';
+import 'chats_screen.dart';
 
 class BabysitterMainScreen extends StatefulWidget {
   const BabysitterMainScreen({Key? key}) : super(key: key);
@@ -18,6 +19,14 @@ class BabysitterMainScreen extends StatefulWidget {
 
 class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
   List<Widget> _screens = [];
+  List<String> _screenName = [];
+  String screen_name = '';
+  @override
+  void initState() {
+    super.initState();
+    screen_name = 'Job Search';
+  }
+
   @override
   void didChangeDependencies() {
     String user_body = ModalRoute.of(context)!.settings.arguments as String;
@@ -27,10 +36,17 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
       ),
       NotificationScreen(),
       BabysitterSearchScreen(),
-      FilterScreen(),
+      ChatsScreen(),
       BabysitterProfileScreen(
         user_body: user_body,
       )
+    ];
+    _screenName = [
+      'Job Search',
+      'Notifications',
+      'Search for babysitter',
+      'Inbox',
+      'Your Profile'
     ];
     super.didChangeDependencies();
   }
@@ -79,6 +95,7 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        title: Text(screen_name),
         backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
       drawer: MainDrawer(),
@@ -88,11 +105,16 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
         screens: _screens,
         items: _navBarsItems(),
         confineInSafeArea: true,
+        onItemSelected: (index) {
+          setState(() {
+            screen_name = _screenName[index];
+          });
+        },
         backgroundColor: Colors.white, // Default is Colors.white.
         handleAndroidBackButtonPress: true, // Default is true.
         resizeToAvoidBottomInset:
             true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-        stateManagement: true, // Default is true.
+        stateManagement: false, // Default is true.
         hideNavigationBarWhenKeyboardShows:
             true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         decoration: NavBarDecoration(

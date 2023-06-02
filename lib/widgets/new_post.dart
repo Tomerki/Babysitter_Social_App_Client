@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +11,19 @@ import '../widgets/circle_button_one.dart';
 class NewPost extends StatefulWidget {
   Function(List jobs) callback;
   String publisherName;
-  NewPost({super.key, required this.callback, required this.publisherName});
+  String parentId;
+  NewPost(
+      {super.key,
+      required this.callback,
+      required this.publisherName,
+      required this.parentId});
 
   @override
   State<NewPost> createState() => _NewPostState();
 }
 
 class _NewPostState extends State<NewPost> {
+  final currentDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();
   final serverManager = ServerManager();
   final List children = [];
@@ -28,10 +35,17 @@ class _NewPostState extends State<NewPost> {
   bool addChild = false;
   DateTime selectedDate = DateTime.now();
   String jobDescription = '';
-  final List jobs = [];
+  List jobs = [];
 
   @override
   Widget build(BuildContext context) {
+    startTime = TimeOfDay(hour: 9, minute: 0).format(context);
+    endTime = TimeOfDay(hour: 00, minute: 0).format(context);
+    selectedDate = DateTime(
+      currentDate.year,
+      currentDate.month,
+      currentDate.day + 1,
+    );
     return CircleButtonOne(
       text: 'Click to add a new job!',
       cWidth: 0.7,
@@ -66,9 +80,8 @@ class _NewPostState extends State<NewPost> {
                             ),
                             label: Text('Pick a date'),
                             icon: Icon(Icons.date_range),
-                            onPressed: () {
-                              final currentDate = DateTime.now();
-                              showDatePicker(
+                            onPressed: () async {
+                              await showDatePicker(
                                 context: context,
                                 initialDate: currentDate,
                                 firstDate: currentDate,
@@ -99,7 +112,7 @@ class _NewPostState extends State<NewPost> {
                             label: Text('Pick time'),
                             icon: Icon(Icons.timer),
                             onPressed: () async {
-                              TimeRange? result = await showTimeRangePicker(
+                              await showTimeRangePicker(
                                 context: context,
                                 start: const TimeOfDay(hour: 9, minute: 0),
                                 end: const TimeOfDay(hour: 12, minute: 0),
@@ -137,9 +150,11 @@ class _NewPostState extends State<NewPost> {
                               );
                             },
                           ),
-                          startTime != '' || endTime != ''
-                              ? Text('From: ${startTime}\nUntil: ${endTime}')
-                              : Text('No hours selected yet'),
+                          // startTime != '' && endTime != '' && selectedDate != ''
+                          //     ?
+                          Text(
+                              '${selectedDate}\n from: ${startTime}\nUntil: ${endTime}\n'),
+                          // : Text('No hours/day selected yet'),
                           Divider(),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -255,6 +270,7 @@ class _NewPostState extends State<NewPost> {
                                           "gender": childGender,
                                           "age": childAge
                                         });
+
                                         setState(() {
                                           addChild = false;
                                         });
@@ -316,40 +332,35 @@ class _NewPostState extends State<NewPost> {
                   actions: [
                     TextButton(
                       child: Text("Submit"),
-                      onPressed: () {
-                        setState(
-                          () {
-                            jobs.add({
-                              "publisher": widget.publisherName,
-                              "date":
-                                  DateFormat.yMMMMEEEEd().format(selectedDate),
-                              "startHour": startTime,
-                              "endHour": endTime,
-                              "childrens": children,
-                              "description": jobDescription,
-                            });
-                          },
-                        );
-                        serverManager
+                      onPressed: () async {
+                        await serverManager
                             .postRequest(
                           'add_doc',
                           'Jobs',
                           body: jsonEncode(
                             {
                               "publisher": widget.publisherName,
+                              "parent_id": widget.parentId,
                               "date": selectedDate.toString(),
                               "startHour": startTime,
                               "endHour": endTime,
-                              "childrens": children.toString(),
+                              "childrens": children,
                               "description": jobDescription,
                             },
                           ),
                         )
-                            .then((response) {
-                          print(json.decode(response.body)['id']);
+                            .then((response) async {
+                          serverManager
+                              .getRequest(
+                            'items',
+                            'Jobs',
+                          )
+                              .then((newList) {
+                            jobs = json.decode(newList.body);
+                            widget.callback(jobs);
+                            Navigator.of(context, rootNavigator: true).pop();
+                          });
                         });
-                        widget.callback(jobs);
-                        Navigator.of(context, rootNavigator: true).pop();
                       },
                     ),
                   ],

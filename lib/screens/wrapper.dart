@@ -1,19 +1,36 @@
-import 'package:baby_sitter/models/AppUser.dart';
-import 'package:baby_sitter/screens/filter_screen.dart';
-import 'package:baby_sitter/screens/welcome_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+// import 'package:flutter/material.dart';
 
-class Wrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final user = Provider.of<AppUser?>(context);
-    print(user);
-    if (user == null) {
-      return WelcomeScreen();
-    } else {
-      print(user.uid);
-      return FilterScreen();
-    }
-  }
-}
+// class HotRestartController extends StatefulWidget {
+//   final Widget child;
+
+//   HotRestartController({required this.child});
+
+//   static performHotRestart(BuildContext context) {
+//     final _HotRestartControllerState? state =
+//         context.findAncestorStateOfType<_HotRestartControllerState>();
+//     state!.performHotRestart();
+//   }
+
+//   @override
+//   _HotRestartControllerState createState() => new _HotRestartControllerState();
+
+//   static void restartApp(BuildContext context) {}
+// }
+
+// class _HotRestartControllerState extends State<HotRestartController> {
+//   Key key = new UniqueKey();
+
+//   void performHotRestart() {
+//     this.setState(() {
+//       key = new UniqueKey();
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return new Container(
+//       key: key,
+//       child: widget.child,
+//     );
+//   }
+// }

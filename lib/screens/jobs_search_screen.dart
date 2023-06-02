@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/widgets/job_post.dart';
 import 'package:flutter/material.dart';
 import '../server_manager.dart';
@@ -44,11 +45,15 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              NewPost(
-                callback: updateJobs,
-                publisherName:
-                    '${decoded_user_body['firstName']} ${decoded_user_body['lastName']}',
-              ),
+              (!AppUser.getUserKind()
+                  ? NewPost(
+                      callback: updateJobs,
+                      publisherName: decoded_user_body['firstName'] +
+                          ' ' +
+                          decoded_user_body['lastName'],
+                      parentId: decoded_user_body['uid'],
+                    )
+                  : SizedBox()),
               FutureBuilder<List<dynamic>>(
                 future: jobsFuture,
                 builder: (context, snapshot) {
@@ -62,14 +67,20 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
                     // Once the future completes successfully, render the list
                     List? jobs = snapshot.data;
                     return Column(
-                      children: jobs != null
-                          ? jobs.reversed.map((job) {
+                      children: jobs != null && !jobs.isEmpty
+                          ? (jobs.map((job) {
                               return JobPost(
+                                callback: updateJobs,
                                 job: job,
                                 hide: true,
                               );
-                            }).toList()
-                          : [Text('No Posts Yet')],
+                            }).toList())
+                          : [
+                              Container(
+                                padding: EdgeInsets.only(top: 10),
+                                child: Text('No Posts Yet'),
+                              )
+                            ],
                     );
                   }
                 },
@@ -81,60 +92,3 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
     );
   }
 }
-
-
-// class _JobsSearchScreenState extends State<JobsSearchScreen> {
-//   List<dynamic> jobs = [];
-//   void jobsPosts() async {
-//     await ServerManager().getRequest('items', 'Jobs').then((res) {
-//       print(res.body);
-//       jobs = json.decode(res.body);
-//     });
-//   }
-
-//   callback(List newJobs) {
-//     setState(() {
-//       jobs = newJobs;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     var decoded_user_body = json.decode(widget.user_body);
-//     jobsPosts();
-//     // return Scaffold(
-//     //   // appBar: AppBar(
-//     //   //   title: Text('Jobs Search'),
-//     //   //   centerTitle: true,
-//     //   //   backgroundColor: Color.fromARGB(255, 219, 163, 154),
-//     //   // ),
-//     //   body:
-//     return Center(
-//       child: Container(
-//         alignment: Alignment.topCenter,
-//         padding: EdgeInsets.all(10),
-//         child: SingleChildScrollView(
-//           child: Column(
-//             children: [
-//               NewPost(
-//                 callback: callback,
-//                 publisherName: decoded_user_body['firstName'] +
-//                     ' ' +
-//                     decoded_user_body['lastName'],
-//               ),
-//               ...jobs.reversed.map(
-//                 (job) {
-//                   return JobPost(
-//                     job: job,
-//                     hide: true,
-//                   );
-//                 },
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//       // ),
-//     );
-//   }
-// }
