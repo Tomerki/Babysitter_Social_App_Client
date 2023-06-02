@@ -19,7 +19,7 @@ class BabysitterDescription extends StatelessWidget {
       ),
       margin: EdgeInsets.all(10),
       padding: EdgeInsets.all(10),
-      height: pageHight * 0.2,
+      height: pageHight * 0.25,
       width: pagewidth * 0.9,
       child: SingleChildScrollView(
         child: Column(

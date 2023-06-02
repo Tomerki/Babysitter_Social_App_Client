@@ -14,7 +14,7 @@ class BabysitterMiddlePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: pageHight * 0.2,
+      height: pageHight * 0.4,
       width: pagewidth * 0.9,
       child: Row(
         children: [
