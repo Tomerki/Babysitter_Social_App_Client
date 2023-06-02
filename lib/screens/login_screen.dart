@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               final type =
                                   isBabysitter ? 'Babysitter' : 'Parent';
-                              AppUser(
+                              AppUser.updateInstance(
                                 uid: result.uid.toString(),
                                 isBabysitter: isBabysitter,
                                 userType: type,

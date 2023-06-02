@@ -27,6 +27,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
     final response = await ServerManager().getRequest(
         'get_inner_collection/' + AppUser.getUid() + '/notification',
         AppUser.getUserType());
+    print(AppUser.getUid());
+    print(AppUser.getUserType());
     final decodedBody = json.decode(response.body);
     return decodedBody;
   }
