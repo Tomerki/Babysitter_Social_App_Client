@@ -7,11 +7,27 @@ import 'package:baby_sitter/widgets/loading.dart';
 import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/src/response.dart';
 
 import '../models/appUser.dart';
+import 'babysitter_main_screen.dart';
 
 class EditBabysitterProfileScreen extends StatefulWidget {
+  final Map<String, bool> texts;
+  String? about;
+  double? price;
+  String? age;
+  // final String? about;
+
   static const routeName = 'babysitter-register-screen';
+
+  EditBabysitterProfileScreen({
+    super.key,
+    required this.texts,
+    this.about = '',
+    this.price = -0.1,
+    this.age = '18',
+  });
 
   @override
   State<EditBabysitterProfileScreen> createState() =>
@@ -35,26 +51,27 @@ class _EditBabysitterProfileScreenState
 
   final _formKey2 = GlobalKey<FormState>();
   File? _imageFile;
-  String about = '';
+  // String about = '';
   TextEditingController _aboutController = TextEditingController(text: '');
 
-  double price = -1.0;
-  String age = '18';
+  // double price = -1.0;
+  // String age = '18';
   List<String> ageList =
       List.generate(165, (index) => (18 + (index * 0.5)).toStringAsFixed(1));
 
-  Map<String, bool> texts = {
-    'Come to client': false,
-    'In my place': false,
-    'Takes to/from activities': false,
-    'Knows how to cook': false,
-    'First aid certified': false,
-    'Helping with housework': false,
-    'Has a driver\'s license': false,
-    'Change a diaper': false,
-    'Has past experience': false,
-    'Has an education in education': false,
-  };
+  // Map<String, bool> texts = {
+  //   'Come to client': false,
+  //   'In my place': false,
+  //   'Takes to/from activities': false,
+  //   'Knows how to cook': false,
+  //   'First aid certified': false,
+  //   'Helping with housework': false,
+  //   'Has a driver\'s license': false,
+  //   'Change a diaper': false,
+  //   'Has past experience': false,
+  //   'Has an education in education': false,
+  // };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,8 +86,9 @@ class _EditBabysitterProfileScreenState
             return Text('Error: ${snapshot.error}');
           } else {
             dynamic babysitter = snapshot.data;
-            _aboutController.text = babysitter['about'];
-            about = babysitter['about'];
+
+            // about = babysitter['about'];
+            // price = babysitter['price'];
 
             return Container(
               width: MediaQuery.of(context).size.width,
@@ -136,7 +154,7 @@ class _EditBabysitterProfileScreenState
                               // controller: _aboutController,
                               onChanged: (value) {
                                 setState(() {
-                                  about = value;
+                                  widget.about = value;
                                 });
                               },
                               maxLines: 6,
@@ -161,7 +179,7 @@ class _EditBabysitterProfileScreenState
                           }).toList(),
                           onChanged: (value) {
                             setState(() {
-                              age = value!;
+                              widget.age = value!;
                             });
                           },
                           hint: Text(
@@ -181,7 +199,7 @@ class _EditBabysitterProfileScreenState
                           keyboardType: TextInputType.number,
                           onChanged: (value) {
                             setState(() {
-                              price = double.parse(value);
+                              widget.price = double.parse(value);
                             });
                           },
                         ),
@@ -197,13 +215,13 @@ class _EditBabysitterProfileScreenState
                           ),
                         ),
                       ),
-                      ...texts.keys.map(
+                      ...widget.texts.keys.map(
                         (key) {
                           return CheckboxListTile(
-                            value: texts[key],
+                            value: widget.texts[key],
                             onChanged: (val) {
                               setState(() {
-                                texts[key] = val!;
+                                widget.texts[key] = val!;
                               });
                             },
                             title: Text(key),
@@ -212,53 +230,94 @@ class _EditBabysitterProfileScreenState
                         },
                       ),
                       Divider(),
-                      CircleButtonOne(
-                        handler: () async {
-                          await ServerManager()
-                              .putRequest(
-                                'items/' + AppUser.getUid(),
-                                'Babysitter',
-                                body: jsonEncode(
-                                  {
-                                    'price': price == '' ? 0 : price,
-                                    'about': about,
-                                    'age': age,
-                                    'ComeToClient':
-                                        texts['Come to client'].toString(),
-                                    'InMyPlace':
-                                        texts['In my place'].toString(),
-                                    'HelpingWithHouseWork':
-                                        texts['Helping with housework']
-                                            .toString(),
-                                    'KnowsHowToCook':
-                                        texts['Knows how to cook'].toString(),
-                                    'FirstAidCertified':
-                                        texts['First aid certified'].toString(),
-                                    'HasDriverLicense':
-                                        texts['Has a driver\'s license']
-                                            .toString(),
-                                    'HasPastExperience':
-                                        texts['Has past experience'].toString(),
-                                    'HasAnEducationInEducation':
-                                        texts['Has an education in education']
-                                            .toString(),
-                                    'TakesToActivities':
-                                        texts['Takes to/from activities']
-                                            .toString(),
-                                    'ChangeADiaper':
-                                        texts['Change a diaper'].toString(),
-                                  },
-                                ),
-                              )
-                              .then((value) => Navigator.of(context).pop());
-                        },
-                        text: 'Save Changes',
-                        cWidth: 0.8,
-                        cHeight: 0.1,
-                        cPaddingBottom: 20,
-                        bgColor: Colors.black,
-                        textColor: Colors.white,
-                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CircleButtonOne(
+                              handler: () async {
+                                await ServerManager()
+                                    .putRequest(
+                                  'items/' + AppUser.getUid(),
+                                  'Babysitter',
+                                  body: jsonEncode(
+                                    {
+                                      'price':
+                                          widget.price == '' ? 0 : widget.price,
+                                      'about': widget.about,
+                                      'age': widget.age,
+                                      'ComeToClient': widget
+                                          .texts['Come to client']
+                                          .toString(),
+                                      'InMyPlace': widget.texts['In my place']
+                                          .toString(),
+                                      'HelpingWithHouseWork': widget
+                                          .texts['Helping with housework']
+                                          .toString(),
+                                      'KnowsHowToCook': widget
+                                          .texts['Knows how to cook']
+                                          .toString(),
+                                      'FirstAidCertified': widget
+                                          .texts['First aid certified']
+                                          .toString(),
+                                      'HasDriverLicense': widget
+                                          .texts['Has a driver\'s license']
+                                          .toString(),
+                                      'HasPastExperience': widget
+                                          .texts['Has past experience']
+                                          .toString(),
+                                      'HasAnEducationInEducation': widget.texts[
+                                              'Has an education in education']
+                                          .toString(),
+                                      'TakesToActivities': widget
+                                          .texts['Takes to/from activities']
+                                          .toString(),
+                                      'ChangeADiaper': widget
+                                          .texts['Change a diaper']
+                                          .toString(),
+                                    },
+                                  ),
+                                )
+                                    .then((value) async {
+                                  await ServerManager()
+                                      .getRequest('items/' + AppUser.getUid(),
+                                          'Babysitter')
+                                      .then((val) {
+                                    Navigator.of(context).popAndPushNamed(
+                                      BabysitterMainScreen.routeName,
+                                      arguments: val.body,
+                                    );
+                                  });
+                                });
+                              },
+                              text: 'Save Changes',
+                              cHeight: 0.1,
+                              cPaddingBottom: 20,
+                              bgColor: Colors.black,
+                              textColor: Colors.white,
+                            ),
+                          ),
+                          Expanded(
+                            child: CircleButtonOne(
+                              handler: () async {
+                                await ServerManager()
+                                    .getRequest('items/' + AppUser.getUid(),
+                                        'Babysitter')
+                                    .then((val) {
+                                  Navigator.of(context).popAndPushNamed(
+                                    BabysitterMainScreen.routeName,
+                                    arguments: val.body,
+                                  );
+                                });
+                              },
+                              text: 'Cancel',
+                              cHeight: 0.1,
+                              cPaddingBottom: 20,
+                              bgColor: Color.fromARGB(255, 81, 26, 26),
+                              textColor: Colors.white,
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
