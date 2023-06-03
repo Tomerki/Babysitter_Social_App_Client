@@ -32,6 +32,7 @@ class _JobPostState extends State<JobPost> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 170, left: 8.0),
