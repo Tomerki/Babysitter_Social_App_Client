@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:baby_sitter/widgets/loading.dart';
 import 'package:baby_sitter/widgets/new_recommendation.dart';
 import 'package:baby_sitter/widgets/recommendation_post.dart';
 import 'package:flutter/material.dart';
@@ -73,42 +74,37 @@ class _BabysitterRecommendationScreenState
         backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
       body: Center(
-        child: Container(
-          alignment: Alignment.topCenter,
-          padding: EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                FutureBuilder<List<dynamic>>(
-                  future: recommendationsFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      // While waiting for the future to complete, show a progress indicator
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      // If there's an error, display an error message
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      // Once the future completes successfully, render the list
-                      List? recommendations = snapshot.data;
-                      return Column(
-                        children: (recommendations != null &&
-                                recommendations.isNotEmpty)
-                            ? recommendations.map((recommendation) {
-                                return RecommendationPost(
-                                  recommendation: recommendation,
-                                  hide: true,
-                                );
-                              }).toList()
-                            : [Text('No Results')],
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
+        // child: Container(
+        //   alignment: Alignment.topCenter,
+        //   padding: EdgeInsets.all(10),
+        child: FutureBuilder<List<dynamic>>(
+          future: recommendationsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // While waiting for the future to complete, show a progress indicator
+              return Loading();
+            } else if (snapshot.hasError) {
+              // If there's an error, display an error message
+              return Text('Error: ${snapshot.error}');
+            } else {
+              // Once the future completes successfully, render the list
+              List? recommendations = snapshot.data;
+              return Column(
+                children:
+                    (recommendations != null && recommendations.isNotEmpty)
+                        ? recommendations.map((recommendation) {
+                            return RecommendationPost(
+                              recommendation: recommendation,
+                              hide: true,
+                            );
+                          }).toList()
+                        : [Text('No Results')],
+              );
+            }
+          },
         ),
+
+        // ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: showFloatingActionButton

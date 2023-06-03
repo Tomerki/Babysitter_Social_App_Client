@@ -127,8 +127,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               final type =
                                   isBabysitter ? 'Babysitter' : 'Parent';
-                              AppUser.setUserKind(isBabysitter);
-                              AppUser.setUserType(type);
+                              AppUser.updateInstance(
+                                uid: result.uid.toString(),
+                                isBabysitter: isBabysitter,
+                                userType: type,
+                              );
                               if (isBabysitter) {
                                 await ServerManager()
                                     .getRequest(

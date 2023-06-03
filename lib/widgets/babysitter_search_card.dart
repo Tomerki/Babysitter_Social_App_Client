@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../server_manager.dart';
 
@@ -38,13 +39,21 @@ class _BabysitterSearchCardState extends State<BabysitterSearchCard> {
               .getRequest(
                   'search/email/' + widget.babysitter_email, 'Babysitter')
               .then((user) {
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    fullscreenDialog: true,
-                    builder: (context) => new BabysitterProfileScreen(
-                          user_body: user.body,
-                        )));
+            PersistentNavBarNavigator.pushNewScreen(
+              context,
+              // settings: RouteSettings(name: FilterScreen.routeName),
+              screen: BabysitterProfileScreen(
+                user_body: user.body,
+              ),
+              withNavBar: false,
+            );
+            // Navigator.push(
+            //     context,
+            //     new MaterialPageRoute(
+            //         fullscreenDialog: true,
+            //         builder: (context) => new BabysitterProfileScreen(
+            //               user_body: user.body,
+            //             )));
           });
         },
         child: ListTile(

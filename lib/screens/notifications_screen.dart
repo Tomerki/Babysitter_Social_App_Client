@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:baby_sitter/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import '../models/appUser.dart';
 import '../models/notification.dart';
@@ -27,6 +28,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
     final response = await ServerManager().getRequest(
         'get_inner_collection/' + AppUser.getUid() + '/notification',
         AppUser.getUserType());
+    print(AppUser.getUid());
+    print(AppUser.getUserType());
     final decodedBody = json.decode(response.body);
     return decodedBody;
   }
@@ -37,21 +40,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
-  final List<AppNotification> notifications = [
-    AppNotification(
-      title: 'New Message',
-      message: 'You have a new message from John.',
-    ),
-    AppNotification(
-      title: 'Friend Request',
-      message: 'You received a friend request from Lisa.',
-    ),
-    AppNotification(
-      title: 'Reminder',
-      message: 'Don\'t forget to attend the meeting at 3 PM.',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -60,7 +48,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // While waiting for the future to complete, show a progress indicator
-            return CircularProgressIndicator();
+            return Loading();
           } else if (snapshot.hasError) {
             // If there's an error, display an error message
             return Text('Error: ${snapshot.error}');
@@ -86,11 +74,5 @@ class _NotificationScreenState extends State<NotificationScreen> {
         },
       ),
     );
-    // ListView.builder(
-    //   itemCount: notifications.length,
-    //   itemBuilder: (context, index) {
-    //     return NotificationWidget(notification: notifications[index]);
-    //   },
-    // );
   }
 }

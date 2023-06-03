@@ -22,11 +22,12 @@ class _RecommendationPostState extends State<RecommendationPost> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 170, left: 8.0),
                   child: Text(
-                    'Full Name',
+                    '${widget.recommendation['parent_fullName']}',
                     style: TextStyle(fontSize: 20),
                   ),
                 ),

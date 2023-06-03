@@ -1,8 +1,12 @@
+import 'dart:ffi';
+
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:baby_sitter/screens/jobs_search_screen.dart';
 import 'package:baby_sitter/screens/notifications_screen.dart';
+import 'package:baby_sitter/server_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -21,6 +25,8 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
   List<Widget> _screens = [];
   List<String> _screenName = [];
   String screen_name = '';
+  String? user_body;
+
   @override
   void initState() {
     super.initState();
@@ -29,16 +35,18 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
 
   @override
   void didChangeDependencies() {
-    String user_body = ModalRoute.of(context)!.settings.arguments as String;
+    if (user_body == null) {
+      user_body = ModalRoute.of(context)!.settings.arguments as String;
+    }
     _screens = [
       JobsSearchScreen(
-        user_body: user_body,
+        user_body: user_body!,
       ),
       NotificationScreen(),
       BabysitterSearchScreen(),
       ChatsScreen(),
       BabysitterProfileScreen(
-        user_body: user_body,
+        user_body: user_body!,
       )
     ];
     _screenName = [
@@ -49,6 +57,13 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
       'Your Profile'
     ];
     super.didChangeDependencies();
+  }
+
+  void updateUser(String edit_user) {
+    // print("updateUser updateUser updateUser updateUser updateUser");
+    setState(() {
+      user_body = edit_user;
+    });
   }
 
   @override

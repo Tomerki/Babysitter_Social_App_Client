@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/widgets/job_post.dart';
+import 'package:baby_sitter/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import '../server_manager.dart';
 import '../widgets/new_post.dart';
@@ -41,52 +42,47 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
     return Center(
       child: Container(
         alignment: Alignment.topCenter,
-        padding: EdgeInsets.all(10),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              (!AppUser.getUserKind()
-                  ? NewPost(
+        child: FutureBuilder<List<dynamic>>(
+          future: jobsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // While waiting for the future to complete, show a progress indicator
+              return Loading();
+            } else if (snapshot.hasError) {
+              // If there's an error, display an error message
+              return Text('Error: ${snapshot.error}');
+            } else {
+              // Once the future completes successfully, render the list
+              List? jobs = snapshot.data;
+              return Column(children: [
+                (!AppUser.getUserKind()
+                    ? Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: NewPost(
+                          callback: updateJobs,
+                          publisherName: decoded_user_body['firstName'] +
+                              ' ' +
+                              decoded_user_body['lastName'],
+                          parentId: decoded_user_body['uid'],
+                        ),
+                      )
+                    : SizedBox()),
+                if (jobs != null && !jobs.isEmpty)
+                  ...jobs.map((job) {
+                    return JobPost(
                       callback: updateJobs,
-                      publisherName: decoded_user_body['firstName'] +
-                          ' ' +
-                          decoded_user_body['lastName'],
-                      parentId: decoded_user_body['uid'],
-                    )
-                  : SizedBox()),
-              FutureBuilder<List<dynamic>>(
-                future: jobsFuture,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    // While waiting for the future to complete, show a progress indicator
-                    return CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    // If there's an error, display an error message
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    // Once the future completes successfully, render the list
-                    List? jobs = snapshot.data;
-                    return Column(
-                      children: jobs != null && !jobs.isEmpty
-                          ? (jobs.map((job) {
-                              return JobPost(
-                                callback: updateJobs,
-                                job: job,
-                                hide: true,
-                              );
-                            }).toList())
-                          : [
-                              Container(
-                                padding: EdgeInsets.only(top: 10),
-                                child: Text('No Posts Yet'),
-                              )
-                            ],
+                      job: job,
+                      hide: true,
                     );
-                  }
-                },
-              ),
-            ],
-          ),
+                  }).toList()
+                else
+                  Container(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Text('No Posts Yet'),
+                  ),
+              ]);
+            }
+          },
         ),
       ),
     );
