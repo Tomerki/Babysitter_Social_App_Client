@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../models/appUser.dart';
 import '../models/notification.dart';
 import '../screens/babysitter_profile_screen.dart';
@@ -65,13 +66,13 @@ class _NotificationWidgetState extends State<NotificationWidget> {
               .getRequest(
                   'items/' + widget.notification["babysitter_id"], 'Babysitter')
               .then((user) {
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    fullscreenDialog: true,
-                    builder: (context) => new BabysitterProfileScreen(
-                          user_body: user.body,
-                        )));
+            PersistentNavBarNavigator.pushNewScreen(
+              context,
+              screen: BabysitterProfileScreen(
+                user_body: user.body,
+              ),
+              withNavBar: false,
+            );
           });
         } else if (widget.notification["type"] == "new recommendation") {
           await ServerManager()

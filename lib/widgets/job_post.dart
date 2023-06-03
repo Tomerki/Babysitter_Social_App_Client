@@ -32,6 +32,7 @@ class _JobPostState extends State<JobPost> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 170, left: 8.0),
@@ -110,7 +111,7 @@ class _JobPostState extends State<JobPost> {
                                       'babysitter_id': AppUser.getUid(),
                                       'job_id': (widget.job)['doc_id'],
                                       'was_tap': false,
-                                      'type': " job bell",
+                                      'type': "job bell",
                                     },
                                   ));
                             },

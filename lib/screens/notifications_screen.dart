@@ -40,21 +40,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
     });
   }
 
-  final List<AppNotification> notifications = [
-    AppNotification(
-      title: 'New Message',
-      message: 'You have a new message from John.',
-    ),
-    AppNotification(
-      title: 'Friend Request',
-      message: 'You received a friend request from Lisa.',
-    ),
-    AppNotification(
-      title: 'Reminder',
-      message: 'Don\'t forget to attend the meeting at 3 PM.',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -89,11 +74,5 @@ class _NotificationScreenState extends State<NotificationScreen> {
         },
       ),
     );
-    // ListView.builder(
-    //   itemCount: notifications.length,
-    //   itemBuilder: (context, index) {
-    //     return NotificationWidget(notification: notifications[index]);
-    //   },
-    // );
   }
 }
