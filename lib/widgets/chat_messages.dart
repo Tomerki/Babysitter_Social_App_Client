@@ -1,21 +1,22 @@
-import 'package:baby_sitter/models/AppUser.dart';
+import 'package:baby_sitter/services/auth.dart';
 import 'package:baby_sitter/widgets/message_bubble.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ChatMessages extends StatelessWidget {
-  const ChatMessages({super.key});
+  String secondUserUid;
+  String chatId;
+  ChatMessages({super.key, required this.secondUserUid, required this.chatId});
 
   @override
   Widget build(BuildContext context) {
     final authenticatedUser = FirebaseAuth.instance.currentUser!;
 
     return StreamBuilder(
-      stream: FirebaseFirestore.instance
-          .collection(AppUser.getUserType())
-          .doc(AppUser.getUid())
-          .collection('chats')
+      stream: AuthService.firestore
+          .collection('Chats')
+          .doc(chatId)
+          .collection('Messages')
           .orderBy(
             'createdAt',
             descending: true,
@@ -54,9 +55,9 @@ class ChatMessages extends StatelessWidget {
               final nextChatMessage = index + 1 < loadedMessages.length
                   ? loadedMessages[index + 1].data()
                   : null;
-              final currentMessageUserId = chatMessage['userId'];
+              final currentMessageUserId = chatMessage['uid'];
               final nextMessageUserId =
-                  nextChatMessage != null ? nextChatMessage['userId'] : null;
+                  nextChatMessage != null ? nextChatMessage['uid'] : null;
               final nextUserIsSame = nextMessageUserId == currentMessageUserId;
 
               if (nextUserIsSame) {
@@ -66,8 +67,8 @@ class ChatMessages extends StatelessWidget {
                 );
               } else {
                 return MessageBubble.first(
-                  userImage: chatMessage['image'],
-                  username: chatMessage['firstName'],
+                  userImage: chatMessage['userImage'],
+                  username: chatMessage['username'],
                   message: chatMessage['text'],
                   isMe: authenticatedUser.uid == currentMessageUserId,
                 );

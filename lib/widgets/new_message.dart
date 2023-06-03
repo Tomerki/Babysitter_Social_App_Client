@@ -1,3 +1,4 @@
+import 'package:baby_sitter/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/appUser.dart';
 
 class NewMessage extends StatefulWidget {
-  NewMessage({super.key});
+  String secondUserUid;
+  String chatId, type;
+  NewMessage({
+    super.key,
+    required this.secondUserUid,
+    required this.chatId,
+    required this.type,
+  });
 
   @override
   State<NewMessage> createState() => _NewMessageState();
@@ -13,7 +21,6 @@ class NewMessage extends StatefulWidget {
 
 class _NewMessageState extends State<NewMessage> {
   final _messageController = TextEditingController();
-  bool type = AppUser.getUserKind();
 
   @override
   void dispose() {
@@ -30,23 +37,55 @@ class _NewMessageState extends State<NewMessage> {
     // FocusScope.of(context).unfocus();
     _messageController.clear();
 
-    String collectionName = type ? 'Babysitter' : 'Parent';
+    String collectionName = AppUser.getUserType();
     final user = FirebaseAuth.instance.currentUser!;
+
     final userData = await FirebaseFirestore.instance
         .collection(collectionName)
         .doc(AppUser.getUid())
         .get();
 
-    FirebaseFirestore.instance
+    final secondUserData = await AuthService.firestore
+        .collection(widget.type)
+        .where('uid', isEqualTo: widget.secondUserUid)
+        .get();
+
+    final secondData = secondUserData.docs.first.data();
+
+    AuthService.firestore
         .collection(AppUser.getUserType())
         .doc(AppUser.getUid())
         .collection('chats')
+        .doc(widget.secondUserUid)
+        .update({
+      'lastMessage': enteredMessage,
+      'lastMessageDate': Timestamp.now(),
+      'fullName': secondData['fullName'],
+      'userImage': secondData['image'],
+    });
+
+    AuthService.firestore
+        .collection(widget.type)
+        .doc(widget.secondUserUid)
+        .collection('chats')
+        .doc(AppUser.getUid())
+        .update({
+      'lastMessage': enteredMessage,
+      'lastMessageDate': Timestamp.now(),
+      'fullName': userData['fullName'],
+      'userImage': userData['image'],
+    });
+
+    await FirebaseFirestore.instance
+        .collection('Chats')
+        .doc(widget.chatId)
+        .collection('Messages')
         .add({
       'text': enteredMessage,
       'createdAt': DateFormat('hh:mm a').format(Timestamp.now().toDate()),
-      'userId': user.uid,
-      'username': userData.data()!['firstName'],
+      'username': userData.data()!['fullName'],
       'userImage': userData.data()!['image'],
+      'uid': user.uid
     });
   }
 

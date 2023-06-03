@@ -49,6 +49,7 @@ dependencies:
   flutter_chat_ui: ^1.6.6
   persistent_bottom_nav_bar: ^5.0.2
   firebase_storage: ^11.2.1
+  tuple: ^2.0.1
 
 dev_dependencies:
   flutter_test:
