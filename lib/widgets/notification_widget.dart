@@ -125,7 +125,82 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                 );
               },
             );
-            print(json.decode(value.body)['created']);
+            // print(json.decode(value.body)['created']);
+          });
+        } else if (widget.notification["type"] == "new job request") {
+          await ServerManager()
+              .getRequest(
+                  'get_inner_item_collection/' +
+                      AppUser.getUid() +
+                      '/' +
+                      (widget.notification)['jobRequest_id'] +
+                      '/jobRequest',
+                  AppUser.getUserType())
+              .then((value) {
+            print(value.body);
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return StatefulBuilder(
+                  builder: (context, setState) {
+                    return AlertDialog(
+                      contentPadding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+                      scrollable: true,
+                      title: Text('Details about the job:'),
+                      content: Card(
+                        elevation: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'job date: ${json.decode(value.body)['date']}\n' +
+                                    'hours: ${json.decode(value.body)['startHour']} - ${json.decode(value.body)['endHour']}\n',
+                              ),
+                              Text(
+                                'description: ${json.decode(value.body)['description']}',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      actions: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextButton(
+                                child: Text("chat with the parent"),
+                                onPressed: () async {
+                                  // final put_body = json.decode(value.body);
+                                  // put_body['is_confirmed'] = true;
+                                  // await ServerManager().putRequest(
+                                  //   'put_inner_item_collection/' +
+                                  //       AppUser.getUid() +
+                                  //       '/' +
+                                  //       (widget.notification)['recommendation_id'] +
+                                  //       '/recommendation',
+                                  //   AppUser.getUserType(),
+                                  //   body: jsonEncode(put_body),
+                                  // );
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
+                                }),
+                            TextButton(
+                                child: Text("close"),
+                                onPressed: () async {
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
+                                }),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            );
           });
         }
 

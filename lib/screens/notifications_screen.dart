@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:baby_sitter/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import '../models/appUser.dart';
 import '../models/notification.dart';
@@ -27,6 +28,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
     final response = await ServerManager().getRequest(
         'get_inner_collection/' + AppUser.getUid() + '/notification',
         AppUser.getUserType());
+    print(AppUser.getUid());
+    print(AppUser.getUserType());
     final decodedBody = json.decode(response.body);
     return decodedBody;
   }
@@ -60,7 +63,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // While waiting for the future to complete, show a progress indicator
-            return CircularProgressIndicator();
+            return Loading();
           } else if (snapshot.hasError) {
             // If there's an error, display an error message
             return Text('Error: ${snapshot.error}');

@@ -1,4 +1,5 @@
 import 'package:baby_sitter/models/appUser.dart';
+import 'package:baby_sitter/screens/edit_babysitter_profile_screen.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:baby_sitter/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
@@ -34,22 +35,21 @@ class MainDrawer extends StatelessWidget {
           SizedBox(
             height: 50,
           ),
-          buildListTile(
-            'Settings',
-            Icons.settings,
-            () {
-              // Navigator.of(context).pushReplacementNamed('/');
+          ListTile(
+            leading: Icon(
+              Icons.settings,
+              size: 26,
+            ),
+            title: Text(
+              'Settings',
+            ),
+            onTap: () async {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditBabysitterProfileScreen()));
             },
           ),
-          // buildListTile(
-          //   'Last Orders',
-          //   Icons.shopping_cart,
-          //   () {
-          //     // dynamic result = await _auth.singOut;
-          //     // Navigator.of(context)
-          //     //     .pushReplacementNamed(FilterScreen.routename);
-          //   },
-          // ),
           ListTile(
             leading: Icon(
               Icons.logout,
@@ -63,16 +63,6 @@ class MainDrawer extends StatelessWidget {
               await _auth.singOut();
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) => WelcomeScreen()));
-              // dynamic result = await _auth.singOut().then((value) {
-              //   Navigator.of(context, rootNavigator: true).pop();
-              //   Navigator.of(context).pushNamedAndRemoveUntil(
-              //     WelcomeScreen.routeName,
-              //     (Route<dynamic> route) => false,
-              //   );
-              //   // Navigator.of(context).popAndPushNamed(WelcomeScreen.routeName);
-              //   // AppUser.deleteInstance();
-              //   // HotRestartController.restartApp(context);
-              // });
             },
           ),
         ],

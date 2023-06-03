@@ -1,7 +1,4 @@
 import 'dart:convert';
-import 'package:baby_sitter/models/AppUser.dart';
-import 'package:baby_sitter/screens/chat_page_screen.dart';
-import 'package:baby_sitter/services/auth.dart';
 import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +8,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import '../models/appUser.dart';
 import '../server_manager.dart';
+import '../widgets/schedule_with_babysitter.dart';
 import 'babysitter_recommendations_screen.dart';
 
 class BabysitterProfileScreen extends StatefulWidget {
@@ -218,216 +216,285 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     }
   }
 
+  AppBar build_appBar(var decoded_user_body) {
+    return AppBar(
+      centerTitle: true,
+      title: Text(decoded_user_body['fullName'] + ' ' + "profile"),
+      backgroundColor: Color.fromARGB(255, 219, 163, 154),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var decoded_user_body = json.decode(widget.user_body);
     MediaQueryData queryData = MediaQuery.of(context);
+
+    // AppUser.getUid() == decoded_user_body['uid'] ?
     // return Scaffold(
-
-    //   floatingActionButton: Row(
-    //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //     children: [
-    //       ElevatedButton(
-    //         onPressed: _presentDatePicker,
-    //         child: Text('  BOOK  '),
-    //         style: ElevatedButton.styleFrom(
-    //           foregroundColor: Colors.white,
-    //           backgroundColor: Color.fromARGB(255, 174, 194, 182),
-    //           padding: EdgeInsets.all(15),
-    //           textStyle: TextStyle(
-    //             color: Colors.black,
-    //             fontSize: 26,
-    //           ),
-    //           shape: RoundedRectangleBorder(
-    //             borderRadius: BorderRadius.circular(50),
-    //           ),
-    //           elevation: 5,
-    //         ),
-    //       ),
-    //       ElevatedButton(
-    //         onPressed: () {},
-    //         child: const Icon(
-    //           Icons.chat,
-    //           size: 26,
-    //         ),
-    //         style: ElevatedButton.styleFrom(
-    //           backgroundColor: Color.fromARGB(255, 183, 202, 219),
-    //           elevation: 5,
-    //           padding: EdgeInsets.all(15),
-    //           shape: RoundedRectangleBorder(
-    //               borderRadius: BorderRadius.circular(50)),
-    //         ),
-    //       ),
-    //     ],
-    //   ),
-    //   floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     //   body:
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 0),
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  Color.fromARGB(255, 252, 221, 232),
-                  Color.fromARGB(255, 250, 247, 248),
-                  Color.fromARGB(120, 164, 128, 141)
-                ],
-              ),
-            ),
-            // color: Colors.white70,
-            width: (queryData.size.width),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+    return AppUser.getUid() == decoded_user_body['uid']
+        ? SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        Color.fromARGB(255, 252, 221, 232),
+                        Color.fromARGB(255, 250, 247, 248),
+                        Color.fromARGB(120, 164, 128, 141)
+                      ],
+                    ),
+                  ),
+                  // color: Colors.white70,
+                  width: (queryData.size.width),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-
-                      IconButton(
-                        onPressed: () {
-                          // Navigator.of(context).pushNamed(
-                          //   ChatPageScreen.routeName,
-                          //   arguments: widget.user_body,
-                          // );
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  fullscreenDialog: true,
-                                  builder: (context) => new ChatPageScreen(
-                                      )));
-                      (!AppUser.getUserKind()
-                          ? IconButton(
-                              icon: isFavorite
-                                  ? Icon(
-                                      Icons.favorite,
-                                    )
-                                  : Icon(
-                                      Icons.favorite_border,
-                                    ),
-                              onPressed: () async {
-                                await ServerManager()
-                                    .getRequest(
-                                        'search/email/' +
-                                            json.decode(
-                                                widget.user_body)['email'],
-                                        'Babysitter')
-                                    .then((value) async {
-                                  if (!isFavorite) {
-                                    await ServerManager()
-                                        .updateElementFromArray(
-                                            'add_to_array/' + AppUser.getUid(),
-                                            'Parent', {
-                                      "field": "favorites",
-                                      "element": json.decode(value.body)['uid'],
-                                    });
-                                  } else {
-                                    await ServerManager()
-                                        .updateElementFromArray(
-                                            'delete_from_array/' +
-                                                AppUser.getUid(),
-                                            'Parent',
-                                            {
-                                          "field": "favorites",
-                                          "element":
-                                              json.decode(value.body)['uid'],
-                                        });
-                                  }
-                                });
-
-                                setState(() {
-                                  isFavorite = !isFavorite;
-                                });
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              child: Text("recommendation"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromARGB(255, 51, 65, 78),
+                                elevation: 5,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: () {
+                                PersistentNavBarNavigator.pushNewScreen(
+                                  context,
+                                  screen: BabysitterRecommendationScreen(
+                                    babysitter_id:
+                                        json.decode(widget.user_body)['uid'],
+                                  ),
+                                  withNavBar: false,
+                                );
                               },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Center(
+                        child: SizedBox(
+                          // width: (queryData.size.width) * 0.9,
+                          height: (queryData.size.height -
+                                  queryData.padding.top -
+                                  queryData.padding.bottom) *
+                              0.4,
+                          child: BabysitterUpperPage(
+                            pageHight: (queryData.size.height -
+                                queryData.padding.top -
+                                queryData.padding.bottom),
+                            pagewidth: queryData.size.width,
+                            name: decoded_user_body['firstName'] +
+                                ' ' +
+                                decoded_user_body['lastName'],
+                            age: decoded_user_body['age'],
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: BabysitterMiddlePage(
+                          pageHight: (queryData.size.height -
+                                  queryData.padding.top -
+                                  queryData.padding.bottom) *
+                              0.1,
+                          pagewidth: queryData.size.width,
+                          price: decoded_user_body['price'] > 0
+                              ? decoded_user_body['price'].toString() + '\$\h'
+                              : 'unknown price',
+                        ),
+                      ),
+                      BabysitterDescription(
+                        pageHight:
+                            queryData.size.height - queryData.padding.top,
+                        pagewidth: queryData.size.width,
+                        description: decoded_user_body['about'],
+                      ),
+                      !AppUser.getUserKind()
+                          ? Container(
+                              padding: EdgeInsets.only(top: 5, bottom: 30),
+                              child: ScheduleWithaBysitter(
+                                parentId: AppUser.getUid(),
+                                user_body: widget.user_body,
+                              ),
                             )
-                          : SizedBox()),
-                      ElevatedButton(
-                        child: Text("recommendation"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 51, 65, 78),
-                          elevation: 5,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () {
-                          PersistentNavBarNavigator.pushNewScreen(
-                            context,
-                            screen: BabysitterRecommendationScreen(
-                              babysitter_id:
-                                  json.decode(widget.user_body)['uid'],
-                            ),
-                            withNavBar: false,
-                          );
-                        },
-                        icon: Icon(
-                          Icons.message,
-                        ),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: queryData.size.width * 0.28),
-                        child: ElevatedButton(
-                          child: Text("recommendation"),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 51, 65, 78),
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) =>
-                                        new BabysitterRecommendationScreen()));
-                          },
-                        ),
-                      ),
+                          : SizedBox(),
                     ],
                   ),
                 ),
-                Center(
-                  child: SizedBox(
-                    // width: (queryData.size.width) * 0.9,
-                    height:
-                        (queryData.size.height - queryData.padding.top) * 0.4,
-                    child: BabysitterUpperPage(
-                      pageHight:
-                          (queryData.size.height - queryData.padding.top),
-                      pagewidth: queryData.size.width,
-                      name: decoded_user_body['firstName'] +
-                          ' ' +
-                          decoded_user_body['lastName'],
+              ),
+              // ),
+              // ),
+            ),
+          )
+        : Scaffold(
+            appBar: build_appBar(decoded_user_body),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 0),
+                child: Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.centerRight,
+                        colors: [
+                          Color.fromARGB(255, 252, 221, 232),
+                          Color.fromARGB(255, 250, 247, 248),
+                          Color.fromARGB(120, 164, 128, 141)
+                        ],
+                      ),
+                    ),
+                    // color: Colors.white70,
+                    width: (queryData.size.width),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              (!AppUser.getUserKind()
+                                  ? IconButton(
+                                      icon: isFavorite
+                                          ? Icon(
+                                              Icons.favorite,
+                                            )
+                                          : Icon(
+                                              Icons.favorite_border,
+                                            ),
+                                      onPressed: () async {
+                                        await ServerManager()
+                                            .getRequest(
+                                                'search/email/' +
+                                                    json.decode(widget
+                                                        .user_body)['email'],
+                                                'Babysitter')
+                                            .then((value) async {
+                                          if (!isFavorite) {
+                                            await ServerManager()
+                                                .updateElementFromArray(
+                                                    'add_to_array/' +
+                                                        AppUser.getUid(),
+                                                    'Parent',
+                                                    {
+                                                  "field": "favorites",
+                                                  "element": json.decode(
+                                                      value.body)['uid'],
+                                                });
+                                          } else {
+                                            await ServerManager()
+                                                .updateElementFromArray(
+                                                    'delete_from_array/' +
+                                                        AppUser.getUid(),
+                                                    'Parent',
+                                                    {
+                                                  "field": "favorites",
+                                                  "element": json.decode(
+                                                      value.body)['uid'],
+                                                });
+                                          }
+                                        });
+
+                                        setState(() {
+                                          isFavorite = !isFavorite;
+                                        });
+                                      },
+                                    )
+                                  : SizedBox()),
+                              ElevatedButton(
+                                child: Text("recommendation"),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Color.fromARGB(255, 51, 65, 78),
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  PersistentNavBarNavigator.pushNewScreen(
+                                    context,
+                                    screen: BabysitterRecommendationScreen(
+                                      babysitter_id:
+                                          json.decode(widget.user_body)['uid'],
+                                    ),
+                                    withNavBar: false,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        Center(
+                          child: SizedBox(
+                            // width: (queryData.size.width) * 0.9,
+                            height: (queryData.size.height -
+                                    queryData.padding.top -
+                                    -queryData.padding.bottom) *
+                                0.4,
+                            child: BabysitterUpperPage(
+                              pageHight: (queryData.size.height -
+                                  queryData.padding.top -
+                                  queryData.padding.bottom -
+                                  AppBar().preferredSize.height),
+                              pagewidth: queryData.size.width,
+                              name: decoded_user_body['firstName'] +
+                                  ' ' +
+                                  decoded_user_body['lastName'],
+                              age: decoded_user_body['age'],
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: BabysitterMiddlePage(
+                            pageHight: (queryData.size.height -
+                                    queryData.padding.top -
+                                    queryData.padding.bottom -
+                                    AppBar().preferredSize.height) *
+                                0.15,
+                            pagewidth: queryData.size.width,
+                            price: decoded_user_body['price'] > 0
+                                ? decoded_user_body['price'].toString() + '\$\h'
+                                : 'unknown price',
+                          ),
+                        ),
+                        BabysitterDescription(
+                          pageHight: (queryData.size.height -
+                                  queryData.padding.top -
+                                  queryData.padding.bottom -
+                                  AppBar().preferredSize.height) *
+                              1.2,
+                          pagewidth: queryData.size.width,
+                          description: decoded_user_body['about'],
+                        ),
+                        !AppUser.getUserKind()
+                            ? Container(
+                                padding: EdgeInsets.only(top: 5, bottom: 30),
+                                child: ScheduleWithaBysitter(
+                                  parentId: AppUser.getUid(),
+                                  user_body: widget.user_body,
+                                ),
+                              )
+                            : SizedBox(),
+                      ],
                     ),
                   ),
                 ),
-                Center(
-                  child: BabysitterMiddlePage(
-                    pageHight: (queryData.size.height - queryData.padding.top),
-                    pagewidth: queryData.size.width,
-                    price: decoded_user_body['price'] > 0
-                        ? decoded_user_body['price'].toString() + '\$\h'
-                        : 'unknown price',
-                  ),
-                ),
-                BabysitterDescription(
-                  pageHight: queryData.size.height - queryData.padding.top,
-                  pagewidth: queryData.size.width,
-                ),
-              ],
-            ),
-          ),
-        ),
-        // ),
-        // ),
-      ),
-    );
+                // ),
+                // ),
+              ),
+            ));
   }
 }
