@@ -243,9 +243,12 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                       begin: Alignment.topLeft,
                       end: Alignment.centerRight,
                       colors: [
-                        Color.fromARGB(255, 252, 221, 232),
-                        Color.fromARGB(255, 250, 247, 248),
-                        Color.fromARGB(120, 164, 128, 141)
+                        Color.fromARGB(188, 227, 183, 160),
+                        Color.fromARGB(255, 236, 232, 217),
+                        Color.fromARGB(255, 250, 246, 233),
+                        // Color.fromARGB(255, 252, 221, 232),
+                        // Color.fromARGB(255, 250, 247, 248),
+                        // Color.fromARGB(120, 164, 128, 141)
                       ],
                     ),
                   ),
@@ -349,9 +352,12 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                         begin: Alignment.topLeft,
                         end: Alignment.centerRight,
                         colors: [
-                          Color.fromARGB(255, 252, 221, 232),
-                          Color.fromARGB(255, 250, 247, 248),
-                          Color.fromARGB(120, 164, 128, 141)
+                          Color.fromARGB(188, 227, 183, 160),
+                          Color.fromARGB(255, 236, 232, 217),
+                          Color.fromARGB(255, 250, 246, 233),
+                          // Color.fromARGB(255, 252, 221, 232),
+                          // Color.fromARGB(255, 250, 247, 248),
+                          // Color.fromARGB(120, 164, 128, 141)
                         ],
                       ),
                     ),

@@ -125,7 +125,17 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
             screen_name = _screenName[index];
           });
         },
-        backgroundColor: Colors.white, // Default is Colors.white.
+        // gradient: LinearGradient(
+        //   begin: Alignment.topLeft,
+        //   end: Alignment.centerRight,
+        //   colors: [
+        //     Color.fromARGB(188, 227, 183, 160),
+        //     Color.fromARGB(255, 236, 232, 217),
+        //     Color.fromARGB(255, 250, 246, 233),
+        //   ],
+        // ),
+        backgroundColor:
+            Color.fromARGB(255, 250, 246, 233), // Default is Colors.white.
         handleAndroidBackButtonPress: true, // Default is true.
         resizeToAvoidBottomInset:
             true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.

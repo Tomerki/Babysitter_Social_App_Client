@@ -51,11 +51,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            end: Alignment.centerRight,
             colors: [
-              Color.fromARGB(255, 232, 226, 226),
-              Color.fromARGB(255, 189, 158, 158),
-              Color.fromARGB(255, 178, 157, 137),
+              Color.fromARGB(188, 227, 183, 160),
+              Color.fromARGB(255, 236, 232, 217),
+              Color.fromARGB(255, 250, 246, 233),
             ],
           ),
         ),

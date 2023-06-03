@@ -50,26 +50,11 @@ class _EditBabysitterProfileScreenState
 
   final _formKey2 = GlobalKey<FormState>();
   File? _imageFile;
-  // String about = '';
+
   TextEditingController _aboutController = TextEditingController(text: '');
 
-  // double price = -1.0;
-  // String age = '18';
   List<String> ageList =
       List.generate(165, (index) => (18 + (index * 0.5)).toStringAsFixed(1));
-
-  // Map<String, bool> texts = {
-  //   'Come to client': false,
-  //   'In my place': false,
-  //   'Takes to/from activities': false,
-  //   'Knows how to cook': false,
-  //   'First aid certified': false,
-  //   'Helping with housework': false,
-  //   'Has a driver\'s license': false,
-  //   'Change a diaper': false,
-  //   'Has past experience': false,
-  //   'Has an education in education': false,
-  // };
 
   @override
   Widget build(BuildContext context) {
@@ -97,9 +82,9 @@ class _EditBabysitterProfileScreenState
                   begin: Alignment.topLeft,
                   end: Alignment.centerRight,
                   colors: [
-                    Color.fromARGB(255, 201, 195, 195),
-                    Color.fromARGB(255, 179, 175, 175),
-                    Color.fromARGB(255, 183, 160, 160),
+                    Color.fromARGB(188, 227, 183, 160),
+                    Color.fromARGB(255, 236, 232, 217),
+                    Color.fromARGB(255, 250, 246, 233),
                   ],
                 ),
               ),
@@ -119,9 +104,9 @@ class _EditBabysitterProfileScreenState
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: const [
                                 Text(
-                                  'About',
+                                  'About   ',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black54,
                                     fontSize: 40,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -130,7 +115,7 @@ class _EditBabysitterProfileScreenState
                                 Text(
                                   'Me',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black54,
                                     fontSize: 30,
                                     fontWeight: FontWeight.w700,
                                   ),
