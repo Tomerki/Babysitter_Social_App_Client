@@ -17,7 +17,6 @@ class EditBabysitterProfileScreen extends StatefulWidget {
   String? about;
   double? price;
   String? age;
-  // final String? about;
 
   static const routeName = 'babysitter-register-screen';
 

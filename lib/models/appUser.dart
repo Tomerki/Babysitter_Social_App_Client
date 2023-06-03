@@ -35,6 +35,8 @@ class AppUser {
 
   static void setUserType(String type) {
     _instance?.userType = type;
+  }
+
   static bool isInstanceCreated() {
     return _instance != null;
   }
