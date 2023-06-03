@@ -56,12 +56,25 @@ class _BabysitterSearchCardState extends State<BabysitterSearchCard> {
             //             )));
           });
         },
-        child: ListTile(
-          leading: CircleAvatar(child: Icon(Icons.person)),
-          title: Text(widget.babysitter_name),
-          trailing: Icon(
-            Icons.arrow_right_sharp,
-            size: 26,
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.centerRight,
+              colors: [
+                Color.fromARGB(188, 227, 183, 160),
+                Color.fromARGB(255, 236, 232, 217),
+                Color.fromARGB(255, 250, 246, 233),
+              ],
+            ),
+          ),
+          child: ListTile(
+            leading: CircleAvatar(child: Icon(Icons.person)),
+            title: Text(widget.babysitter_name),
+            trailing: Icon(
+              Icons.arrow_right_sharp,
+              size: 26,
+            ),
           ),
         ),
       ),

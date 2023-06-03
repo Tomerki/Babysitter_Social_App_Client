@@ -158,7 +158,7 @@ class AuthService {
 
     // Check if the user exists in collection2
     if (query2.docs.isNotEmpty) {
-      return Tuple2(query2, 'BabySitter');
+      return Tuple2(query2, 'Babysitter');
     }
 
     // User not found in either collection

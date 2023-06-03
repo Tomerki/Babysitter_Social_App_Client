@@ -58,11 +58,6 @@ class _BabysitterRecommendationScreenState
 
     return result;
   }
-  // callback(List newRecommendations) {
-  //   setState(() {
-  //     recommendations = newRecommendations;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
