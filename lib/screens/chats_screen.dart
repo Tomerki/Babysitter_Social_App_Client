@@ -1,11 +1,11 @@
 import 'dart:developer';
-
-import 'package:baby_sitter/models/AppUser.dart';
-import 'package:baby_sitter/services/auth.dart';
-import 'package:baby_sitter/widgets/chat_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
+
+import 'package:baby_sitter/models/appUser.dart';
+import 'package:baby_sitter/services/auth.dart';
+import '../widgets/chat_card.dart';
 import 'package:flutter/material.dart';
-import '../models/Chat.dart';
 
 class ChatsScreen extends StatefulWidget {
   const ChatsScreen({Key? key}) : super(key: key);
@@ -15,10 +15,7 @@ class ChatsScreen extends StatefulWidget {
 }
 
 class _ChatsScreenState extends State<ChatsScreen> {
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-  List<Chat> list = [];
   final TextEditingController emailController = TextEditingController();
-  var secondUserId = "";
 
   void _showEmailDialog(BuildContext context) {
     showDialog(
@@ -39,15 +36,11 @@ class _ChatsScreenState extends State<ChatsScreen> {
             ),
             TextButton(
               child: const Text('Add'),
-              onPressed: () {
+              onPressed: () async {
                 final email = emailController.text.trim();
                 emailController.clear();
                 if (email.isNotEmpty) {
-                  setState(() async {
-                    await AuthService.addChatUser(email)
-                        .then((value) => secondUserId = value);
-                  });
-
+                  await AuthService.addChatUser(email);
                   Navigator.of(context).pop();
                 }
               },
@@ -69,14 +62,21 @@ class _ChatsScreenState extends State<ChatsScreen> {
             child: Text('Add Chat by Email'),
           ),
           StreamBuilder(
-            stream: firestore
+            stream: AuthService.firestore
                 .collection(AppUser.getUserType())
                 .doc(AppUser.getUid())
                 .collection('chats')
+                .orderBy(
+                  'lastMessageDate',
+                  descending: true,
+                )
                 .snapshots(),
             builder: (ctx, snapshot) {
-              final data = snapshot.data?.docs;
-              list = data?.map((e) => Chat.fromJson(e.data())).toList() ?? [];
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                 return const Center(
                   child: Text('No Chats found'),
@@ -88,18 +88,25 @@ class _ChatsScreenState extends State<ChatsScreen> {
                   child: Text('Something went wrong...'),
                 );
               }
+
+              final loadedChatsCard = snapshot.data!.docs;
+
               return Expanded(
                 child: ListView.builder(
-                  itemCount: list.length,
-                  padding: EdgeInsets.only(top: mq.size.height * .01),
-                  physics: BouncingScrollPhysics(),
-                  itemBuilder: (ctx, index) {
-                    print(list[index].userImage);
-                    return ChatCard(
-                      chat: list[index],
-                    );
-                  },
-                ),
+                    padding: EdgeInsets.only(top: mq.size.height * .01),
+                    physics: BouncingScrollPhysics(),
+                    itemCount: loadedChatsCard.length,
+                    itemBuilder: (ctx, index) {
+                      final chatCards = loadedChatsCard[index].data();
+                      return ChatCard(
+                        message: chatCards['lastMessage'],
+                        createdAt: chatCards['lastMessageDate'],
+                        userImage: chatCards['userImage'],
+                        username: chatCards['fullName'],
+                        secondUserUid: chatCards['uid'],
+                        chatId: chatCards['chatId'],
+                      );
+                    }),
               );
             },
           ),

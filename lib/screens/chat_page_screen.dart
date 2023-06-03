@@ -1,15 +1,19 @@
-import 'dart:convert';
-
 import 'package:baby_sitter/widgets/chat_messages.dart';
 import 'package:baby_sitter/widgets/new_message.dart';
 import 'package:flutter/material.dart';
 
-import '../models/Chat.dart';
-
 class ChatPageScreen extends StatefulWidget {
   static final routeName = 'ChatPageScreen';
+  String secondUid;
+  String secondUserType;
+  String chatId;
 
-  ChatPageScreen({super.key});
+  ChatPageScreen({
+    super.key,
+    required this.secondUid,
+    required this.chatId,
+    required this.secondUserType,
+  });
 
   @override
   State<ChatPageScreen> createState() => _ChatPageScreenState();
@@ -21,9 +25,16 @@ class _ChatPageScreenState extends State<ChatPageScreen> {
     return Scaffold(
       body: Column(children: [
         Expanded(
-          child: ChatMessages(),
+          child: ChatMessages(
+            secondUserUid: widget.secondUid,
+            chatId: widget.chatId,
+          ),
         ),
-        NewMessage(),
+        NewMessage(
+          secondUserUid: widget.secondUid,
+          chatId: widget.chatId,
+          type: widget.secondUserType,
+        ),
       ]),
     );
   }

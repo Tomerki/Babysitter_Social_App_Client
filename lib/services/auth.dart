@@ -1,12 +1,9 @@
 import 'dart:developer';
-import 'dart:io';
-
-import 'package:baby_sitter/models/AppUser.dart';
+import 'package:tuple/tuple.dart';
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import '../models/Chat.dart';
 
 class AuthService {
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -79,18 +76,14 @@ class AuthService {
           ? '${connectedUser.uid}_$id'
           : '${id}_${connectedUser.uid}';
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllMessages(Chat chat) {
-    return firestore
+  static Future<String> addChatUser(String email) async {
+    Tuple2<QuerySnapshot<Map<String, dynamic>?>, String>? res =
+        await searchUserByEmail(email);
+    final data = res!.item1;
+
+    final myData = await firestore
         .collection(AppUser.getUserType())
         .doc(AppUser.getUid())
-        .collection('chats/${getChatID(chat.id)}/messages/')
-        .snapshots();
-  }
-
-  static Future<String> addChatUser(String email) async {
-    final data = await firestore
-        .collection(AppUser.getUserType())
-        .where('email', isEqualTo: email)
         .get();
 
     log('data: ${data.docs}');
@@ -98,14 +91,40 @@ class AuthService {
     if (data.docs.isNotEmpty && data.docs.first.id != connectedUser.uid) {
       //user exists
 
-      log('user exists: ${data.docs.first.data()}');
+      String docId = await firestore.collection('Chats').doc().id;
+      await firestore.collection('Chats').doc(docId).collection('Messages');
 
+      final secondUserData = data.docs.first.data();
+      final myUserData = myData.data();
+
+      log('user exists: ${data.docs.first.data()}');
       firestore
           .collection(AppUser.getUserType())
           .doc(connectedUser.uid)
           .collection('chats')
-          .doc(data.docs.first.id)
-          .set(data.docs.first.data());
+          .doc(secondUserData!['uid'])
+          .set({
+        'lastMessage': 'No Messages yet',
+        'lastMessageDate': Timestamp.now(),
+        'uid': secondUserData['uid'],
+        'fullName': secondUserData['fullName'],
+        'userImage': secondUserData['image'],
+        'chatId': docId,
+      });
+
+      firestore
+          .collection(res.item2)
+          .doc(secondUserData['uid'])
+          .collection('chats')
+          .doc(connectedUser.uid)
+          .set({
+        'lastMessage': 'No Messages yet',
+        'lastMessageDate': Timestamp.now(),
+        'uid': connectedUser.uid,
+        'fullName': myUserData!['fullName'],
+        'userImage': myUserData['image'],
+        'chatId': docId,
+      });
 
       return data.docs.first.id;
     } else {
@@ -115,37 +134,33 @@ class AuthService {
     }
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
-    return firestore
-        .collection(AppUser.getUserType())
-        .doc(connectedUser.uid)
-        .collection('chats')
-        .snapshots();
+  static Future<Tuple2<QuerySnapshot<Map<String, dynamic>?>, String>?>
+      searchUserByEmail(String email) async {
+    // Create references to the two collections
+    final CollectionReference<Map<String, dynamic>> collection1 =
+        firestore.collection('Parent');
+    final CollectionReference<Map<String, dynamic>> collection2 =
+        firestore.collection('Babysitter');
+
+    // Query collection1 to find the user with the given email
+    final QuerySnapshot<Map<String, dynamic>> query1 =
+        await collection1.where('email', isEqualTo: email).get();
+
+    // Query collection2 to find the user with the given email
+    final QuerySnapshot<Map<String, dynamic>> query2 =
+        await collection2.where('email', isEqualTo: email).get();
+
+    // Check if the user exists in collection1
+    if (query1.docs.isNotEmpty) {
+      return Tuple2(query1, 'Parent');
+    }
+
+    // Check if the user exists in collection2
+    if (query2.docs.isNotEmpty) {
+      return Tuple2(query2, 'BabySitter');
+    }
+
+    // User not found in either collection
+    return null;
   }
-
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers(
-      List<String> userIds) {
-    log('\nUserIds: $userIds');
-
-    return firestore
-        .collection(AppUser.getUserType())
-        .where('id',
-            whereIn: userIds.isEmpty
-                ? ['']
-                : userIds) //because empty list throws an error
-        // .where('id', isNotEqualTo: user.uid)
-        .snapshots();
-  }
-
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getUserInfo(Chat chat) {
-    return firestore
-        .collection('users')
-        .where('id', isEqualTo: chat.id)
-        .snapshots();
-  }
-
-  static String getConversationID(String id) =>
-      connectedUser.uid.hashCode <= id.hashCode
-          ? '${connectedUser.uid}_$id'
-          : '${id}_${connectedUser.uid}';
 }

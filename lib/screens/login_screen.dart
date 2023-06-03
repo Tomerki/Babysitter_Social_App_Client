@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:baby_sitter/screens/babysitter_main_screen.dart';
-import 'package:baby_sitter/screens/chat_page_screen.dart';
 import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
 import 'package:flutter/material.dart';
@@ -149,10 +148,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ParentMainScreen.routeName,
                                     arguments: user.body,
                                   );
-                                  // Navigator.of(context).popAndPushNamed(
-                                  //   ChatPageScreen.routeName,
-                                  //   arguments: user.body,
-                                  // );
                                 });
                               }
                             });

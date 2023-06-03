@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:baby_sitter/models/AppUser.dart';
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/chat_page_screen.dart';
 import 'package:baby_sitter/services/auth.dart';
 import 'package:baby_sitter/screens/parent_main_screen.dart';
@@ -288,19 +288,20 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-
-                      IconButton(
-                        onPressed: () {
-                          // Navigator.of(context).pushNamed(
-                          //   ChatPageScreen.routeName,
-                          //   arguments: widget.user_body,
-                          // );
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  fullscreenDialog: true,
-                                  builder: (context) => new ChatPageScreen(
-                                      )));
+                      // IconButton(
+                      //     icon: Icon(Icons.message),
+                      //     onPressed: () {
+                      //       // Navigator.of(context).pushNamed(
+                      //       //   ChatPageScreen.routeName,
+                      //       //   arguments: widget.user_body,
+                      //       // );
+                      //       Navigator.push(
+                      //           context,
+                      //           new MaterialPageRoute(
+                      //               fullscreenDialog: true,
+                      //               builder: (context) =>
+                      //                   new ChatPageScreen()));
+                      //     }),
                       (!AppUser.getUserKind()
                           ? IconButton(
                               icon: isFavorite
@@ -365,9 +366,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                             withNavBar: false,
                           );
                         },
-                        icon: Icon(
-                          Icons.message,
-                        ),
                       ),
                       Padding(
                         padding:
@@ -386,7 +384,10 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                 context,
                                 new MaterialPageRoute(
                                     builder: (context) =>
-                                        new BabysitterRecommendationScreen()));
+                                        new BabysitterRecommendationScreen(
+                                          babysitter_id: json
+                                              .decode(widget.user_body)['uid'],
+                                        )));
                           },
                         ),
                       ),
