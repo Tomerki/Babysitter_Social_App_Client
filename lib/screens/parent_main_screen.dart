@@ -1,3 +1,4 @@
+import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/chats_screen.dart';
 import 'package:baby_sitter/screens/favorites_screen.dart';
