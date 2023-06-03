@@ -73,38 +73,51 @@ class _BabysitterRecommendationScreenState
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
-      body: Center(
-        // child: Container(
-        //   alignment: Alignment.topCenter,
-        //   padding: EdgeInsets.all(10),
-        child: FutureBuilder<List<dynamic>>(
-          future: recommendationsFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // While waiting for the future to complete, show a progress indicator
-              return Loading();
-            } else if (snapshot.hasError) {
-              // If there's an error, display an error message
-              return Text('Error: ${snapshot.error}');
-            } else {
-              // Once the future completes successfully, render the list
-              List? recommendations = snapshot.data;
-              return Column(
-                children:
-                    (recommendations != null && recommendations.isNotEmpty)
-                        ? recommendations.map((recommendation) {
-                            return RecommendationPost(
-                              recommendation: recommendation,
-                              hide: true,
-                            );
-                          }).toList()
-                        : [Text('No Results')],
-              );
-            }
-          },
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Color.fromARGB(188, 227, 183, 160),
+              Color.fromARGB(255, 236, 232, 217),
+              Color.fromARGB(255, 250, 246, 233),
+            ],
+          ),
         ),
+        child: Center(
+          // child: Container(
+          //   alignment: Alignment.topCenter,
+          //   padding: EdgeInsets.all(10),
+          child: FutureBuilder<List<dynamic>>(
+            future: recommendationsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // While waiting for the future to complete, show a progress indicator
+                return Loading();
+              } else if (snapshot.hasError) {
+                // If there's an error, display an error message
+                return Text('Error: ${snapshot.error}');
+              } else {
+                // Once the future completes successfully, render the list
+                List? recommendations = snapshot.data;
+                return Column(
+                  children:
+                      (recommendations != null && recommendations.isNotEmpty)
+                          ? recommendations.map((recommendation) {
+                              return RecommendationPost(
+                                recommendation: recommendation,
+                                hide: true,
+                              );
+                            }).toList()
+                          : [Text('No Results')],
+                );
+              }
+            },
+          ),
 
-        // ),
+          // ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: showFloatingActionButton

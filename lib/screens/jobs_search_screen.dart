@@ -41,6 +41,17 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
     var decoded_user_body = json.decode(widget.user_body);
     return Center(
       child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Color.fromARGB(188, 227, 183, 160),
+              Color.fromARGB(255, 236, 232, 217),
+              Color.fromARGB(255, 250, 246, 233),
+            ],
+          ),
+        ),
         alignment: Alignment.topCenter,
         child: FutureBuilder<List<dynamic>>(
           future: jobsFuture,

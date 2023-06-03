@@ -42,36 +42,49 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder<List<dynamic>>(
-        future: notificationsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // While waiting for the future to complete, show a progress indicator
-            return Loading();
-          } else if (snapshot.hasError) {
-            // If there's an error, display an error message
-            return Text('Error: ${snapshot.error}');
-          } else {
-            // Once the future completes successfully, render the list
-            List? notifications = snapshot.data;
-            return Column(
-              children: notifications != null && !notifications.isEmpty
-                  ? (notifications.map((notification) {
-                      print(notification);
-                      return NotificationWidget(
-                        notification: notification,
-                      );
-                    }).toList())
-                  : [
-                      Container(
-                        padding: EdgeInsets.only(top: 10),
-                        child: Text('No Notifications Yet'),
-                      )
-                    ],
-            );
-          }
-        },
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.centerRight,
+          colors: [
+            Color.fromARGB(188, 227, 183, 160),
+            Color.fromARGB(255, 236, 232, 217),
+            Color.fromARGB(255, 250, 246, 233),
+          ],
+        ),
+      ),
+      child: Center(
+        child: FutureBuilder<List<dynamic>>(
+          future: notificationsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              // While waiting for the future to complete, show a progress indicator
+              return Loading();
+            } else if (snapshot.hasError) {
+              // If there's an error, display an error message
+              return Text('Error: ${snapshot.error}');
+            } else {
+              // Once the future completes successfully, render the list
+              List? notifications = snapshot.data;
+              return Column(
+                children: notifications != null && !notifications.isEmpty
+                    ? (notifications.map((notification) {
+                        print(notification);
+                        return NotificationWidget(
+                          notification: notification,
+                        );
+                      }).toList())
+                    : [
+                        Container(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Text('No Notifications Yet'),
+                        )
+                      ],
+              );
+            }
+          },
+        ),
       ),
     );
   }
