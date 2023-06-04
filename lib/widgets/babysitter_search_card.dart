@@ -27,6 +27,7 @@ class _BabysitterSearchCardState extends State<BabysitterSearchCard> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return Card(
+      color: Colors.white.withOpacity(0.8),
       margin: EdgeInsets.symmetric(
         horizontal: mediaQuery.size.width * .02,
         vertical: 4,
@@ -56,25 +57,24 @@ class _BabysitterSearchCardState extends State<BabysitterSearchCard> {
             //             )));
           });
         },
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Color.fromARGB(188, 227, 183, 160),
-                Color.fromARGB(255, 236, 232, 217),
-                Color.fromARGB(255, 250, 246, 233),
-              ],
-            ),
-          ),
-          child: ListTile(
-            leading: CircleAvatar(child: Icon(Icons.person)),
-            title: Text(widget.babysitter_name),
-            trailing: Icon(
-              Icons.arrow_right_sharp,
-              size: 26,
-            ),
+
+        // decoration: BoxDecoration(
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.centerRight,
+        //     colors: [
+        //       Color.fromARGB(188, 227, 183, 160),
+        //       Color.fromARGB(255, 236, 232, 217),
+        //       Color.fromARGB(255, 250, 246, 233),
+        //     ],
+        //   ),
+        // ),
+        child: ListTile(
+          leading: CircleAvatar(child: Icon(Icons.person)),
+          title: Text(widget.babysitter_name),
+          trailing: Icon(
+            Icons.arrow_right_sharp,
+            size: 26,
           ),
         ),
       ),
