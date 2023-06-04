@@ -5,6 +5,7 @@ import 'package:baby_sitter/server_manager.dart';
 import 'package:baby_sitter/widgets/circle_button_one.dart';
 import 'package:baby_sitter/widgets/loading.dart';
 import 'package:baby_sitter/widgets/user_image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,16 +19,17 @@ class EditBabysitterProfileScreen extends StatefulWidget {
   String? about;
   double? price;
   String? age;
+  String? image;
 
   static const routeName = 'babysitter-register-screen';
 
-  EditBabysitterProfileScreen({
-    super.key,
-    required this.texts,
-    this.about = '',
-    this.price = -0.1,
-    this.age = '18',
-  });
+  EditBabysitterProfileScreen(
+      {super.key,
+      required this.texts,
+      this.about = '',
+      this.price = -0.1,
+      this.age = '18',
+      this.image});
 
   @override
   State<EditBabysitterProfileScreen> createState() =>
@@ -50,7 +52,7 @@ class _EditBabysitterProfileScreenState
   }
 
   final _formKey2 = GlobalKey<FormState>();
-  File? _imageFile;
+  File? _selectedImage;
 
   TextEditingController _aboutController = TextEditingController(text: '');
 
@@ -93,6 +95,12 @@ class _EditBabysitterProfileScreenState
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            UserImagePicker(
+                              image: widget.image,
+                              onPickImage: (pickedImage) {
+                                _selectedImage = pickedImage;
+                              },
+                            ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -293,6 +301,16 @@ class _EditBabysitterProfileScreenState
                                   ),
                                 ),
                                 onPressed: () async {
+                                  if (_selectedImage != null) {
+                                    final storageRef = FirebaseStorage.instance
+                                        .ref()
+                                        .child('user_images')
+                                        .child('${AppUser.getUid()}.jpg');
+
+                                    await storageRef.putFile(_selectedImage!);
+                                    widget.image =
+                                        await storageRef.getDownloadURL();
+                                  }
                                   await ServerManager()
                                       .putRequest(
                                     'items/' + AppUser.getUid(),
@@ -304,6 +322,7 @@ class _EditBabysitterProfileScreenState
                                             : widget.price,
                                         'about': widget.about,
                                         'age': widget.age,
+                                        'image': widget.image,
                                         'ComeToClient': widget
                                             .texts['Come to client']
                                             .toString(),

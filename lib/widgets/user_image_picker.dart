@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
-  const UserImagePicker({super.key, required this.onPickImage});
+  String? image;
+  UserImagePicker({super.key, required this.onPickImage, this.image});
   final void Function(File pickedImage) onPickImage;
 
   @override
@@ -41,9 +42,11 @@ class _UserImagePickerState extends State<UserImagePicker> {
           backgroundColor: Colors.grey,
           foregroundImage: _pickedImageFile != null
               ? FileImage(_pickedImageFile!)
-              : NetworkImage(
-                  "https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol.png",
-                ) as ImageProvider,
+              : (widget.image != null
+                  ? NetworkImage(widget.image!) as ImageProvider
+                  : NetworkImage(
+                      "https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol.png",
+                    )),
         ),
         TextButton.icon(
           onPressed: _pickImage,
