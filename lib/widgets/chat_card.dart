@@ -30,6 +30,14 @@ class ChatCard extends StatefulWidget {
 class _ChatCardState extends State<ChatCard> {
   @override
   Widget build(BuildContext context) {
+    String truncateMessage(String message, int maxLength) {
+      if (message.length <= maxLength) {
+        return message;
+      } else {
+        return message.substring(0, maxLength) + '...';
+      }
+    }
+
     final mediaQuery = MediaQuery.of(context);
     return Card(
       margin: EdgeInsets.symmetric(
@@ -65,7 +73,7 @@ class _ChatCardState extends State<ChatCard> {
             radius: 23,
           ),
           title: Text(widget.username),
-          subtitle: Text(widget.message),
+          subtitle: Text(truncateMessage(widget.message, 18)),
           trailing: Text(
             DateFormat('hh:mm a').format(widget.createdAt.toDate()),
             style: TextStyle(

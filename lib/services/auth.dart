@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:tuple/tuple.dart';
-import 'dart:io';
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -72,11 +71,6 @@ class AuthService {
 
   static User get connectedUser => auth.currentUser!;
 
-  static String getChatID(String id) =>
-      connectedUser.uid.hashCode <= id.hashCode
-          ? '${connectedUser.uid}_$id'
-          : '${id}_${connectedUser.uid}';
-
   static Future<String> addChatUser(String email) async {
     Tuple2<QuerySnapshot<Map<String, dynamic>?>, String>? res =
         await searchUserByEmail(email);
@@ -127,7 +121,7 @@ class AuthService {
         'chatId': docId,
       });
 
-      return data.docs.first.id;
+      return docId;
     } else {
       //user doesn't exists
 

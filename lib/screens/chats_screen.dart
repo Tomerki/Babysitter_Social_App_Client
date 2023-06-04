@@ -1,7 +1,3 @@
-import 'dart:developer';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
-
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/services/auth.dart';
 import '../widgets/chat_card.dart';
