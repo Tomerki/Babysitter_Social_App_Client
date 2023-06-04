@@ -45,7 +45,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       address = 'Pick address',
       county,
       confirmPassword,
-      imageUrl;
+      imageUrl,
+      defaultImage =
+          "https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol.png";
 
   callback(String newAddress) {
     setState(() {
@@ -313,7 +315,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 'phoneNumber': phoneNumber,
                                                 'address': address,
                                                 'county': _selectedCountry,
-                                                'image': imageUrl,
+                                                'image': imageUrl != null
+                                                    ? imageUrl
+                                                    : defaultImage
                                               },
                                             )
                                           : jsonEncode(
@@ -328,7 +332,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 'phoneNumber': phoneNumber,
                                                 'address': address,
                                                 'county': _selectedCountry,
-                                                'image': imageUrl,
+                                                'image': imageUrl != null
+                                                    ? imageUrl
+                                                    : defaultImage,
                                                 'favorites': favorites,
                                               },
                                             ),

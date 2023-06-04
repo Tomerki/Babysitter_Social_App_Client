@@ -38,8 +38,11 @@ class _UserImagePickerState extends State<UserImagePicker> {
         CircleAvatar(
           radius: 40,
           backgroundColor: Colors.grey,
-          foregroundImage:
-              _pickedImageFile != null ? FileImage(_pickedImageFile!) : null,
+          foregroundImage: _pickedImageFile != null
+              ? FileImage(_pickedImageFile!)
+              : NetworkImage(
+                  "https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol.png",
+                ) as ImageProvider,
         ),
         TextButton.icon(
           onPressed: _pickImage,

@@ -10,6 +10,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import '../models/appUser.dart';
 import '../server_manager.dart';
+import '../services/auth.dart';
 import '../widgets/schedule_with_babysitter.dart';
 import 'babysitter_recommendations_screen.dart';
 
@@ -259,7 +260,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                       Container(
                         padding: EdgeInsets.all(10),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ElevatedButton(
                               child: Text("recommendation"),
@@ -415,6 +416,39 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                       },
                                     )
                                   : SizedBox()),
+                              ElevatedButton(
+                                onPressed: () async {
+                                  await AuthService.addChatUser(
+                                          decoded_user_body['email'])
+                                      .then((value) {
+                                    PersistentNavBarNavigator.pushNewScreen(
+                                        context,
+                                        screen: ChatPageScreen(
+                                          secondUid: decoded_user_body['uid'],
+                                          chatId: value,
+                                          secondUserType: 'Babysitter',
+                                        ));
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      Color.fromARGB(255, 51, 65, 78),
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.message_outlined),
+                                    SizedBox(
+                                        width:
+                                            8.0), // Adjust spacing between icon and text as needed
+                                    Text("Message me!"),
+                                  ],
+                                ),
+                              ),
                               ElevatedButton(
                                 child: Text("recommendation"),
                                 style: ElevatedButton.styleFrom(
