@@ -6,6 +6,7 @@ import 'package:baby_sitter/widgets/circle_button_one.dart';
 import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BabysitterRegisterScreen extends StatefulWidget {
   static const routeName = 'babysitter-register-screen';
@@ -63,21 +64,30 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
+                          SizedBox(
+                            height: 10,
+                          ),
                           Text(
                             'About',
-                            style: TextStyle(
+                            style: GoogleFonts.workSans(
                               color: Colors.black.withOpacity(0.5),
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 50,
+                              ),
                             ),
                           ),
                           SizedBox(height: 10),
                           Text(
                             'Me',
-                            style: TextStyle(
+                            style: GoogleFonts.workSans(
                               color: Colors.black.withOpacity(0.5),
-                              fontSize: 30,
-                              fontWeight: FontWeight.w700,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 40,
+                              ),
                             ),
                           ),
                         ],

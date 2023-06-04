@@ -74,30 +74,60 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.home),
           title: ("Home"),
+          textStyle: GoogleFonts.workSans(
+            textStyle: const TextStyle(
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black.withOpacity(0.5),
         ),
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.notifications),
           title: ("Notifications"),
+          textStyle: GoogleFonts.workSans(
+            textStyle: const TextStyle(
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black.withOpacity(0.5),
         ),
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.search, color: Colors.white),
           title: ("Search"),
+          textStyle: GoogleFonts.workSans(
+            textStyle: const TextStyle(
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black.withOpacity(0.5),
         ),
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.email),
           title: ("Inbox"),
+          textStyle: GoogleFonts.workSans(
+            textStyle: const TextStyle(
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black.withOpacity(0.5),
         ),
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.person),
           title: ("Profile"),
+          textStyle: GoogleFonts.workSans(
+            textStyle: const TextStyle(
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black.withOpacity(0.5),
         ),

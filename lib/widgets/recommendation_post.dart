@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class RecommendationPost extends StatefulWidget {
   final recommendation;
@@ -28,7 +29,14 @@ class _RecommendationPostState extends State<RecommendationPost> {
                   padding: const EdgeInsets.only(right: 8.0, left: 8.0),
                   child: Text(
                     '${widget.recommendation['parent_fullName']}',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: GoogleFonts.workSans(
+                      color: Colors.black,
+                      textStyle: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 24,
+                      ),
+                    ),
                   ),
                 ),
                 IconButton(
@@ -53,7 +61,14 @@ class _RecommendationPostState extends State<RecommendationPost> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   '${widget.recommendation['description']}',
-                  style: TextStyle(fontSize: 16),
+                  style: GoogleFonts.workSans(
+                    color: Colors.black,
+                    textStyle: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
               ),
             ),

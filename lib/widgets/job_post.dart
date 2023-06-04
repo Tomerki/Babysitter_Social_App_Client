@@ -44,7 +44,7 @@ class _JobPostState extends State<JobPost> {
                         color: Colors.black,
                         textStyle: const TextStyle(
                           fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w400,
                           fontSize: 24,
                         ),
                       ),
@@ -88,7 +88,7 @@ class _JobPostState extends State<JobPost> {
                             ),
                           ),
                           Text(
-                            '${widget.job['date']}',
+                            '${widget.job['date']}'.substring(0, 10),
                             style: GoogleFonts.workSans(
                               color: Colors.black,
                               textStyle: const TextStyle(

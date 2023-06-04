@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CircleButtonOne extends StatelessWidget {
   final String text;
@@ -66,7 +67,13 @@ class CircleButtonOne extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: TextStyle(fontSize: textSize),
+          style: GoogleFonts.workSans(
+            color: textColor,
+            textStyle: const TextStyle(
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
           textAlign: TextAlign.center,
         ),
         onPressed: () => handler(),

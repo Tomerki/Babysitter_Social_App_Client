@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 import 'package:baby_sitter/screens/chat_page_screen.dart';
@@ -72,12 +73,37 @@ class _ChatCardState extends State<ChatCard> {
                 Theme.of(context).colorScheme.primary.withAlpha(180),
             radius: 23,
           ),
-          title: Text(widget.username),
-          subtitle: Text(truncateMessage(widget.message, 18)),
+          title: Text(
+            widget.username,
+            style: GoogleFonts.workSans(
+              color: Colors.black,
+              textStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          subtitle: Text(
+            truncateMessage(widget.message, 18),
+            style: GoogleFonts.workSans(
+              color: Colors.black,
+              textStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+              ),
+            ),
+          ),
           trailing: Text(
             DateFormat('hh:mm a').format(widget.createdAt.toDate()),
-            style: TextStyle(
+            style: GoogleFonts.workSans(
               color: Colors.black54,
+              textStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              ),
             ),
           ),
         ),

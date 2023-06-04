@@ -5,6 +5,7 @@ import 'package:baby_sitter/screens/edit_babysitter_profile_screen.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:baby_sitter/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../screens/wrapper.dart';
 import '../server_manager.dart';
@@ -14,23 +15,25 @@ class MainDrawer extends StatelessWidget {
   final AuthService _auth = AuthService();
 
   MainDrawer({super.key});
-  Widget buildListTile(String title, IconData icon, Function tapHandler) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        size: 26,
-      ),
-      title: Text(
-        title,
-        // style: TextStyle(
-        //   fontFamily: 'RobotoCondensed',
-        //   fontSize: 24,
-        //   fontWeight: FontWeight.bold,
-        // ),
-      ),
-      onTap: tapHandler(),
-    );
-  }
+  // Widget buildListTile(String title, IconData icon, Function tapHandler) {
+  //   return ListTile(
+  //     leading: Icon(
+  //       icon,
+  //       size: 26,
+  //     ),
+  //     title: Text(
+  //       title,
+  //       style: GoogleFonts.workSans(
+  //         textStyle: const TextStyle(
+  //           fontStyle: FontStyle.italic,
+  //           fontWeight: FontWeight.w500,
+
+  //         ),
+  //       ),
+  //     ),
+  //     onTap: tapHandler(),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +50,13 @@ class MainDrawer extends StatelessWidget {
             ),
             title: Text(
               'Settings',
+              style: GoogleFonts.workSans(
+                textStyle: const TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                ),
+              ),
             ),
             onTap: () async {
               await ServerManager()
@@ -98,6 +108,13 @@ class MainDrawer extends StatelessWidget {
             ),
             title: Text(
               'Logout',
+              style: GoogleFonts.workSans(
+                textStyle: const TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
             onTap: () async {
               AppUser.deleteInstance();

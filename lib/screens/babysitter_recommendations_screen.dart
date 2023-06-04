@@ -146,7 +146,17 @@ class _BabysitterRecommendationScreenState
                           contentPadding: EdgeInsets.symmetric(
                               horizontal: 10, vertical: 40),
                           scrollable: true,
-                          title: Text('New Recommendation'),
+                          title: Text(
+                            'New Recommendation',
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
                           content: Padding(
                             padding: const EdgeInsets.all(0),
                             child: Form(
@@ -156,7 +166,14 @@ class _BabysitterRecommendationScreenState
                                   TextField(
                                     decoration: InputDecoration.collapsed(
                                         hintText: "Enter your Name"),
-                                    style: TextStyle(color: Colors.black),
+                                    style: GoogleFonts.workSans(
+                                      color: Colors.black,
+                                      textStyle: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18,
+                                      ),
+                                    ),
                                     onChanged: (value) {
                                       setState(
                                         () {
@@ -174,7 +191,14 @@ class _BabysitterRecommendationScreenState
                                         maxLines: 8,
                                         decoration: InputDecoration.collapsed(
                                             hintText: "Enter your text here"),
-                                        style: TextStyle(color: Colors.black),
+                                        style: GoogleFonts.workSans(
+                                          color: Colors.black,
+                                          textStyle: const TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 18,
+                                          ),
+                                        ),
                                         onChanged: (value) {
                                           setState(
                                             () {
@@ -191,7 +215,17 @@ class _BabysitterRecommendationScreenState
                           ),
                           actions: [
                             TextButton(
-                                child: Text("Submit"),
+                                child: Text(
+                                  "Submit",
+                                  style: GoogleFonts.workSans(
+                                    color: Colors.blue,
+                                    textStyle: const TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
                                 onPressed: () async {
                                   await ServerManager()
                                       .postRequest(

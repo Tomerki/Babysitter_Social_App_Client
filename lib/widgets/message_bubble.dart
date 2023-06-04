@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 // A MessageBubble for showing a single chat message on the ChatScreen.
 class MessageBubble extends StatelessWidget {
@@ -82,9 +83,13 @@ class MessageBubble extends StatelessWidget {
                       ),
                       child: Text(
                         username!,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                        style: GoogleFonts.workSans(
+                          color: Colors.black,
+                          textStyle: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
@@ -125,13 +130,15 @@ class MessageBubble extends StatelessWidget {
                     ),
                     child: Text(
                       message,
-                      style: TextStyle(
-                        // Add a little line spacing to make the text look nicer
-                        // when multilined.
-                        height: 1.3,
+                      style: GoogleFonts.workSans(
                         color: isMe
                             ? Colors.black87
                             : theme.colorScheme.onSecondary,
+                        textStyle: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                        ),
                       ),
                       softWrap: true,
                     ),

@@ -97,7 +97,7 @@ class _FilterScreennState extends State<FilterScreen>
               color: Colors.black,
               textStyle: const TextStyle(
                 fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w500,
                 fontSize: 24,
               ),
             ),
@@ -126,7 +126,14 @@ class _FilterScreennState extends State<FilterScreen>
                       children: <Widget>[
                         Text(
                           'Price Per An Hour:',
-                          style: kTextLabelTheme,
+                          style: GoogleFonts.workSans(
+                            color: Colors.black,
+                            textStyle: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -163,7 +170,14 @@ class _FilterScreennState extends State<FilterScreen>
                       children: <Widget>[
                         Text(
                           'Distance:',
-                          style: kTextLabelTheme,
+                          style: GoogleFonts.workSans(
+                            color: Colors.black,
+                            textStyle: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -422,7 +436,14 @@ class _FilterScreennState extends State<FilterScreen>
                     padding: EdgeInsets.only(top: 20.0, bottom: 10.0),
                     child: Text(
                       'Additions: ',
-                      style: kTextLabelTheme,
+                      style: GoogleFonts.workSans(
+                        color: Colors.black,
+                        textStyle: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
                   ),
                   Column(
@@ -433,9 +454,13 @@ class _FilterScreennState extends State<FilterScreen>
                         children: [
                           Text(
                             currentAdditionsFiltersList[index],
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18,
+                              ),
                             ),
                           ),
                           Checkbox(
@@ -461,6 +486,13 @@ class _FilterScreennState extends State<FilterScreen>
                     child: ElevatedButton(
                         child: Text(
                           'Apply',
+                          style: GoogleFonts.workSans(
+                            textStyle: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(

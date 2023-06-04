@@ -19,20 +19,50 @@ class _ChatsScreenState extends State<ChatsScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Enter User Email'),
+          title: Text(
+            'Enter User Email',
+            style: GoogleFonts.workSans(
+              color: Colors.black,
+              textStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
+              ),
+            ),
+          ),
           content: TextField(
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Cancel'),
+              child: Text(
+                'Cancel',
+                style: GoogleFonts.workSans(
+                  color: Color.fromARGB(255, 81, 26, 26).withOpacity(0.8),
+                  textStyle: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('Add'),
+              child: Text(
+                'Add',
+                style: GoogleFonts.workSans(
+                  color: Color.fromARGB(255, 17, 78, 127),
+                  textStyle: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
               onPressed: () async {
                 final email = emailController.text.trim();
                 emailController.clear();
