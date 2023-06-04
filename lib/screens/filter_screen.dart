@@ -91,21 +91,18 @@ class _FilterScreennState extends State<FilterScreen>
     return Scaffold(
         appBar: AppBar(
           title: Text('Filter By'),
-          backgroundColor: Color.fromARGB(255, 219, 163, 154),
+          backgroundColor: Color.fromARGB(255, 129, 100, 110).withOpacity(0.2),
+          elevation: 5.0,
+          centerTitle: true,
         ),
         body: Container(
           height: (queryData.size.height) * 0.9,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Color.fromARGB(188, 227, 183, 160),
-                Color.fromARGB(255, 236, 232, 217),
-                Color.fromARGB(255, 250, 246, 233),
-              ],
-            ),
-          ),
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                  fit: BoxFit.cover,
+                  opacity: 0.3)),
           child: SingleChildScrollView(
             child: Container(
               margin: EdgeInsets.all(20.0),
@@ -433,7 +430,7 @@ class _FilterScreennState extends State<FilterScreen>
                           Checkbox(
                             checkColor: Colors.white,
                             fillColor: MaterialStateColor.resolveWith(
-                              (states) => Color.fromARGB(255, 219, 163, 154),
+                              (states) => Colors.black.withOpacity(0.8),
                             ),
                             value: currentAdditionsFilters[
                                 currentAdditionsFiltersList[index]],
@@ -450,20 +447,20 @@ class _FilterScreennState extends State<FilterScreen>
                     }),
                   ),
                   Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: CircleButtonOne(
-                        handler: () {
+                    child: ElevatedButton(
+                        child: Text(
+                          'Apply',
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            backgroundColor: Colors.black.withOpacity(0.8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 100, vertical: 20)),
+                        onPressed: () {
                           widget.callback(currentAdditionsFilters, priceValues);
                           Navigator.of(context).pop();
-                        },
-                        text: 'Apply',
-                        cHeight: 0.1,
-                        cPaddingBottom: 20,
-                        bgColor: Color.fromARGB(255, 81, 26, 26),
-                        textColor: Colors.white,
-                      ),
-                    ),
+                        }),
                   ),
                 ],
               ),

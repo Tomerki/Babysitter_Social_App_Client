@@ -51,6 +51,12 @@ class _FavoritesScreenScreenState extends State<FavoritesScreen> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                fit: BoxFit.cover,
+                opacity: 0.3)),
         alignment: Alignment.topCenter,
         padding: EdgeInsets.all(10),
         child: SingleChildScrollView(

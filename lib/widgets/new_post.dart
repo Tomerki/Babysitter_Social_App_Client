@@ -46,12 +46,18 @@ class _NewPostState extends State<NewPost> {
       currentDate.month,
       currentDate.day + 1,
     );
-    return CircleButtonOne(
-      text: 'Click to add a new job!',
-      cWidth: 0.7,
-      bgColor: Color.fromARGB(255, 219, 163, 154),
-      textColor: Colors.white,
-      handler: () {
+
+    return ElevatedButton(
+      child: Text(
+        'Click to add a new job',
+      ),
+      style: ElevatedButton.styleFrom(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        backgroundColor: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      ),
+      onPressed: () {
         showDialog(
           context: context,
           builder: (BuildContext context) {
