@@ -58,53 +58,57 @@ class _BabysitterRecommendationScreenState
 
     return result;
   }
-  // callback(List newRecommendations) {
-  //   setState(() {
-  //     recommendations = newRecommendations;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
     bool showFloatingActionButton = !AppUser.getUserKind();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Recommendations'),
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 219, 163, 154),
+        title: Text('Recommendations'),
+        backgroundColor: Color.fromARGB(255, 129, 100, 110).withOpacity(0.2),
+        elevation: 5.0,
       ),
-      body: Center(
-        // child: Container(
-        //   alignment: Alignment.topCenter,
-        //   padding: EdgeInsets.all(10),
-        child: FutureBuilder<List<dynamic>>(
-          future: recommendationsFuture,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // While waiting for the future to complete, show a progress indicator
-              return Loading();
-            } else if (snapshot.hasError) {
-              // If there's an error, display an error message
-              return Text('Error: ${snapshot.error}');
-            } else {
-              // Once the future completes successfully, render the list
-              List? recommendations = snapshot.data;
-              return Column(
-                children:
-                    (recommendations != null && recommendations.isNotEmpty)
-                        ? recommendations.map((recommendation) {
-                            return RecommendationPost(
-                              recommendation: recommendation,
-                              hide: true,
-                            );
-                          }).toList()
-                        : [Text('No Results')],
-              );
-            }
-          },
-        ),
+      body: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                fit: BoxFit.cover,
+                opacity: 0.3)),
+        child: Center(
+          // child: Container(
+          //   alignment: Alignment.topCenter,
+          //   padding: EdgeInsets.all(10),
+          child: FutureBuilder<List<dynamic>>(
+            future: recommendationsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // While waiting for the future to complete, show a progress indicator
+                return Loading();
+              } else if (snapshot.hasError) {
+                // If there's an error, display an error message
+                return Text('Error: ${snapshot.error}');
+              } else {
+                // Once the future completes successfully, render the list
+                List? recommendations = snapshot.data;
+                return Column(
+                  children:
+                      (recommendations != null && recommendations.isNotEmpty)
+                          ? recommendations.map((recommendation) {
+                              return RecommendationPost(
+                                recommendation: recommendation,
+                                hide: true,
+                              );
+                            }).toList()
+                          : [Text('No Results')],
+                );
+              }
+            },
+          ),
 
-        // ),
+          // ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: showFloatingActionButton

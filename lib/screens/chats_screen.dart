@@ -51,62 +51,70 @@ class _ChatsScreenState extends State<ChatsScreen> {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
     return Scaffold(
-      body: Column(
-        children: [
-          ElevatedButton(
-            onPressed: () => _showEmailDialog(context),
-            child: Text('Add Chat by Email'),
-          ),
-          StreamBuilder(
-            stream: AuthService.firestore
-                .collection(AppUser.getUserType())
-                .doc(AppUser.getUid())
-                .collection('chats')
-                .orderBy(
-                  'lastMessageDate',
-                  descending: true,
-                )
-                .snapshots(),
-            builder: (ctx, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                return const Center(
-                  child: Text('No Chats found'),
-                );
-              }
+      body: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                fit: BoxFit.cover,
+                opacity: 0.3)),
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () => _showEmailDialog(context),
+              child: Text('Add Chat by Email'),
+            ),
+            StreamBuilder(
+              stream: AuthService.firestore
+                  .collection(AppUser.getUserType())
+                  .doc(AppUser.getUid())
+                  .collection('chats')
+                  .orderBy(
+                    'lastMessageDate',
+                    descending: true,
+                  )
+                  .snapshots(),
+              builder: (ctx, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return const Center(
+                    child: Text('No Chats found'),
+                  );
+                }
 
-              if (snapshot.hasError) {
-                return const Center(
-                  child: Text('Something went wrong...'),
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text('Something went wrong...'),
+                  );
+                }
+
+                final loadedChatsCard = snapshot.data!.docs;
+
+                return Expanded(
+                  child: ListView.builder(
+                      padding: EdgeInsets.only(top: mq.size.height * .01),
+                      physics: BouncingScrollPhysics(),
+                      itemCount: loadedChatsCard.length,
+                      itemBuilder: (ctx, index) {
+                        final chatCards = loadedChatsCard[index].data();
+                        return ChatCard(
+                          message: chatCards['lastMessage'],
+                          createdAt: chatCards['lastMessageDate'],
+                          userImage: chatCards['userImage'],
+                          username: chatCards['fullName'],
+                          secondUserUid: chatCards['uid'],
+                          chatId: chatCards['chatId'],
+                        );
+                      }),
                 );
-              }
-
-              final loadedChatsCard = snapshot.data!.docs;
-
-              return Expanded(
-                child: ListView.builder(
-                    padding: EdgeInsets.only(top: mq.size.height * .01),
-                    physics: BouncingScrollPhysics(),
-                    itemCount: loadedChatsCard.length,
-                    itemBuilder: (ctx, index) {
-                      final chatCards = loadedChatsCard[index].data();
-                      return ChatCard(
-                        message: chatCards['lastMessage'],
-                        createdAt: chatCards['lastMessageDate'],
-                        userImage: chatCards['userImage'],
-                        username: chatCards['fullName'],
-                        secondUserUid: chatCards['uid'],
-                        chatId: chatCards['chatId'],
-                      );
-                    }),
-              );
-            },
-          ),
-        ],
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

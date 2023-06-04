@@ -15,6 +15,20 @@ import '../services/validation.dart';
 import '../widgets/input_box.dart';
 import './babysitter_register_screen.dart';
 import '../widgets/circle_button_one.dart';
+import 'dart:convert';
+
+import 'package:baby_sitter/screens/parent_main_screen.dart';
+import 'package:baby_sitter/screens/register_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import '../models/appUser.dart';
+import '../server_manager.dart';
+import '../services/auth.dart';
+import '../services/validation.dart';
+import '../widgets/loading.dart';
+import 'babysitter_main_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = 'register-screen';
@@ -25,9 +39,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final AuthService _auth = AuthService();
-  //instance of firestore
 
-  // final _firestore = FirebaseFirestore.instance;
   var _formKey = GlobalKey<FormState>();
   String userType = '';
   String _selectedCountry = '';
@@ -36,6 +48,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool loading = false;
   bool isBabysitter = false;
   List<String> favorites = [];
+  TextEditingController _textEditingController = TextEditingController();
+
+  @override
+  void dispose() {
+    _textEditingController.clear();
+    super.dispose();
+  }
 
   String? email,
       password,
@@ -56,12 +75,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget buildCircleButtonOne(String text) {
-    return CircleButtonOne(
-      text: 'I\'m a $text',
-      bgColor: userType == text ? Colors.black : Colors.white,
-      textColor: userType == text ? Colors.white : Colors.black,
-      cWidth: 0.4,
-      handler: () {
+    return ElevatedButton(
+      onPressed: () {
         setState(() {
           userType = text;
           if (text == 'Babysitter') {
@@ -69,230 +84,385 @@ class _RegisterScreenState extends State<RegisterScreen> {
           }
         });
       },
-      cMarginTop: 25,
+      child: Text('I\'m a $text'),
+      style: ElevatedButton.styleFrom(
+        foregroundColor: userType == text ? Colors.white : Colors.black,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        backgroundColor: userType == text ? Colors.black : Colors.white,
+      ),
     );
   }
-
-  // String? createValidator(String value, String type, String text, bool secure) {
-  //   if (value.isEmpty) {
-  //     return "$type field cannot be empty";
-  //   } else if (secure
-  //       ? minLengthValidator(6, value)
-  //       : emailAddressValidator(value)) {
-  //     return text;
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
     return loading
         ? Loading()
         : Scaffold(
-            extendBodyBehindAppBar: true,
-            resizeToAvoidBottomInset: false,
             body: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color.fromARGB(255, 201, 195, 195),
-                    Color.fromARGB(255, 185, 170, 170),
-                    Color.fromARGB(255, 191, 155, 155),
-                  ],
-                ),
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      padding:
-                          const EdgeInsets.only(top: 40, bottom: 20, right: 10),
-                      width: MediaQuery.of(context).size.width,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          UserImagePicker(
-                            onPickImage: (pickedImage) {
-                              _selectedImage = pickedImage;
-                            },
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: const [
-                              Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                'Welcome',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.45,
-                                child: InputBox(
-                                  keyType: TextInputType.name,
-                                  text: 'First Name',
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return "First Name cannot be empty";
-                                    }
-                                  },
-                                  onChanged: (value) {
-                                    firstName = value;
-                                  },
-                                ),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.45,
-                                child: InputBox(
-                                  keyType: TextInputType.name,
-                                  text: 'Last Name',
-                                  validator: (String value) {
-                                    if (value.isEmpty)
-                                      return "Last Name cannot be empty";
-                                  },
-                                  onChanged: (value) {
-                                    lastName = value;
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          InputBox(
-                            keyType: TextInputType.emailAddress,
-                            text: 'Email',
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                return "Email field cannot be empty";
-                              } else if (emailAddressValidator(value)) {
-                                return 'Please Enter a valid email';
-                              }
-                            },
-                            onChanged: (value) {
-                              email = value;
-                            },
-                          ),
-                          InputBox(
-                            isSecure: true,
-                            keyType: TextInputType.text,
-                            text: 'Password',
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                return "pasaword field cannot be empty";
-                              } else if (minLengthValidator(6, value)) {
-                                return 'Password must be minimum 6 characters';
-                              }
-                            },
-                            onChanged: (value) {
-                              password = value;
-                            },
-                          ),
-                          InputBox(
-                            isSecure: true,
-                            keyType: TextInputType.text,
-                            text: 'Confirm Password',
-                            validator: (String value) {
-                              if (value.isEmpty)
-                                return "confirm Password cannot be empty";
-                            },
-                            onChanged: (value) {
-                              confirmPassword = value;
-                            },
-                          ),
-                          InputBox(
-                            keyType: TextInputType.phone,
-                            text: 'Phone Number',
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                return "Phone number cannot be empty";
-                              } else if (mobileNumberValidator(value)) {
-                                return "Please enter a valid mobile number";
-                              }
-                            },
-                            onChanged: (value) {
-                              phoneNumber = value;
-                            },
-                          ),
-                          TextButton(
-                            onPressed: () async {
-                              Navigator.of(context).pushNamed(
-                                MapPlacePicker.routeName,
-                                arguments: callback,
-                              );
-                            },
-                            child: Text(
-                              address!,
-                              style: TextStyle(
-                                fontSize: 22,
-                                color: Colors.black,
-                              ),
+              padding: EdgeInsets.only(top: 20),
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                      fit: BoxFit.cover,
+                      opacity: 0.3)),
+              child: SafeArea(
+                child: Center(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Lottie.network(
+                        //     'https://assets6.lottiefiles.com/packages/lf20_k9wsvzgd.json',
+                        //     animate: true,
+                        //     height: 120,
+                        //     width: 600),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            UserImagePicker(
+                              onPickImage: (pickedImage) {
+                                _selectedImage = pickedImage;
+                              },
                             ),
+                            Column(
+                              children: [
+                                Text(
+                                  'SignUp',
+                                  style: GoogleFonts.indieFlower(
+                                    textStyle: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 40,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.1,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              buildCircleButtonOne('Parent'),
-                              buildCircleButtonOne('Babysitter'),
-                            ],
-                          ),
-                          CircleButtonOne(
-                            handler: () async {
-                              if (_formKey.currentState == null) {
-                                print('_formKey.currentState == null');
-                              } else if (_formKey.currentState!.validate()) {
-                                if (confirmPassword == password) {
-                                  setState(() {
-                                    loading = true;
-                                  });
-                                  dynamic result =
-                                      await _auth.registerWithEmailAndpassword(
-                                    email!,
-                                    password!,
-                                  );
-                                  if (result == null) {
-                                    print('not good');
-                                    setState(() {
-                                      loading = false;
-                                    });
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(SnackBar(
-                                      backgroundColor: Colors.red,
-                                      content: Text(
-                                        "email already in the system",
-                                        style: TextStyle(color: Colors.black),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, top: 20),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          validator: (String? value) {
+                                            if (value!.isEmpty) {
+                                              return "First Name cannot be empty";
+                                            }
+                                            return null;
+                                          },
+                                          onChanged: (value) {
+                                            setState(() {
+                                              firstName = value;
+                                            });
+                                          },
+                                          keyboardType: TextInputType.name,
+                                          decoration: const InputDecoration(
+                                            focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide.none,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
+                                            enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide.none,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
+                                            prefixIcon: Icon(
+                                              Icons.person,
+                                              color: Colors.purple,
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            labelText: "First Name",
+                                            hintText: "first name",
+                                            labelStyle:
+                                                TextStyle(color: Colors.purple),
+                                          ),
+                                        ),
                                       ),
-                                    ));
-                                  } else {
-                                    if (_selectedImage != null) {
-                                      final storageRef = FirebaseStorage
-                                          .instance
-                                          .ref()
-                                          .child('user_images')
-                                          .child('${result.uid}.jpg');
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.name,
+                                          validator: (String? value) {
+                                            if (value!.isEmpty)
+                                              return "Last Name cannot be empty";
+                                            return null;
+                                          },
+                                          onChanged: (value) {
+                                            setState(() {
+                                              lastName = value;
+                                            });
+                                          },
+                                          decoration: const InputDecoration(
+                                            focusedBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide.none,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
+                                            enabledBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide.none,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
+                                            prefixIcon: Icon(
+                                              Icons.person,
+                                              color: Colors.purple,
+                                            ),
+                                            filled: true,
+                                            fillColor: Colors.white,
+                                            labelText: "Last Name",
+                                            hintText: 'last name',
+                                            labelStyle:
+                                                TextStyle(color: Colors.purple),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, bottom: 10, top: 10),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return "Email field cannot be empty";
+                                      } else if (emailAddressValidator(value)) {
+                                        return 'Please Enter a valid email';
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        email = value;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      prefixIcon: Icon(
+                                        Icons.person,
+                                        color: Colors.purple,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      labelText: "Email",
+                                      hintText: 'your-email@domain.com',
+                                      labelStyle:
+                                          TextStyle(color: Colors.purple),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
+                                  child: TextFormField(
+                                    obscuringCharacter: '*',
+                                    obscureText: true,
+                                    decoration: const InputDecoration(
+                                      focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      prefixIcon: Icon(
+                                        Icons.person,
+                                        color: Colors.purple,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      labelText: "Password",
+                                      hintText: '*********',
+                                      labelStyle:
+                                          TextStyle(color: Colors.purple),
+                                    ),
+                                    validator: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return "password field cannot be empty";
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        password = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, bottom: 10, top: 10),
+                                  child: TextFormField(
+                                    obscuringCharacter: '*',
+                                    obscureText: true,
+                                    decoration: const InputDecoration(
+                                      focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      prefixIcon: Icon(
+                                        Icons.person,
+                                        color: Colors.purple,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      labelText: "Confirm Password",
+                                      hintText: '*********',
+                                      labelStyle:
+                                          TextStyle(color: Colors.purple),
+                                    ),
+                                    validator: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return "confirm password field cannot be empty";
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        confirmPassword = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
+                                  child: TextFormField(
+                                    keyboardType: TextInputType.phone,
+                                    validator: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return "Phone number cannot be empty";
+                                      } else if (mobileNumberValidator(value)) {
+                                        return "Please enter a valid mobile number";
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        phoneNumber = value;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      prefixIcon: Icon(
+                                        Icons.person,
+                                        color: Colors.purple,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      labelText: "Phone Number",
+                                      hintText: 'phone number',
+                                      labelStyle:
+                                          TextStyle(color: Colors.purple),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, bottom: 10, top: 10),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                          child:
+                                              buildCircleButtonOne('Parent')),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                          child: buildCircleButtonOne(
+                                              'Babysitter')),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0)),
+                                        backgroundColor: Colors.purple,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 131, vertical: 20)),
+                                    onPressed: () async {
+                                      if (_formKey.currentState == null) {
+                                        print('_formKey.currentState == null');
+                                      } else if (_formKey.currentState!
+                                          .validate()) {
+                                        if (confirmPassword == password) {
+                                          setState(() {
+                                            loading = true;
+                                          });
+                                          dynamic result = await _auth
+                                              .registerWithEmailAndpassword(
+                                            email!,
+                                            password!,
+                                          );
+                                          if (result == null) {
+                                            print('not good');
+                                            setState(() {
+                                              loading = false;
+                                            });
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                              backgroundColor: Colors.red,
+                                              content: Text(
+                                                "email already in the system",
+                                                style: TextStyle(
+                                                    color: Colors.black),
+                                              ),
+                                            ));
+                                          } else {
+                                            if (_selectedImage != null) {
+                                              final storageRef = FirebaseStorage
+                                                  .instance
+                                                  .ref()
+                                                  .child('user_images')
+                                                  .child('${result.uid}.jpg');
 
                                       await storageRef.putFile(_selectedImage!);
                                       imageUrl =
@@ -364,47 +534,72 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         },
                                       );
                                     });
-
-                                    Navigator.of(context).pop();
-                                    if (userType == 'Parent') {
-                                      Navigator.of(context)
-                                          .pushReplacementNamed(
-                                        LoginScreen.routeName,
-                                      );
-                                    } else if (userType == 'Babysitter') {
-                                      Navigator.of(context)
-                                          .pushReplacementNamed(
-                                        BabysitterRegisterScreen.routeName,
-                                        arguments:
-                                            json.decode(response!.body)['id'],
-                                      );
-                                    }
-                                  }
-                                } else {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    backgroundColor: Colors.red,
-                                    content: Text(
-                                      "Passwords don't match",
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ));
-                                }
-                              } else {
-                                print('not good');
-                              }
-                            },
-                            cOpacity: 0.8,
-                            text: 'Next',
-                            cMarginTop: 30,
-                            bgColor: Colors.black,
-                            textColor: Colors.white,
-                            cWidth: 0.9,
+                                            Navigator.of(context).pop();
+                                            if (userType == 'Parent') {
+                                              Navigator.of(context)
+                                                  .pushReplacementNamed(
+                                                LoginScreen.routeName,
+                                              );
+                                            } else if (userType ==
+                                                'Babysitter') {
+                                              Navigator.of(context)
+                                                  .pushReplacementNamed(
+                                                BabysitterRegisterScreen
+                                                    .routeName,
+                                                arguments: json.decode(
+                                                    response!.body)['id'],
+                                              );
+                                            }
+                                          }
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                            backgroundColor: Colors.red,
+                                            content: Text(
+                                              "Passwords don't match",
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          ));
+                                        }
+                                      } else {
+                                        print('not good');
+                                      }
+                                    },
+                                    child: Text(
+                                      'Sign Up',
+                                      style: TextStyle(fontSize: 17),
+                                    ))
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'already have an account?',
+                              style: TextStyle(
+                                color: Colors.black.withOpacity(0.6),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(LoginScreen.routeName);
+                              },
+                              child: Text(
+                                'Sign In',
+                                style: TextStyle(
+                                    color: Colors.purple,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

@@ -156,12 +156,47 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'job date: ${json.decode(value.body)['date']}\n' +
-                                    'hours: ${json.decode(value.body)['startHour']} - ${json.decode(value.body)['endHour']}\n',
+                              Row(
+                                children: [
+                                  Text(
+                                    'Job date: ',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '${json.decode(value.body)['date']}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                'description: ${json.decode(value.body)['description']}',
+                              Row(
+                                children: [
+                                  Text(
+                                    'Hours: ',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '${json.decode(value.body)['startHour']} - ${json.decode(value.body)['endHour']}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'description: ',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    '${json.decode(value.body)['description']}',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
@@ -171,8 +206,16 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            TextButton(
+                            ElevatedButton(
                                 child: Text("chat with the parent"),
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(2))),
+                                  backgroundColor:
+                                      Color.fromARGB(255, 50, 90, 114),
+                                ),
                                 onPressed: () async {
                                   // final put_body = json.decode(value.body);
                                   // put_body['is_confirmed'] = true;
@@ -188,7 +231,15 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop();
                                 }),
-                            TextButton(
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(2))),
+                                  backgroundColor:
+                                      Color.fromARGB(255, 130, 85, 82),
+                                ),
                                 child: Text("close"),
                                 onPressed: () async {
                                   Navigator.of(context, rootNavigator: true)

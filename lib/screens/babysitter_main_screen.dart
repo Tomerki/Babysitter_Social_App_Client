@@ -73,32 +73,32 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.home),
           title: ("Home"),
-          activeColorPrimary: Colors.deepPurple,
-          inactiveColorPrimary: Colors.grey,
+          activeColorPrimary: Colors.black,
+          inactiveColorPrimary: Colors.black.withOpacity(0.5),
         ),
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.notifications),
           title: ("Notifications"),
-          activeColorPrimary: Colors.deepPurple,
-          inactiveColorPrimary: Colors.grey,
+          activeColorPrimary: Colors.black,
+          inactiveColorPrimary: Colors.black.withOpacity(0.5),
         ),
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.search, color: Colors.white),
           title: ("Search"),
           activeColorPrimary: Colors.black,
-          inactiveColorPrimary: Colors.grey,
+          inactiveColorPrimary: Colors.black.withOpacity(0.5),
         ),
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.email),
           title: ("Inbox"),
-          activeColorPrimary: Colors.deepPurple,
-          inactiveColorPrimary: Colors.grey,
+          activeColorPrimary: Colors.black,
+          inactiveColorPrimary: Colors.black.withOpacity(0.5),
         ),
         PersistentBottomNavBarItem(
           icon: const Icon(Icons.person),
           title: ("Profile"),
-          activeColorPrimary: Colors.deepPurple,
-          inactiveColorPrimary: Colors.grey,
+          activeColorPrimary: Colors.black,
+          inactiveColorPrimary: Colors.black.withOpacity(0.5),
         ),
       ];
     }
@@ -111,7 +111,9 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(screen_name),
-        backgroundColor: Color.fromARGB(255, 219, 163, 154),
+        backgroundColor: Color.fromARGB(255, 129, 100, 110).withOpacity(0.2),
+        elevation: 5.0,
+        // backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
       drawer: MainDrawer(),
       body: PersistentTabView(
@@ -125,7 +127,9 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
             screen_name = _screenName[index];
           });
         },
-        backgroundColor: Colors.white, // Default is Colors.white.
+
+        backgroundColor: Color.fromARGB(255, 129, 100, 110)
+            .withOpacity(0.5), // Default is Colors.white.
         handleAndroidBackButtonPress: true, // Default is true.
         resizeToAvoidBottomInset:
             true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
@@ -133,7 +137,7 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
         hideNavigationBarWhenKeyboardShows:
             true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         decoration: NavBarDecoration(
-          borderRadius: BorderRadius.circular(10.0),
+          borderRadius: BorderRadius.circular(0.0),
           colorBehindNavBar: Colors.white,
         ),
         popAllScreensOnTapOfSelectedTab: true,

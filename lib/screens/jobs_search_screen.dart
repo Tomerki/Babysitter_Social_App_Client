@@ -41,6 +41,12 @@ class _JobsSearchScreenState extends State<JobsSearchScreen> {
     var decoded_user_body = json.decode(widget.user_body);
     return Center(
       child: Container(
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                fit: BoxFit.cover,
+                opacity: 0.3)),
         alignment: Alignment.topCenter,
         child: FutureBuilder<List<dynamic>>(
           future: jobsFuture,

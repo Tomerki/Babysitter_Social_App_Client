@@ -50,26 +50,11 @@ class _EditBabysitterProfileScreenState
 
   final _formKey2 = GlobalKey<FormState>();
   File? _imageFile;
-  // String about = '';
+
   TextEditingController _aboutController = TextEditingController(text: '');
 
-  // double price = -1.0;
-  // String age = '18';
   List<String> ageList =
       List.generate(165, (index) => (18 + (index * 0.5)).toStringAsFixed(1));
-
-  // Map<String, bool> texts = {
-  //   'Come to client': false,
-  //   'In my place': false,
-  //   'Takes to/from activities': false,
-  //   'Knows how to cook': false,
-  //   'First aid certified': false,
-  //   'Helping with housework': false,
-  //   'Has a driver\'s license': false,
-  //   'Change a diaper': false,
-  //   'Has past experience': false,
-  //   'Has an education in education': false,
-  // };
 
   @override
   Widget build(BuildContext context) {
@@ -86,23 +71,15 @@ class _EditBabysitterProfileScreenState
           } else {
             dynamic babysitter = snapshot.data;
 
-            // about = babysitter['about'];
-            // price = babysitter['price'];
-
             return Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    Color.fromARGB(255, 201, 195, 195),
-                    Color.fromARGB(255, 179, 175, 175),
-                    Color.fromARGB(255, 183, 160, 160),
-                  ],
-                ),
-              ),
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                      fit: BoxFit.cover,
+                      opacity: 0.3)),
               child: Form(
                 key: _formKey2,
                 child: SingleChildScrollView(
@@ -117,11 +94,11 @@ class _EditBabysitterProfileScreenState
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
-                              children: const [
+                              children: [
                                 Text(
                                   'About',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black.withOpacity(0.5),
                                     fontSize: 40,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -130,7 +107,7 @@ class _EditBabysitterProfileScreenState
                                 Text(
                                   'Me',
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black.withOpacity(0.5),
                                     fontSize: 30,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -229,54 +206,106 @@ class _EditBabysitterProfileScreenState
                         },
                       ),
                       Divider(),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: CircleButtonOne(
-                              handler: () async {
-                                await ServerManager()
-                                    .putRequest(
-                                  'items/' + AppUser.getUid(),
-                                  'Babysitter',
-                                  body: jsonEncode(
-                                    {
-                                      'price':
-                                          widget.price == '' ? 0 : widget.price,
-                                      'about': widget.about,
-                                      'age': widget.age,
-                                      'ComeToClient': widget
-                                          .texts['Come to client']
-                                          .toString(),
-                                      'InMyPlace': widget.texts['In my place']
-                                          .toString(),
-                                      'HelpingWithHouseWork': widget
-                                          .texts['Helping with housework']
-                                          .toString(),
-                                      'KnowsHowToCook': widget
-                                          .texts['Knows how to cook']
-                                          .toString(),
-                                      'FirstAidCertified': widget
-                                          .texts['First aid certified']
-                                          .toString(),
-                                      'HasDriverLicense': widget
-                                          .texts['Has a driver\'s license']
-                                          .toString(),
-                                      'HasPastExperience': widget
-                                          .texts['Has past experience']
-                                          .toString(),
-                                      'HasAnEducationInEducation': widget.texts[
-                                              'Has an education in education']
-                                          .toString(),
-                                      'TakesToActivities': widget
-                                          .texts['Takes to/from activities']
-                                          .toString(),
-                                      'ChangeADiaper': widget
-                                          .texts['Change a diaper']
-                                          .toString(),
-                                    },
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, bottom: 10, top: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                child: Text(
+                                  'Save Changes',
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  backgroundColor:
+                                      Colors.black.withOpacity(0.8),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 20,
                                   ),
-                                )
-                                    .then((value) async {
+                                ),
+                                onPressed: () async {
+                                  await ServerManager()
+                                      .putRequest(
+                                    'items/' + AppUser.getUid(),
+                                    'Babysitter',
+                                    body: jsonEncode(
+                                      {
+                                        'price': widget.price == ''
+                                            ? 0
+                                            : widget.price,
+                                        'about': widget.about,
+                                        'age': widget.age,
+                                        'ComeToClient': widget
+                                            .texts['Come to client']
+                                            .toString(),
+                                        'InMyPlace': widget.texts['In my place']
+                                            .toString(),
+                                        'HelpingWithHouseWork': widget
+                                            .texts['Helping with housework']
+                                            .toString(),
+                                        'KnowsHowToCook': widget
+                                            .texts['Knows how to cook']
+                                            .toString(),
+                                        'FirstAidCertified': widget
+                                            .texts['First aid certified']
+                                            .toString(),
+                                        'HasDriverLicense': widget
+                                            .texts['Has a driver\'s license']
+                                            .toString(),
+                                        'HasPastExperience': widget
+                                            .texts['Has past experience']
+                                            .toString(),
+                                        'HasAnEducationInEducation': widget
+                                            .texts[
+                                                'Has an education in education']
+                                            .toString(),
+                                        'TakesToActivities': widget
+                                            .texts['Takes to/from activities']
+                                            .toString(),
+                                        'ChangeADiaper': widget
+                                            .texts['Change a diaper']
+                                            .toString(),
+                                      },
+                                    ),
+                                  )
+                                      .then((value) async {
+                                    await ServerManager()
+                                        .getRequest('items/' + AppUser.getUid(),
+                                            'Babysitter')
+                                        .then((val) {
+                                      Navigator.of(context).popAndPushNamed(
+                                        BabysitterMainScreen.routeName,
+                                        arguments: val.body,
+                                      );
+                                    });
+                                  });
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                child: Text(
+                                  'Cancle',
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  backgroundColor:
+                                      Color.fromARGB(255, 81, 26, 26)
+                                          .withOpacity(0.8),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: 20,
+                                  ),
+                                ),
+                                onPressed: () async {
                                   await ServerManager()
                                       .getRequest('items/' + AppUser.getUid(),
                                           'Babysitter')
@@ -286,37 +315,12 @@ class _EditBabysitterProfileScreenState
                                       arguments: val.body,
                                     );
                                   });
-                                });
-                              },
-                              text: 'Save Changes',
-                              cHeight: 0.1,
-                              cPaddingBottom: 20,
-                              bgColor: Colors.black,
-                              textColor: Colors.white,
+                                },
+                              ),
                             ),
-                          ),
-                          Expanded(
-                            child: CircleButtonOne(
-                              handler: () async {
-                                await ServerManager()
-                                    .getRequest('items/' + AppUser.getUid(),
-                                        'Babysitter')
-                                    .then((val) {
-                                  Navigator.of(context).popAndPushNamed(
-                                    BabysitterMainScreen.routeName,
-                                    arguments: val.body,
-                                  );
-                                });
-                              },
-                              text: 'Cancel',
-                              cHeight: 0.1,
-                              cPaddingBottom: 20,
-                              bgColor: Color.fromARGB(255, 81, 26, 26),
-                              textColor: Colors.white,
-                            ),
-                          ),
-                        ],
-                      )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
