@@ -6,6 +6,7 @@ import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
 import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
 import 'package:baby_sitter/widgets/babysitter_description.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import '../models/appUser.dart';
@@ -222,7 +223,17 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
   AppBar build_appBar(var decoded_user_body) {
     return AppBar(
       centerTitle: true,
-      title: Text(decoded_user_body['fullName'] + ' ' + "profile"),
+      title: Text(
+        decoded_user_body['fullName'] + ' ' + "Profile",
+        style: GoogleFonts.workSans(
+          color: Colors.black,
+          textStyle: const TextStyle(
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.w400,
+            fontSize: 24,
+          ),
+        ),
+      ),
       backgroundColor: Color.fromARGB(255, 129, 100, 110).withOpacity(0.2),
       elevation: 5.0,
     );

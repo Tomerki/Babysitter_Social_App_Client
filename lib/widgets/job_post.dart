@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../models/appUser.dart';
 import '../server_manager.dart';
@@ -36,12 +37,16 @@ class _JobPostState extends State<JobPost> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(right: 170, left: 8.0),
+                    padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
                       widget.job['publisher'],
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
+                      style: GoogleFonts.workSans(
+                        color: Colors.black,
+                        textStyle: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                        ),
                       ),
                     ),
                   ),
@@ -73,12 +78,25 @@ class _JobPostState extends State<JobPost> {
                         children: [
                           Text(
                             'Job date: ',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
                           Text(
                             '${widget.job['date']}',
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -86,12 +104,25 @@ class _JobPostState extends State<JobPost> {
                         children: [
                           Text(
                             'Hours: ',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
                           Text(
                             '${widget.job['startHour']} - ${widget.job['endHour']}',
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -99,12 +130,25 @@ class _JobPostState extends State<JobPost> {
                         children: [
                           Text(
                             'Number of children: ',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
                           Text(
                             ' ${widget.job['childrens'] == null ? 0 : widget.job['childrens'].length}',
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -112,12 +156,25 @@ class _JobPostState extends State<JobPost> {
                         children: [
                           Text(
                             'description: ',
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
                           Text(
                             ' ${widget.job['description'] == null || widget.job['description'].length == 0 ? 'no description' : widget.job['description']}',
-                            style: TextStyle(fontSize: 16),
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
                           ),
                         ],
                       ),

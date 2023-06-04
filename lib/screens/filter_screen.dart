@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/circle_button_one.dart';
 
@@ -90,7 +91,17 @@ class _FilterScreennState extends State<FilterScreen>
     MediaQueryData queryData = MediaQuery.of(context);
     return Scaffold(
         appBar: AppBar(
-          title: Text('Filter By'),
+          title: Text(
+            'Filter By',
+            style: GoogleFonts.workSans(
+              color: Colors.black,
+              textStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w400,
+                fontSize: 24,
+              ),
+            ),
+          ),
           backgroundColor: Color.fromARGB(255, 129, 100, 110).withOpacity(0.2),
           elevation: 5.0,
           centerTitle: true,

@@ -4,6 +4,7 @@ import 'package:baby_sitter/widgets/loading.dart';
 import 'package:baby_sitter/widgets/new_recommendation.dart';
 import 'package:baby_sitter/widgets/recommendation_post.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../models/appUser.dart';
 import '../server_manager.dart';
@@ -65,7 +66,17 @@ class _BabysitterRecommendationScreenState
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Recommendations'),
+        title: Text(
+          'Recommendations',
+          style: GoogleFonts.workSans(
+            color: Colors.black,
+            textStyle: const TextStyle(
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w400,
+              fontSize: 24,
+            ),
+          ),
+        ),
         backgroundColor: Color.fromARGB(255, 129, 100, 110).withOpacity(0.2),
         elevation: 5.0,
       ),
@@ -77,9 +88,6 @@ class _BabysitterRecommendationScreenState
                 fit: BoxFit.cover,
                 opacity: 0.3)),
         child: Center(
-          // child: Container(
-          //   alignment: Alignment.topCenter,
-          //   padding: EdgeInsets.all(10),
           child: FutureBuilder<List<dynamic>>(
             future: recommendationsFuture,
             builder: (context, snapshot) {
@@ -101,7 +109,22 @@ class _BabysitterRecommendationScreenState
                                 hide: true,
                               );
                             }).toList()
-                          : [Text('No Results')],
+                          : [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'No Results',
+                                style: GoogleFonts.workSans(
+                                  color: Colors.black,
+                                  textStyle: const TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              )
+                            ],
                 );
               }
             },
@@ -210,14 +233,6 @@ class _BabysitterRecommendationScreenState
                                         ));
                                   });
 
-                                  // setState(
-                                  //   () {
-                                  //     recommendations.add({
-                                  //       "description": recommendationValue,
-                                  //     });
-                                  //   },
-                                  // );
-                                  // callback(recommendations);
                                   Navigator.of(context, rootNavigator: true)
                                       .pop();
                                 }),

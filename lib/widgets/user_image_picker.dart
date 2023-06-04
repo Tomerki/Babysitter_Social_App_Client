@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserImagePicker extends StatefulWidget {
@@ -46,11 +47,19 @@ class _UserImagePickerState extends State<UserImagePicker> {
         ),
         TextButton.icon(
           onPressed: _pickImage,
-          icon: const Icon(Icons.image),
+          icon: const Icon(
+            Icons.image,
+            color: Colors.black,
+          ),
           label: Text(
             'Add Image',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+            style: GoogleFonts.workSans(
+              color: Colors.black,
+              textStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+              ),
             ),
           ),
         )

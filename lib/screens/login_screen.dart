@@ -65,18 +65,18 @@ class _loginScreenState extends State<LoginScreen> {
                           style: GoogleFonts.indieFlower(
                             textStyle: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 40,
+                              fontSize: 50,
                             ),
                           ),
                         ),
                         Text(
                           'Please login to continue using our app',
-                          style: GoogleFonts.indieFlower(
-                            textStyle: TextStyle(
-                                color: Colors.black.withOpacity(0.5),
-                                fontWeight: FontWeight.w300,
-                                // height: 1.5,
-                                fontSize: 15),
+                          style: GoogleFonts.workSans(
+                            textStyle: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -94,7 +94,7 @@ class _loginScreenState extends State<LoginScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                      left: 20, right: 20, bottom: 30, top: 20),
+                                      left: 20, right: 20, bottom: 20, top: 20),
                                   child: TextFormField(
                                     validator: (String? value) {
                                       if (value!.isEmpty) {
@@ -262,7 +262,13 @@ class _loginScreenState extends State<LoginScreen> {
                                     },
                                     child: Text(
                                       'Log In',
-                                      style: TextStyle(fontSize: 17),
+                                      style: GoogleFonts.workSans(
+                                        textStyle: const TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 20,
+                                        ),
+                                      ),
                                     ))
                               ],
                             ),
@@ -273,8 +279,13 @@ class _loginScreenState extends State<LoginScreen> {
                           children: [
                             Text(
                               'You have\'t any account?',
-                              style: TextStyle(
-                                color: Colors.black.withOpacity(0.6),
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                             TextButton(
@@ -284,9 +295,14 @@ class _loginScreenState extends State<LoginScreen> {
                               },
                               child: Text(
                                 'Sign Up',
-                                style: TextStyle(
-                                    color: Colors.purple,
-                                    fontWeight: FontWeight.w500),
+                                style: GoogleFonts.workSans(
+                                  color: Colors.purple,
+                                  textStyle: const TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 18,
+                                  ),
+                                ),
                               ),
                             )
                           ],

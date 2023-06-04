@@ -31,10 +31,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         children: [
           Text(
             text,
-            style: GoogleFonts.lato(
-                color: Colors.black.withOpacity(1),
-                fontWeight: FontWeight.w300,
-                fontSize: 15),
+            style: GoogleFonts.workSans(
+              textStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w400,
+                fontSize: 18,
+              ),
+            ),
           ),
           Icon(icon),
         ],
@@ -77,9 +80,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       padding: const EdgeInsets.all(20.0),
                       child: Text(
                         'Welcome',
-                        style: GoogleFonts.indieFlower(
+                        style: GoogleFonts.workSans(
                           textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w300,
+                            // fontWeight: FontWeight.bold,
                             fontSize: 50,
                           ),
                         ),
@@ -89,9 +94,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       padding: const EdgeInsets.only(bottom: 10),
                       child: Text(
                         'To BabyMe',
-                        style: GoogleFonts.indieFlower(
+                        style: GoogleFonts.workSans(
                           textStyle: const TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w300,
                             fontSize: 30,
                           ),
                         ),
@@ -125,7 +131,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           },
                           child: Text(
                             'Click to Login',
-                            style: TextStyle(fontSize: 17),
+                            style: GoogleFonts.workSans(
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                              ),
+                            ),
                           )),
                     ),
                     SizedBox(
@@ -146,7 +158,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           },
                           child: Text(
                             'Click to Sign-Up',
-                            style: TextStyle(fontSize: 17),
+                            style: GoogleFonts.workSans(
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                              ),
+                            ),
                           )),
                     ),
                   ],

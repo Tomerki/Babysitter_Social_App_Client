@@ -6,6 +6,7 @@ import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:baby_sitter/screens/jobs_search_screen.dart';
 import 'package:baby_sitter/screens/notifications_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../server_manager.dart';
@@ -102,7 +103,17 @@ class _ParentMainScreenState extends State<ParentMainScreen>
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(screen_name),
+        title: Text(
+          screen_name,
+          style: GoogleFonts.workSans(
+            color: Colors.black,
+            textStyle: const TextStyle(
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w400,
+              fontSize: 24,
+            ),
+          ),
+        ),
         backgroundColor: Color.fromARGB(255, 129, 100, 110).withOpacity(0.2),
         elevation: 5.0,
       ),

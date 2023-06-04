@@ -1,5 +1,6 @@
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/services/auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../widgets/chat_card.dart';
 import 'package:flutter/material.dart';
 
@@ -60,9 +61,31 @@ class _ChatsScreenState extends State<ChatsScreen> {
                 opacity: 0.3)),
         child: Column(
           children: [
+            SizedBox(
+              height: 10,
+            ),
             ElevatedButton(
               onPressed: () => _showEmailDialog(context),
-              child: Text('Add Chat by Email'),
+              child: Text(
+                'Add Chat By Email',
+                style: GoogleFonts.workSans(
+                  color: Colors.white,
+                  textStyle: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                backgroundColor: Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              ),
+            ),
+            SizedBox(
+              height: 10,
             ),
             StreamBuilder(
               stream: AuthService.firestore
@@ -81,8 +104,18 @@ class _ChatsScreenState extends State<ChatsScreen> {
                   );
                 }
                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return const Center(
-                    child: Text('No Chats found'),
+                  return Center(
+                    child: Text(
+                      'No Chats found',
+                      style: GoogleFonts.workSans(
+                        color: Colors.black,
+                        textStyle: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
                   );
                 }
 

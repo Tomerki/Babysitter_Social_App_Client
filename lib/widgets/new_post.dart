@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
@@ -50,6 +51,14 @@ class _NewPostState extends State<NewPost> {
     return ElevatedButton(
       child: Text(
         'Click to add a new job',
+        style: GoogleFonts.workSans(
+          color: Colors.white,
+          textStyle: const TextStyle(
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.w400,
+            fontSize: 20,
+          ),
+        ),
       ),
       style: ElevatedButton.styleFrom(
         shape:

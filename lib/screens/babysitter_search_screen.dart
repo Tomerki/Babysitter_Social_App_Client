@@ -4,6 +4,7 @@ import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:baby_sitter/widgets/babysitter_search_card.dart';
 import 'package:baby_sitter/widgets/input_box.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -158,7 +159,19 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                                   ' ' +
                                   babysitter['lastName']);
                         }).toList()
-                      : [Text('No Results')],
+                      : [
+                          Text(
+                            'No Results',
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                              ),
+                            ),
+                          )
+                        ],
                 );
               }
             },
