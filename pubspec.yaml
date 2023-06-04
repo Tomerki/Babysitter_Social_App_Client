@@ -50,6 +50,9 @@ dependencies:
   persistent_bottom_nav_bar: ^5.0.2
   firebase_storage: ^11.2.1
   tuple: ^2.0.1
+  lottie: ^2.3.2
+  google_fonts: ^4.0.4
+  validators: ^3.0.0
 
 dev_dependencies:
   flutter_test:

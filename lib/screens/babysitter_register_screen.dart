@@ -42,17 +42,12 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.centerRight,
-            colors: [
-              Color.fromARGB(255, 201, 195, 195),
-              Color.fromARGB(255, 179, 175, 175),
-              Color.fromARGB(255, 183, 160, 160),
-            ],
-          ),
-        ),
+        decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: NetworkImage(
+                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                fit: BoxFit.cover,
+                opacity: 0.3)),
         child: Form(
           key: _formKey2,
           child: SingleChildScrollView(
@@ -67,11 +62,11 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        children: const [
+                        children: [
                           Text(
                             'About',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black.withOpacity(0.5),
                               fontSize: 40,
                               fontWeight: FontWeight.bold,
                             ),
@@ -80,7 +75,7 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                           Text(
                             'Me',
                             style: TextStyle(
-                              color: Colors.white,
+                              color: Colors.black.withOpacity(0.5),
                               fontSize: 30,
                               fontWeight: FontWeight.w700,
                             ),
@@ -129,7 +124,7 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                       });
                     },
                     hint: Text(
-                      'Selecet age',
+                      'select age',
                     ),
                     isExpanded: true,
                   ),
@@ -174,8 +169,17 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                   },
                 ),
                 Divider(),
-                CircleButtonOne(
-                  handler: () async {
+                ElevatedButton(
+                  child: Text(
+                    'Sign Up!',
+                  ),
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      backgroundColor: Colors.purple,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 100, vertical: 20)),
+                  onPressed: () async {
                     String id =
                         ModalRoute.of(context)!.settings.arguments as String;
                     await ServerManager()
@@ -213,13 +217,10 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                         .then((value) => Navigator.of(context)
                             .pushNamed(LoginScreen.routeName));
                   },
-                  text: 'Sign-up!',
-                  cWidth: 0.8,
-                  cHeight: 0.1,
-                  cPaddingBottom: 20,
-                  bgColor: Colors.black,
-                  textColor: Colors.white,
                 ),
+                SizedBox(
+                  height: 20,
+                )
               ],
             ),
           ),

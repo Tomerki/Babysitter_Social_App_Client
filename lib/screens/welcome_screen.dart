@@ -1,3 +1,6 @@
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
+
 import '../services/auth.dart';
 import './register_screen.dart';
 
@@ -15,8 +18,6 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   void initState() {
-    print("init state of WelcomeScreen");
-    setState(() {});
     super.initState();
   }
 
@@ -30,11 +31,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         children: [
           Text(
             text,
-            style: TextStyle(
-              fontSize: 15,
-              letterSpacing: 2,
-              fontWeight: FontWeight.w600,
-            ),
+            style: GoogleFonts.lato(
+                color: Colors.black.withOpacity(1),
+                fontWeight: FontWeight.w300,
+                fontSize: 15),
           ),
           Icon(icon),
         ],
@@ -45,71 +45,115 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.centerRight,
-            colors: [
-              Color.fromARGB(188, 227, 183, 160),
-              Color.fromARGB(255, 236, 232, 217),
-              Color.fromARGB(255, 250, 246, 233),
-            ],
-          ),
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 70.0, bottom: 30.0),
-              child: Text(
-                'Welcome to BabyMe',
-                style: TextStyle(
-                  fontSize: 35,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Alkatra',
+      body: SafeArea(
+        child: Container(
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                  fit: BoxFit.cover,
+                  opacity: 0.3)),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(
+                  height: 20,
                 ),
-              ),
+                // Image.network(
+                //   'https://i.ibb.co/3MLGsSx/logo-new.png',
+                //   height: 80,
+                //   width: 120,
+                // ),
+                // // Lottie.network(
+                // //     'https://assets1.lottiefiles.com/packages/lf20_1pxqjqps.json',
+                // //     height: 300,
+                // //     width: 600),
+
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(
+                        'Welcome',
+                        style: GoogleFonts.indieFlower(
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 50,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        'To BabyMe',
+                        style: GoogleFonts.indieFlower(
+                          textStyle: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    buildRow('Finding nanny from everywhere!', Icons.public),
+                    buildRow(
+                        'Easy and Simple to use!', Icons.accessibility_new),
+                    buildRow('Safety for your child!', Icons.safety_check),
+                  ],
+                ),
+
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            backgroundColor: Colors.purple,
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(LoginScreen.routeName);
+                          },
+                          child: Text(
+                            'Click to Login',
+                            style: TextStyle(fontSize: 17),
+                          )),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            backgroundColor: Colors.purple,
+                            padding: EdgeInsets.symmetric(vertical: 20),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(RegisterScreen.routeName);
+                          },
+                          child: Text(
+                            'Click to Sign-Up',
+                            style: TextStyle(fontSize: 17),
+                          )),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            buildRow('Finding nanny from everywhere!', Icons.public),
-            buildRow('Easy and Simple to use!', Icons.accessibility_new),
-            buildRow('Safety for your child!', Icons.safety_check),
-            CircleButtonOne(
-              handler: () {
-                Navigator.of(context).pushNamed(LoginScreen.routeName);
-              },
-              cWidth: 0.7,
-              cHeight: 0.1,
-              textSize: 21,
-              text: 'Click to Login',
-              cCircular: 25,
-              cOpacity: 0.8,
-              bgColor: Color.fromARGB(255, 231, 70, 70),
-              textColor: Colors.white,
-              cMarginTop: 70.0,
-              cMarginBottom: 20.0,
-              cPaddingTop: 10.0,
-              cPaddingBottom: 10.0,
-            ),
-            CircleButtonOne(
-              handler: () {
-                Navigator.of(context).pushNamed(RegisterScreen.routeName);
-              },
-              cWidth: 0.7,
-              cHeight: 0.1,
-              textSize: 21,
-              text: 'Click to Sign-Up',
-              cCircular: 25,
-              cOpacity: 0.8,
-              bgColor: Color.fromARGB(255, 231, 70, 70),
-              textColor: Colors.white,
-              cMarginTop: 20.0,
-              cMarginBottom: 30.0,
-              cPaddingTop: 10.0,
-              cPaddingBottom: 10.0,
-            ),
-          ],
+          ),
         ),
       ),
     );

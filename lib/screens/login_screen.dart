@@ -1,34 +1,39 @@
 import 'dart:convert';
-import 'package:baby_sitter/screens/babysitter_main_screen.dart';
+
 import 'package:baby_sitter/screens/parent_main_screen.dart';
-import 'package:baby_sitter/server_manager.dart';
+import 'package:baby_sitter/screens/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import '../models/appUser.dart';
-import '../widgets/loading.dart';
+import '../server_manager.dart';
 import '../services/auth.dart';
 import '../services/validation.dart';
-import '../widgets/input_box.dart';
-import '../widgets/circle_button_one.dart';
+import '../widgets/loading.dart';
+import 'babysitter_main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static final routeName = 'login_screen';
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _loginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _loginScreenState extends State<LoginScreen> {
+  TextEditingController _textEditingController = TextEditingController();
+
   @override
-  void initState() {
-    print("init state of login");
-    super.initState();
+  void dispose() {
+    _textEditingController.clear();
+    super.dispose();
   }
 
   final AuthService _auth = AuthService();
-  var _formKey = GlobalKey<FormState>();
-  bool loading = false;
   String? email, password;
-
+  final _formKey = GlobalKey<FormState>();
+  bool loading = false;
   bool isBabysitter = false;
   @override
   Widget build(BuildContext context) {
@@ -36,138 +41,259 @@ class _LoginScreenState extends State<LoginScreen> {
         ? Loading()
         : Scaffold(
             body: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/bg_welcome_screen.jpg'),
-                  fit: BoxFit.cover,
-                  opacity: 0.5,
-                ),
-              ),
-              padding: EdgeInsets.only(top: 50, left: 15, right: 15),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(20),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'BabyMe',
-                        style: TextStyle(
-                          fontSize: 45.0,
-                          fontWeight: FontWeight.w900,
-                          fontFamily: 'Alkatra',
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: NetworkImage(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                      fit: BoxFit.cover,
+                      opacity: 0.3)),
+              child: SafeArea(
+                child: Center(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Lottie.network(
+                            'https://assets6.lottiefiles.com/packages/lf20_k9wsvzgd.json',
+                            animate: true,
+                            height: 120,
+                            width: 600),
+                        Text(
+                          'Login',
+                          style: GoogleFonts.indieFlower(
+                            textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 40,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    InputBox(
-                      isSecure: false,
-                      keyType: TextInputType.emailAddress,
-                      text: 'Email',
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return "Email field cannot be empty";
-                        } else if (emailAddressValidator(value)) {
-                          return 'Please Enter a valid email';
-                        }
-                      },
-                      onChanged: (value) {
-                        email = value;
-                      },
-                    ),
-                    InputBox(
-                      isSecure: true,
-                      keyType: TextInputType.text,
-                      text: 'Password',
-                      validator: (String value) {
-                        if (value.isEmpty) {
-                          return "pasaword field cannot be empty";
-                        }
-                      },
-                      onChanged: (value) {
-                        password = value;
-                      },
-                    ),
-                    CircleButtonOne(
-                      handler: () async {
-                        print(AppUser.getUserType());
-                        // FocusNode().unfocus();
-                        if (_formKey.currentState == null) {
-                          print('_formKey.currentState == null');
-                        } else if (_formKey.currentState!.validate()) {
-                          setState(() {
-                            () => loading = true;
-                          });
-                          var result = await _auth.signInWithEmailAndpassword(
-                              email!, password!);
-                          print(email);
-                          print(password);
-                          print(result.uid);
-                          if (result == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              backgroundColor: Colors.red,
-                              content: Text(
-                                "email or password incorrect",
-                                style: TextStyle(color: Colors.black),
-                              ),
-                            ));
-                            setState(() {
-                              () => loading = false;
-                            });
-                          } else {
-                            await ServerManager()
-                                .getRequest(
-                                    'search/uid/' + result.uid.toString(),
-                                    'Users')
-                                .then((value) async {
-                              isBabysitter = json.decode(
-                                  value.body.toString())['isBabysitter'];
+                        Text(
+                          'Please login to continue using our app',
+                          style: GoogleFonts.indieFlower(
+                            textStyle: TextStyle(
+                                color: Colors.black.withOpacity(0.5),
+                                fontWeight: FontWeight.w300,
+                                // height: 1.5,
+                                fontSize: 15),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 1.1,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20, bottom: 30, top: 20),
+                                  child: TextFormField(
+                                    validator: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return "Email field cannot be empty";
+                                      } else if (emailAddressValidator(value)) {
+                                        return 'Please Enter a valid email';
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        email = value;
+                                      });
+                                    },
+                                    decoration: const InputDecoration(
+                                      focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      prefixIcon: Icon(
+                                        Icons.person,
+                                        color: Colors.purple,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      labelText: "Email",
+                                      hintText: 'your-email@domain.com',
+                                      labelStyle:
+                                          TextStyle(color: Colors.purple),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      left: 20, right: 20),
+                                  child: TextFormField(
+                                    obscuringCharacter: '*',
+                                    obscureText: true,
+                                    decoration: const InputDecoration(
+                                      focusedBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10))),
+                                      prefixIcon: Icon(
+                                        Icons.person,
+                                        color: Colors.purple,
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.white,
+                                      labelText: "Password",
+                                      hintText: '*********',
+                                      labelStyle:
+                                          TextStyle(color: Colors.purple),
+                                    ),
+                                    validator: (String? value) {
+                                      if (value!.isEmpty) {
+                                        return "pasaword field cannot be empty";
+                                      }
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      setState(() {
+                                        password = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0)),
+                                        backgroundColor: Colors.purple,
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 131, vertical: 20)),
+                                    onPressed: () async {
+                                      print(AppUser.getUserType());
+                                      if (_formKey.currentState == null) {
+                                        print('_formKey.currentState == null');
+                                      } else if (_formKey.currentState!
+                                          .validate()) {
+                                        setState(() {
+                                          () => loading = true;
+                                        });
+                                        dynamic result = await _auth
+                                            .signInWithEmailAndpassword(
+                                                email!, password!);
+                                        if (result == null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                            backgroundColor:
+                                                Color.fromARGB(255, 120, 12, 5),
+                                            content: Center(
+                                              child: Text(
+                                                "email or password incorrect",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          ));
+                                          setState(() {
+                                            () => loading = false;
+                                          });
+                                        } else {
+                                          await ServerManager()
+                                              .getRequest(
+                                                  'search/uid/' +
+                                                      result.uid.toString(),
+                                                  'Users')
+                                              .then((value) async {
+                                            isBabysitter = json.decode(value
+                                                .body
+                                                .toString())['isBabysitter'];
 
-                              final type =
-                                  isBabysitter ? 'Babysitter' : 'Parent';
-                              AppUser.updateInstance(
-                                uid: result.uid.toString(),
-                                isBabysitter: isBabysitter,
-                                userType: type,
-                              );
-                              if (isBabysitter) {
-                                await ServerManager()
-                                    .getRequest(
-                                        'search/email/' + email!, 'Babysitter')
-                                    .then((user) {
-                                  Navigator.of(context).popAndPushNamed(
-                                    BabysitterMainScreen.routeName,
-                                    arguments: user.body,
-                                  );
-                                });
-                              } else {
-                                await ServerManager()
-                                    .getRequest(
-                                        'search/email/' + email!, 'Parent')
-                                    .then((user) {
-                                  Navigator.of(context).popAndPushNamed(
-                                    ParentMainScreen.routeName,
-                                    arguments: user.body,
-                                  );
-                                });
-                              }
-                            });
-                          }
-                        } else {
-                          print('not good');
-                        }
-                      },
-                      cWidth: 0.32,
-                      cHeight: 0.08,
-                      textSize: 23,
-                      cOpacity: 0.5,
-                      cCircular: 20,
-                      cPaddingTop: 10,
-                      text: 'Login',
+                                            final type = isBabysitter
+                                                ? 'Babysitter'
+                                                : 'Parent';
+                                            AppUser.updateInstance(
+                                              uid: result.uid.toString(),
+                                              isBabysitter: isBabysitter,
+                                              userType: type,
+                                            );
+                                            if (isBabysitter) {
+                                              await ServerManager()
+                                                  .getRequest(
+                                                      'search/email/' + email!,
+                                                      'Babysitter')
+                                                  .then((user) {
+                                                Navigator.of(context)
+                                                    .popAndPushNamed(
+                                                  BabysitterMainScreen
+                                                      .routeName,
+                                                  arguments: user.body,
+                                                );
+                                              });
+                                            } else {
+                                              await ServerManager()
+                                                  .getRequest(
+                                                      'search/email/' + email!,
+                                                      'Parent')
+                                                  .then((user) {
+                                                Navigator.of(context)
+                                                    .popAndPushNamed(
+                                                  ParentMainScreen.routeName,
+                                                  arguments: user.body,
+                                                );
+                                              });
+                                            }
+                                          });
+                                        }
+                                      } else {
+                                        print('not good');
+                                      }
+                                    },
+                                    child: Text(
+                                      'Log In',
+                                      style: TextStyle(fontSize: 17),
+                                    ))
+                              ],
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'You have\'t any account?',
+                              style: TextStyle(
+                                color: Colors.black.withOpacity(0.6),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(RegisterScreen.routeName);
+                              },
+                              child: Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                    color: Colors.purple,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

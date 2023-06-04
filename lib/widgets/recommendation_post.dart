@@ -14,7 +14,7 @@ class _RecommendationPostState extends State<RecommendationPost> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(10),
       child: Card(
         elevation: 5,
         color: Colors.white,
@@ -25,10 +25,10 @@ class _RecommendationPostState extends State<RecommendationPost> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 170, left: 8.0),
+                  padding: const EdgeInsets.only(right: 8.0, left: 8.0),
                   child: Text(
                     '${widget.recommendation['parent_fullName']}',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
                 IconButton(
@@ -53,6 +53,7 @@ class _RecommendationPostState extends State<RecommendationPost> {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   '${widget.recommendation['description']}',
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
             ),

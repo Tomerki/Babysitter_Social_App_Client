@@ -38,21 +38,14 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         routes: {
           LoginScreen.routeName: (context) => LoginScreen(),
-          // BabysitterProfileScreen.routeName: (context) =>
-          //     BabysitterProfileScreen(),
           WelcomeScreen.routeName: (context) => WelcomeScreen(),
           RegisterScreen.routeName: (context) => RegisterScreen(),
           BabysitterRegisterScreen.routeName: (context) =>
               BabysitterRegisterScreen(),
           MapPlacePicker.routeName: (context) => MapPlacePicker(),
-          // FilterScreen.routeName: (context) => FilterScreen(),
-          // JobsSearchScreen.routeName: (context) => JobsSearchScreen(),
-          // BabysitterRecommendationScreen.routeName: (context) =>
-          //     BabysitterRecommendationScreen(),
           BabysitterSearchScreen.routeName: (context) =>
               BabysitterSearchScreen(),
           ParentMainScreen.routeName: (context) => ParentMainScreen(),
-          ChatPageScreen.routeName: (context) => ChatPageScreen(),
           BabysitterMainScreen.routeName: (context) => BabysitterMainScreen(),
           FavoritesScreen.routeName: (context) => FavoritesScreen(),
         },

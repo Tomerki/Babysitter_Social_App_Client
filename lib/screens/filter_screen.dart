@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/circle_button_one.dart';
+
 const kTextLabelTheme = TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700);
 const kCardTextStyle = TextStyle(color: Colors.white, fontSize: 15);
 
@@ -89,21 +91,18 @@ class _FilterScreennState extends State<FilterScreen>
     return Scaffold(
         appBar: AppBar(
           title: Text('Filter By'),
-          backgroundColor: Color.fromARGB(255, 219, 163, 154),
+          backgroundColor: Color.fromARGB(255, 129, 100, 110).withOpacity(0.2),
+          elevation: 5.0,
+          centerTitle: true,
         ),
         body: Container(
           height: (queryData.size.height) * 0.9,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.centerRight,
-              colors: [
-                Color.fromARGB(188, 227, 183, 160),
-                Color.fromARGB(255, 236, 232, 217),
-                Color.fromARGB(255, 250, 246, 233),
-              ],
-            ),
-          ),
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: NetworkImage(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                  fit: BoxFit.cover,
+                  opacity: 0.3)),
           child: SingleChildScrollView(
             child: Container(
               margin: EdgeInsets.all(20.0),
@@ -242,116 +241,116 @@ class _FilterScreennState extends State<FilterScreen>
                   //   ],
                   // ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                              child: Text(
-                                'Date:',
-                                style: kTextLabelTheme,
-                              ),
-                            ),
-                            Center(
-                              child: ElevatedButton(
-                                onPressed: _presentDatePicker,
-                                child: Text('choose a date'),
-                                style: ElevatedButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor:
-                                      Color.fromARGB(255, 219, 163, 154),
-                                  padding: EdgeInsets.all(15),
-                                  textStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  elevation: 5,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                              child: Text(
-                                'Time: ',
-                                style: kTextLabelTheme,
-                              ),
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      DropdownButton<int>(
-                                        hint: Text('from'),
-                                        value: fromDropdownValue,
-                                        items: List<int>.generate(
-                                                24, (index) => index)
-                                            .map<DropdownMenuItem<int>>(
-                                                (int value) {
-                                          return DropdownMenuItem<int>(
-                                            value: value,
-                                            child: Text(
-                                                '${value.toString().padLeft(2, '0')}:00'),
-                                          );
-                                        }).toList(),
-                                        onChanged: (int? newValue) {
-                                          setState(() {
-                                            fromDropdownValue = newValue!;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      DropdownButton<int>(
-                                        hint: Text('to'),
-                                        value: toDropdownValue,
-                                        items: List<int>.generate(
-                                                24, (index) => index)
-                                            .map<DropdownMenuItem<int>>(
-                                                (int value) {
-                                          return DropdownMenuItem<int>(
-                                            value: value,
-                                            child: Text(
-                                                '${value.toString().padLeft(2, '0')}:00'),
-                                          );
-                                        }).toList(),
-                                        onChanged: (int? newValue) {
-                                          setState(() {
-                                            toDropdownValue = newValue!;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     Expanded(
+                  //       child: Column(
+                  //         children: [
+                  //           Padding(
+                  //             padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  //             child: Text(
+                  //               'Date:',
+                  //               style: kTextLabelTheme,
+                  //             ),
+                  //           ),
+                  //           Center(
+                  //             child: ElevatedButton(
+                  //               onPressed: _presentDatePicker,
+                  //               child: Text('choose a date'),
+                  //               style: ElevatedButton.styleFrom(
+                  //                 foregroundColor: Colors.white,
+                  //                 backgroundColor:
+                  //                     Color.fromARGB(255, 219, 163, 154),
+                  //                 padding: EdgeInsets.all(15),
+                  //                 textStyle: TextStyle(
+                  //                   color: Colors.black,
+                  //                   fontSize: 16,
+                  //                 ),
+                  //                 shape: RoundedRectangleBorder(
+                  //                   borderRadius: BorderRadius.circular(10),
+                  //                 ),
+                  //                 elevation: 5,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ),
+                  // Expanded(
+                  //   child: Column(
+                  //     children: [
+                  //       Padding(
+                  //         padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  //         child: Text(
+                  //           'Time: ',
+                  //           style: kTextLabelTheme,
+                  //         ),
+                  //       ),
+                  //       Row(
+                  //         children: [
+                  //           Expanded(
+                  //             child: Column(
+                  //               mainAxisAlignment: MainAxisAlignment.center,
+                  //               children: [
+                  //                 DropdownButton<int>(
+                  //                   hint: Text('from'),
+                  //                   value: fromDropdownValue,
+                  //                   items: List<int>.generate(
+                  //                           24, (index) => index)
+                  //                       .map<DropdownMenuItem<int>>(
+                  //                           (int value) {
+                  //                     return DropdownMenuItem<int>(
+                  //                       value: value,
+                  //                       child: Text(
+                  //                           '${value.toString().padLeft(2, '0')}:00'),
+                  //                     );
+                  //                   }).toList(),
+                  //                   onChanged: (int? newValue) {
+                  //                     setState(() {
+                  //                       fromDropdownValue = newValue!;
+                  //                     });
+                  //                   },
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //           SizedBox(
+                  //             width: 10,
+                  //           ),
+                  //           Expanded(
+                  //             child: Column(
+                  //               mainAxisAlignment: MainAxisAlignment.center,
+                  //               children: [
+                  //                 DropdownButton<int>(
+                  //                   hint: Text('to'),
+                  //                   value: toDropdownValue,
+                  //                   items: List<int>.generate(
+                  //                           24, (index) => index)
+                  //                       .map<DropdownMenuItem<int>>(
+                  //                           (int value) {
+                  //                     return DropdownMenuItem<int>(
+                  //                       value: value,
+                  //                       child: Text(
+                  //                           '${value.toString().padLeft(2, '0')}:00'),
+                  //                     );
+                  //                   }).toList(),
+                  //                   onChanged: (int? newValue) {
+                  //                     setState(() {
+                  //                       toDropdownValue = newValue!;
+                  //                     });
+                  //                   },
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     ],
+                  //   ),
+                  // )
+                  //   ],
+                  // ),
                   // Padding(
                   //   padding: EdgeInsets.only(top: 20.0, bottom: 5.0),
                   //   child: Text(
@@ -431,7 +430,7 @@ class _FilterScreennState extends State<FilterScreen>
                           Checkbox(
                             checkColor: Colors.white,
                             fillColor: MaterialStateColor.resolveWith(
-                              (states) => Color.fromARGB(255, 219, 163, 154),
+                              (states) => Colors.black.withOpacity(0.8),
                             ),
                             value: currentAdditionsFilters[
                                 currentAdditionsFiltersList[index]],
@@ -447,12 +446,22 @@ class _FilterScreennState extends State<FilterScreen>
                       );
                     }),
                   ),
-                  TextButton(
-                      onPressed: () {
-                        widget.callback(currentAdditionsFilters, priceValues);
-                        Navigator.of(context).pop();
-                      },
-                      child: Text('Apply'))
+                  Center(
+                    child: ElevatedButton(
+                        child: Text(
+                          'Apply',
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            backgroundColor: Colors.black.withOpacity(0.8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 100, vertical: 20)),
+                        onPressed: () {
+                          widget.callback(currentAdditionsFilters, priceValues);
+                          Navigator.of(context).pop();
+                        }),
+                  ),
                 ],
               ),
             ),

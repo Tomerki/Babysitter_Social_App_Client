@@ -43,17 +43,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.centerRight,
-          colors: [
-            Color.fromARGB(188, 227, 183, 160),
-            Color.fromARGB(255, 236, 232, 217),
-            Color.fromARGB(255, 250, 246, 233),
-          ],
-        ),
-      ),
+      decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: NetworkImage(
+                  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+              fit: BoxFit.cover,
+              opacity: 0.3)),
       child: Center(
         child: FutureBuilder<List<dynamic>>(
           future: notificationsFuture,
