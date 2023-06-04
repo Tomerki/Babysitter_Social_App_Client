@@ -223,43 +223,13 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                                         json.decode(value.body)['id'],
                                     'was_tap': false,
                                     'type': 'new job request',
+                                    'parent_id': widget.parentId,
                                   },
                                 ));
                           },
                         );
                         Navigator.of(context, rootNavigator: true).pop();
                       },
-
-                      // onPressed: () async {
-                      //   await serverManager
-                      //       .postRequest(
-                      //     'add_doc',
-                      //     'Jobs',
-                      //     body: jsonEncode(
-                      //       {
-                      //         "publisher": widget.publisherName,
-                      //         "parent_id": widget.parentId,
-                      //         "date": selectedDate.toString(),
-                      //         "startHour": startTime,
-                      //         "endHour": endTime,
-                      //         "childrens": children,
-                      //         "description": jobDescription,
-                      //       },
-                      //     ),
-                      //   )
-                      //       .then((response) async {
-                      //     serverManager
-                      //         .getRequest(
-                      //       'items',
-                      //       'Jobs',
-                      //     )
-                      //         .then((newList) {
-                      //       jobs = json.decode(newList.body);
-                      //       widget.callback(jobs);
-                      //       Navigator.of(context, rootNavigator: true).pop();
-                      //     });
-                      //   });
-                      // },
                     ),
                   ],
                 );

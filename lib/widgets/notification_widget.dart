@@ -6,7 +6,9 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../models/appUser.dart';
 import '../models/notification.dart';
 import '../screens/babysitter_profile_screen.dart';
+import '../screens/chat_page_screen.dart';
 import '../server_manager.dart';
+import '../services/auth.dart';
 
 class NotificationWidget extends StatefulWidget {
   final notification;
@@ -315,8 +317,27 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                                   ),
                                 ),
                                 onPressed: () async {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
+                                  await ServerManager()
+                                      .getRequest(
+                                          'items/' +
+                                              widget.notification["parent_id"],
+                                          'Parent')
+                                      .then((user) async {
+                                    await AuthService.addChatUser(
+                                            json.decode(user.body)['email'])
+                                        .then((value) {
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
+                                      PersistentNavBarNavigator.pushNewScreen(
+                                          context,
+                                          screen: ChatPageScreen(
+                                            secondUid:
+                                                json.decode(user.body)['uid'],
+                                            chatId: value,
+                                            secondUserType: 'Parent',
+                                          ));
+                                    });
+                                  });
                                 }),
                             TextButton(
                                 child: Text(
