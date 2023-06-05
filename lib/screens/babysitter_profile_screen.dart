@@ -18,8 +18,10 @@ import 'babysitter_recommendations_screen.dart';
 class BabysitterProfileScreen extends StatefulWidget {
   static final routeName = 'BabysitterProfileScreen';
   final String user_body;
+  final bool from_search_card;
 
-  const BabysitterProfileScreen({super.key, required this.user_body});
+  const BabysitterProfileScreen(
+      {super.key, required this.user_body, this.from_search_card = false});
 
   @override
   State<BabysitterProfileScreen> createState() =>
@@ -247,7 +249,8 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     // AppUser.getUid() == decoded_user_body['uid'] ?
     // return Scaffold(
     //   body:
-    return AppUser.getUid() == decoded_user_body['uid']
+    return (AppUser.getUid() == decoded_user_body['uid'] &&
+            !widget.from_search_card)
         ? SingleChildScrollView(
             child: Center(
               child: Container(
@@ -264,7 +267,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                     Container(
                       padding: EdgeInsets.all(10),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
                             child: Text(
@@ -446,7 +449,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                 textStyle: const TextStyle(
                                   fontStyle: FontStyle.italic,
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 16,
+                                  fontSize: 14,
                                 ),
                               ),
                             ),
