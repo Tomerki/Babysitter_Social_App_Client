@@ -145,32 +145,33 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                       ),
                       actions: [
                         TextButton(
-                            child: Text(
-                              "confirm",
-                              style: GoogleFonts.workSans(
-                                color: Colors.blue,
-                                textStyle: const TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                ),
+                          child: Text(
+                            "confirm",
+                            style: GoogleFonts.workSans(
+                              color: Colors.blue,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
                               ),
                             ),
-                            onPressed: () async {
-                              final put_body = json.decode(value.body);
-                              put_body['is_confirmed'] = true;
-                              await ServerManager().putRequest(
-                                'put_inner_item_collection/' +
-                                    AppUser.getUid() +
-                                    '/' +
-                                    (widget.notification)['recommendation_id'] +
-                                    '/recommendation',
-                                AppUser.getUserType(),
-                                body: jsonEncode(put_body),
-                              );
-                              // widget.callback(recommendations);
-                              Navigator.of(context, rootNavigator: true).pop();
-                            }),
+                          ),
+                          onPressed: () async {
+                            final put_body = json.decode(value.body);
+                            put_body['is_confirmed'] = true;
+                            await ServerManager().putRequest(
+                              'put_inner_item_collection/' +
+                                  AppUser.getUid() +
+                                  '/' +
+                                  (widget.notification)['recommendation_id'] +
+                                  '/recommendation',
+                              AppUser.getUserType(),
+                              body: jsonEncode(put_body),
+                            );
+                            // widget.callback(recommendations);
+                            Navigator.of(context, rootNavigator: true).pop();
+                          },
+                        ),
                       ],
                     );
                   },
