@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
 
 import '../server_manager.dart';
@@ -398,6 +398,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     ),
                                   ),
                                 ),
+                                TextButton(
+                                  onPressed: () async {
+                                    Navigator.of(context).pushNamed(
+                                      MapPlacePicker.routeName,
+                                      arguments: callback,
+                                    );
+                                  },
+                                  child: Text(
+                                    address!,
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       left: 20, right: 20, bottom: 10, top: 10),
@@ -464,76 +479,84 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   .child('user_images')
                                                   .child('${result.uid}.jpg');
 
-                                      await storageRef.putFile(_selectedImage!);
-                                      imageUrl =
-                                          await storageRef.getDownloadURL();
-                                    }
-                                    await ServerManager()
-                                        .postRequest(
-                                      'add_doc/' + result.uid,
-                                      userType,
-                                      body: isBabysitter
-                                          ? jsonEncode(
-                                              {
-                                                'uid': result.uid,
-                                                'email': email,
-                                                'firstName': firstName,
-                                                'lastName': lastName,
-                                                'fullName': firstName! +
-                                                    ' ' +
-                                                    lastName!,
-                                                'phoneNumber': phoneNumber,
-                                                'address': address,
-                                                'county': _selectedCountry,
-                                                'image': imageUrl != null
-                                                    ? imageUrl
-                                                    : defaultImage
-                                              },
+                                              await storageRef
+                                                  .putFile(_selectedImage!);
+                                              imageUrl = await storageRef
+                                                  .getDownloadURL();
+                                            }
+                                            await ServerManager()
+                                                .postRequest(
+                                              'add_doc/' + result.uid,
+                                              userType,
+                                              body: isBabysitter
+                                                  ? jsonEncode(
+                                                      {
+                                                        'uid': result.uid,
+                                                        'email': email,
+                                                        'firstName': firstName,
+                                                        'lastName': lastName,
+                                                        'fullName': firstName! +
+                                                            ' ' +
+                                                            lastName!,
+                                                        'phoneNumber':
+                                                            phoneNumber,
+                                                        'address': address,
+                                                        'county':
+                                                            _selectedCountry,
+                                                        'image':
+                                                            imageUrl != null
+                                                                ? imageUrl
+                                                                : defaultImage
+                                                      },
+                                                    )
+                                                  : jsonEncode(
+                                                      {
+                                                        'uid': result.uid,
+                                                        'email': email,
+                                                        'firstName': firstName,
+                                                        'lastName': lastName,
+                                                        'fullName': firstName! +
+                                                            ' ' +
+                                                            lastName!,
+                                                        'phoneNumber':
+                                                            phoneNumber,
+                                                        'address': address,
+                                                        'county':
+                                                            _selectedCountry,
+                                                        'image':
+                                                            imageUrl != null
+                                                                ? imageUrl
+                                                                : defaultImage,
+                                                        'favorites': favorites,
+                                                      },
+                                                    ),
                                             )
-                                          : jsonEncode(
-                                              {
-                                                'uid': result.uid,
-                                                'email': email,
-                                                'firstName': firstName,
-                                                'lastName': lastName,
-                                                'fullName': firstName! +
-                                                    ' ' +
-                                                    lastName!,
-                                                'phoneNumber': phoneNumber,
-                                                'address': address,
-                                                'county': _selectedCountry,
-                                                'image': imageUrl != null
-                                                    ? imageUrl
-                                                    : defaultImage,
-                                                'favorites': favorites,
-                                              },
-                                            ),
-                                    )
-                                        .then((value) async {
-                                      await ServerManager()
-                                          .postRequest(
-                                        'add_doc',
-                                        'Users',
-                                        body: jsonEncode(
-                                          {
-                                            'uid': result.uid.toString(),
-                                            'isBabysitter': isBabysitter
-                                          },
-                                        ),
-                                      )
-                                          .then((value) {
-                                        setState(
-                                          () {
-                                            response = value;
-                                          },
-                                        );
-                                      });
-                                      setState(
-                                        () {
-                                          response = value;
-                                        },
-                                      );
-                                    });
+                                                .then((value) async {
+                                              await ServerManager()
+                                                  .postRequest(
+                                                'add_doc',
+                                                'Users',
+                                                body: jsonEncode(
+                                                  {
+                                                    'uid':
+                                                        result.uid.toString(),
+                                                    'isBabysitter': isBabysitter
+                                                  },
+                                                ),
+                                              )
+                                                  .then((value) {
+                                                setState(
+                                                  () {
+                                                    response = value;
+                                                  },
+                                                );
+                                              });
+                                              setState(
+                                                () {
+                                                  response = value;
+                                                },
+                                              );
+                                            });
                                             Navigator.of(context).pop();
                                             if (userType == 'Parent') {
                                               Navigator.of(context)

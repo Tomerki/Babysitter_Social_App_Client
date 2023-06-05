@@ -7,6 +7,7 @@ import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/services/auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import './screens/chat_page_screen.dart';
 import './screens/babysitter_profile_screen.dart';
@@ -23,7 +24,6 @@ import 'screens/babysitter_recommendations_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
   runApp(MyApp());
 }
