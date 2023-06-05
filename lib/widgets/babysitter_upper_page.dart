@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BabysitterUpperPage extends StatelessWidget {
   final double pageHight;
@@ -30,14 +31,24 @@ class BabysitterUpperPage extends StatelessWidget {
               //ToDo: Full Name in bold, Country and City in light
               Text(
                 name,
-                style: TextStyle(
-                  fontSize: 20,
+                style: GoogleFonts.workSans(
+                  color: Colors.black,
+                  textStyle: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 20,
+                  ),
                 ),
               ),
               Text(
                 'Country and City',
-                style: TextStyle(
-                  fontSize: 16,
+                style: GoogleFonts.workSans(
+                  color: Colors.black,
+                  textStyle: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
                 ),
               ),
               Spacer(),
@@ -53,14 +64,24 @@ class BabysitterUpperPage extends StatelessWidget {
                         children: [
                           Text(
                             '58',
-                            style: TextStyle(
-                              fontSize: 20,
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                           Text(
                             'Reviews',
-                            style: TextStyle(
-                              fontSize: 16,
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ],
@@ -70,14 +91,24 @@ class BabysitterUpperPage extends StatelessWidget {
                         children: [
                           Text(
                             age,
-                            style: TextStyle(
-                              fontSize: 20,
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                           Text(
                             'age',
-                            style: TextStyle(
-                              fontSize: 16,
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ],
