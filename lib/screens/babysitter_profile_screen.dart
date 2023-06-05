@@ -342,8 +342,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                   ),
                 ),
               ),
-              // ),
-              // ),
             ),
           )
         : Scaffold(

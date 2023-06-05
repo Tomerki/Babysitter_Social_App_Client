@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:baby_sitter/widgets/babysitter_search_card.dart';
 import 'package:baby_sitter/widgets/input_box.dart';
@@ -72,13 +73,7 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
   @override
   Widget build(BuildContext context) {
     final queryData = MediaQuery.of(context);
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: Text('Search for babysitter'),
-    //     centerTitle: true,
-    //     backgroundColor: Color.fromARGB(255, 219, 163, 154),
-    //   ),
-    //   body:
+
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
@@ -153,11 +148,12 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                   children: (babysitters != null && babysitters.isNotEmpty)
                       ? babysitters.reversed.map((babysitter) {
                           return BabysitterSearchCard(
-                              imageUrl: 'bla',
-                              babysitter_email: babysitter['email'],
-                              babysitter_name: babysitter['firstName'] +
-                                  ' ' +
-                                  babysitter['lastName']);
+                            imageUrl: 'bla',
+                            babysitter_email: babysitter['email'],
+                            babysitter_name: babysitter['firstName'] +
+                                ' ' +
+                                babysitter['lastName'],
+                          );
                         }).toList()
                       : [
                           Text(

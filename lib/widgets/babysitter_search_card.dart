@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:flutter/material.dart';
@@ -41,13 +42,15 @@ class _BabysitterSearchCardState extends State<BabysitterSearchCard> {
               .getRequest(
                   'search/email/' + widget.babysitter_email, 'Babysitter')
               .then((user) {
-            PersistentNavBarNavigator.pushNewScreen(
-              context,
-              screen: BabysitterProfileScreen(
-                user_body: user.body,
-              ),
-              withNavBar: false,
-            );
+            if (json.decode(user.body)['uid'] != AppUser.getUid()) {
+              PersistentNavBarNavigator.pushNewScreen(
+                context,
+                screen: BabysitterProfileScreen(
+                  user_body: user.body,
+                ),
+                withNavBar: false,
+              );
+            }
           });
         },
         child: ListTile(
