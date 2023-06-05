@@ -111,6 +111,7 @@ class MainDrawer extends StatelessWidget {
                                     price: babysitter['price'],
                                     age: babysitter['age'],
                                     image: babysitter['image'],
+                                    address: babysitter['address'],
                                   )));
                     })
                   : await ServerManager()
@@ -121,6 +122,7 @@ class MainDrawer extends StatelessWidget {
                           MaterialPageRoute(
                               builder: (context) => EditParentProfileScreen(
                                     image: json.decode(value.body)['image'],
+                                    address: json.decode(value.body)['address'],
                                   )));
                     });
             },

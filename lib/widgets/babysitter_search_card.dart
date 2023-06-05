@@ -14,11 +14,13 @@ class BabysitterSearchCard extends StatefulWidget {
   final String babysitter_email;
   final String babysitter_name;
   final String imageUrl;
+  final double? dis;
   const BabysitterSearchCard({
     super.key,
     required this.imageUrl,
     required this.babysitter_email,
     required this.babysitter_name,
+    this.dis = -1.0,
   });
 
   @override
@@ -51,16 +53,6 @@ class _BabysitterSearchCardState extends State<BabysitterSearchCard> {
               ),
               withNavBar: false,
             );
-            // if (json.decode(user.body)['uid'] != AppUser.getUid()) {
-            //   PersistentNavBarNavigator.pushNewScreen(
-            //     context,
-            //     screen: BabysitterProfileScreen(
-            //       user_body: user.body,
-            //       from_search_card: true,
-            //     ),
-            //     withNavBar: false,
-            //   );
-            // }
           });
         },
         child: ListTile(
@@ -76,6 +68,19 @@ class _BabysitterSearchCardState extends State<BabysitterSearchCard> {
               ),
             ),
           ),
+          subtitle: widget.dis! >= 0.0
+              ? Text(
+                  widget.dis!.toStringAsFixed(2) + " km",
+                  style: GoogleFonts.workSans(
+                    color: Colors.black,
+                    textStyle: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
+                  ),
+                )
+              : null,
           trailing: Icon(
             Icons.arrow_right_sharp,
             size: 26,

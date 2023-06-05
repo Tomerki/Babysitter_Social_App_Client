@@ -33,7 +33,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
   String startTime = '';
   String endTime = '';
   bool isFavorite = false;
-
+  int recommendation_len = 0;
   void _presentDatePicker() {
     showDialog(
       context: context,
@@ -198,6 +198,18 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
         .contains(json.decode(widget.user_body)['uid']);
   }
 
+  Future<int> fetchRecommendationSize() async {
+    Map<String, String> is_confirmed_map = {"is_confirmed": "true"};
+    var result = await ServerManager().getRequestwithManyParams(
+        'get_filter_inner_collection/' +
+            json.decode(widget.user_body)['uid'] +
+            '/recommendation',
+        'Babysitter',
+        is_confirmed_map);
+    print(json.decode(result.body).length);
+    return json.decode(result.body).length;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -210,6 +222,12 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
       });
     }
     _loadIsFavorite();
+    fetchRecommendationSize().then((value) {
+      setState(() {
+        recommendation_len = value;
+        print(recommendation_len);
+      });
+    });
   }
 
   void _loadIsFavorite() {
@@ -310,6 +328,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                 queryData.padding.bottom) *
                             0.4,
                         child: BabysitterUpperPage(
+                          reviews: recommendation_len,
                           pageHight: (queryData.size.height -
                               queryData.padding.top -
                               queryData.padding.bottom),
@@ -318,6 +337,11 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                               ' ' +
                               decoded_user_body['lastName'],
                           age: decoded_user_body['age'],
+                          image: decoded_user_body['image'],
+                          address: decoded_user_body['address'] ==
+                                  'Africam Safari, Blvd. Capitán Carlos Camacho Espíritu, Oasis, Puebla, Mexico'
+                              ? 'No Address'
+                              : decoded_user_body['address'],
                         ),
                       ),
                     ),
@@ -482,6 +506,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                 -queryData.padding.bottom) *
                             0.4,
                         child: BabysitterUpperPage(
+                          reviews: recommendation_len,
                           pageHight: (queryData.size.height -
                               queryData.padding.top -
                               queryData.padding.bottom -
@@ -491,6 +516,11 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                               ' ' +
                               decoded_user_body['lastName'],
                           age: decoded_user_body['age'],
+                          image: decoded_user_body['image'],
+                          address: decoded_user_body['address'] ==
+                                  'Africam Safari, Blvd. Capitán Carlos Camacho Espíritu, Oasis, Puebla, Mexico'
+                              ? 'No Address'
+                              : decoded_user_body['address'],
                         ),
                       ),
                     ),

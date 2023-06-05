@@ -95,6 +95,10 @@ class _MapPlacePickerState extends State<MapPlacePicker> {
           setState(
             () {
               autocompletePlace = result.result.formattedAddress ?? "";
+              address = autocompletePlace;
+              Function func =
+                  ModalRoute.of(context)!.settings.arguments as Function;
+              func(address);
             },
           );
         }
