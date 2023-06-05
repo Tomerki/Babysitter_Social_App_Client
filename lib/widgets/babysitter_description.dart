@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BabysitterDescription extends StatelessWidget {
   final double pageHight;
@@ -31,9 +32,13 @@ class BabysitterDescription extends StatelessWidget {
           children: [
             Text(
               'Description: ',
-              style: TextStyle(
-                fontSize: 18,
+              style: GoogleFonts.workSans(
                 color: Colors.black87,
+                textStyle: const TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                ),
               ),
             ),
             SizedBox(
@@ -43,9 +48,13 @@ class BabysitterDescription extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 5),
               child: Text(
                 description,
-                style: TextStyle(
-                  fontSize: 18,
+                style: GoogleFonts.workSans(
                   color: Colors.black87,
+                  textStyle: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 18,
+                  ),
                 ),
               ),
             ),

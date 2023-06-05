@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../models/appUser.dart';
 import '../models/notification.dart';
 import '../screens/babysitter_profile_screen.dart';
+import '../screens/chat_page_screen.dart';
 import '../server_manager.dart';
+import '../services/auth.dart';
 
 class NotificationWidget extends StatefulWidget {
   final notification;
@@ -57,8 +60,26 @@ class _NotificationWidgetState extends State<NotificationWidget> {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(Icons.notifications),
-      title: Text(widget.notification["title"]),
-      subtitle: Text(widget.notification["massage"]),
+      title: Text(
+        widget.notification["title"],
+        style: GoogleFonts.workSans(
+          textStyle: const TextStyle(
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.w400,
+            fontSize: 18,
+          ),
+        ),
+      ),
+      subtitle: Text(
+        widget.notification["massage"],
+        style: GoogleFonts.workSans(
+          textStyle: const TextStyle(
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.w400,
+            fontSize: 15,
+          ),
+        ),
+      ),
       trailing: first_tap ? Icon(Icons.done) : SizedBox(),
       onTap: () async {
         if (widget.notification["type"] == "job bell") {
@@ -93,18 +114,48 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 40),
                       scrollable: true,
-                      title: Text('new recommendation from: ' +
-                          json.decode(value.body)['parent_fullName']),
+                      title: Text(
+                        'new recommendation from: ' +
+                            json.decode(value.body)['parent_fullName'],
+                        style: GoogleFonts.workSans(
+                          color: Colors.black,
+                          textStyle: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ),
                       content: Card(
                         elevation: 5,
                         child: Padding(
                           padding: EdgeInsets.only(top: 10, bottom: 10),
-                          child: Text(json.decode(value.body)['description']),
+                          child: Text(
+                            json.decode(value.body)['description'],
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       actions: [
                         TextButton(
-                            child: Text("confirm"),
+                            child: Text(
+                              "confirm",
+                              style: GoogleFonts.workSans(
+                                color: Colors.blue,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
                             onPressed: () async {
                               final put_body = json.decode(value.body);
                               put_body['is_confirmed'] = true;
@@ -148,7 +199,17 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 40),
                       scrollable: true,
-                      title: Text('Details about the job:'),
+                      title: Text(
+                        'Details about the job:',
+                        style: GoogleFonts.workSans(
+                          color: Colors.black,
+                          textStyle: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ),
                       content: Card(
                         elevation: 5,
                         child: Padding(
@@ -160,13 +221,26 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                                 children: [
                                   Text(
                                     'Job date: ',
-                                    style: TextStyle(
+                                    style: GoogleFonts.workSans(
+                                      color: Colors.black,
+                                      textStyle: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w500,
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                   ),
                                   Text(
-                                    '${json.decode(value.body)['date']}',
-                                    style: TextStyle(fontSize: 16),
+                                    '${json.decode(value.body)['date']}'
+                                        .substring(0, 10),
+                                    style: GoogleFonts.workSans(
+                                      color: Colors.black,
+                                      textStyle: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -174,13 +248,25 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                                 children: [
                                   Text(
                                     'Hours: ',
-                                    style: TextStyle(
+                                    style: GoogleFonts.workSans(
+                                      color: Colors.black,
+                                      textStyle: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w500,
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                   ),
                                   Text(
                                     '${json.decode(value.body)['startHour']} - ${json.decode(value.body)['endHour']}',
-                                    style: TextStyle(fontSize: 16),
+                                    style: GoogleFonts.workSans(
+                                      color: Colors.black,
+                                      textStyle: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -188,13 +274,25 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                                 children: [
                                   Text(
                                     'description: ',
-                                    style: TextStyle(
+                                    style: GoogleFonts.workSans(
+                                      color: Colors.black,
+                                      textStyle: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w500,
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                   ),
                                   Text(
                                     '${json.decode(value.body)['description']}',
-                                    style: TextStyle(fontSize: 16),
+                                    style: GoogleFonts.workSans(
+                                      color: Colors.black,
+                                      textStyle: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -206,41 +304,54 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            ElevatedButton(
-                                child: Text("chat with the parent"),
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(2))),
-                                  backgroundColor:
-                                      Color.fromARGB(255, 50, 90, 114),
+                            TextButton(
+                                child: Text(
+                                  'chat with the parent',
+                                  style: GoogleFonts.workSans(
+                                    color: Color.fromARGB(255, 17, 78, 127),
+                                    textStyle: const TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                    ),
+                                  ),
                                 ),
                                 onPressed: () async {
-                                  // final put_body = json.decode(value.body);
-                                  // put_body['is_confirmed'] = true;
-                                  // await ServerManager().putRequest(
-                                  //   'put_inner_item_collection/' +
-                                  //       AppUser.getUid() +
-                                  //       '/' +
-                                  //       (widget.notification)['recommendation_id'] +
-                                  //       '/recommendation',
-                                  //   AppUser.getUserType(),
-                                  //   body: jsonEncode(put_body),
-                                  // );
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
+                                  await ServerManager()
+                                      .getRequest(
+                                          'items/' +
+                                              widget.notification["parent_id"],
+                                          'Parent')
+                                      .then((user) async {
+                                    await AuthService.addChatUser(
+                                            json.decode(user.body)['email'])
+                                        .then((value) {
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
+                                      PersistentNavBarNavigator.pushNewScreen(
+                                          context,
+                                          screen: ChatPageScreen(
+                                            secondUid:
+                                                json.decode(user.body)['uid'],
+                                            chatId: value,
+                                            secondUserType: 'Parent',
+                                          ));
+                                    });
+                                  });
                                 }),
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(2))),
-                                  backgroundColor:
-                                      Color.fromARGB(255, 130, 85, 82),
+                            TextButton(
+                                child: Text(
+                                  "close",
+                                  style: GoogleFonts.workSans(
+                                    color: Color.fromARGB(255, 81, 26, 26)
+                                        .withOpacity(0.8),
+                                    textStyle: const TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 18,
+                                    ),
+                                  ),
                                 ),
-                                child: Text("close"),
                                 onPressed: () async {
                                   Navigator.of(context, rootNavigator: true)
                                       .pop();

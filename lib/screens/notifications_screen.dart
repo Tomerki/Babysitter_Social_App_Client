@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:baby_sitter/widgets/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../models/appUser.dart';
 import '../models/notification.dart';
 import '../server_manager.dart';
@@ -73,7 +74,17 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     : [
                         Container(
                           padding: EdgeInsets.only(top: 10),
-                          child: Text('No Notifications Yet'),
+                          child: Text(
+                            'No Notifications Yet',
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
                         )
                       ],
               );

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
@@ -50,6 +51,14 @@ class _NewPostState extends State<NewPost> {
     return ElevatedButton(
       child: Text(
         'Click to add a new job',
+        style: GoogleFonts.workSans(
+          color: Colors.white,
+          textStyle: const TextStyle(
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.w400,
+            fontSize: 20,
+          ),
+        ),
       ),
       style: ElevatedButton.styleFrom(
         shape:
@@ -67,7 +76,17 @@ class _NewPostState extends State<NewPost> {
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 10, vertical: 40),
                   scrollable: true,
-                  title: Text('New Job'),
+                  title: Text(
+                    'New Job',
+                    style: GoogleFonts.workSans(
+                      color: Colors.black,
+                      textStyle: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
                   content: Padding(
                     padding: const EdgeInsets.all(0),
                     child: Form(
@@ -84,7 +103,17 @@ class _NewPostState extends State<NewPost> {
                               ),
                               enableFeedback: true,
                             ),
-                            label: Text('Pick a date'),
+                            label: Text(
+                              'Pick a date',
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
                             icon: Icon(Icons.date_range),
                             onPressed: () async {
                               await showDatePicker(
@@ -115,7 +144,17 @@ class _NewPostState extends State<NewPost> {
                               ),
                               enableFeedback: true,
                             ),
-                            label: Text('Pick time'),
+                            label: Text(
+                              'Pick time',
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
                             icon: Icon(Icons.timer),
                             onPressed: () async {
                               await showTimeRangePicker(
@@ -159,7 +198,16 @@ class _NewPostState extends State<NewPost> {
                           // startTime != '' && endTime != '' && selectedDate != ''
                           //     ?
                           Text(
-                              '${selectedDate}\n from: ${startTime}\nUntil: ${endTime}\n'),
+                            '${selectedDate.toString().substring(0, 10)}\nfrom: ${startTime}\nUntil: ${endTime}\n',
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                           // : Text('No hours/day selected yet'),
                           Divider(),
                           Column(
@@ -173,7 +221,14 @@ class _NewPostState extends State<NewPost> {
                                     children: [
                                       Text(
                                         "${child["age"]} year old ${child["gender"]}",
-                                        style: TextStyle(color: Colors.black),
+                                        style: GoogleFonts.workSans(
+                                          color: Colors.black,
+                                          textStyle: const TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 16,
+                                          ),
+                                        ),
                                       ),
                                       IconButton(
                                           icon: Icon(
@@ -199,8 +254,14 @@ class _NewPostState extends State<NewPost> {
                                   children: [
                                     Text(
                                       "Add Child",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 15),
+                                      style: GoogleFonts.workSans(
+                                        color: Colors.black,
+                                        textStyle: const TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16,
+                                        ),
+                                      ),
                                     ),
                                     Row(
                                       mainAxisAlignment:
@@ -208,9 +269,14 @@ class _NewPostState extends State<NewPost> {
                                       children: [
                                         Text(
                                           "Select Age",
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 17),
+                                          style: GoogleFonts.workSans(
+                                            color: Colors.black,
+                                            textStyle: const TextStyle(
+                                              fontStyle: FontStyle.italic,
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 16,
+                                            ),
+                                          ),
                                         ),
                                         NumberPicker(
                                             itemCount: 3,
@@ -294,8 +360,14 @@ class _NewPostState extends State<NewPost> {
                                 children: [
                                   Text(
                                     "Add Child",
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 17),
+                                    style: GoogleFonts.workSans(
+                                      color: Colors.black,
+                                      textStyle: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16,
+                                      ),
+                                    ),
                                   ),
                                   IconButton(
                                       onPressed: () {
@@ -311,7 +383,17 @@ class _NewPostState extends State<NewPost> {
                               ),
                             ),
                           Divider(),
-                          Text('job description:'),
+                          Text(
+                            'job description:',
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                           Card(
                             elevation: 5,
                             child: Padding(
@@ -319,8 +401,16 @@ class _NewPostState extends State<NewPost> {
                               child: TextField(
                                 maxLines: 8,
                                 decoration: InputDecoration.collapsed(
-                                    hintText: "Enter your text here"),
-                                style: TextStyle(color: Colors.black),
+                                  hintText: "Enter your text here",
+                                ),
+                                style: GoogleFonts.workSans(
+                                  color: Colors.black,
+                                  textStyle: const TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                  ),
+                                ),
                                 onChanged: (value) {
                                   setState(
                                     () {
@@ -337,7 +427,17 @@ class _NewPostState extends State<NewPost> {
                   ),
                   actions: [
                     TextButton(
-                      child: Text("Submit"),
+                      child: Text(
+                        "Submit",
+                        style: GoogleFonts.workSans(
+                          color: Colors.blue,
+                          textStyle: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
                       onPressed: () async {
                         await serverManager
                             .postRequest(

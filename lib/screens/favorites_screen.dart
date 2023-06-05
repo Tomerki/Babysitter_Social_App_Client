@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../models/appUser.dart';
 import '../server_manager.dart';
 import '../widgets/babysitter_search_card.dart';
@@ -84,7 +85,22 @@ class _FavoritesScreenScreenState extends State<FavoritesScreen> {
                                       ' ' +
                                       babysitter['lastName']);
                             }).toList()
-                          : [Text('No Results')],
+                          : [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'No Results',
+                                style: GoogleFonts.workSans(
+                                  color: Colors.black,
+                                  textStyle: const TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              )
+                            ],
                     );
                   }
                 },
