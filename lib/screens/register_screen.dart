@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
 
 import '../server_manager.dart';
@@ -405,6 +405,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       hintText: 'phone number',
                                       labelStyle:
                                           TextStyle(color: Colors.purple),
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () async {
+                                    Navigator.of(context).pushNamed(
+                                      MapPlacePicker.routeName,
+                                      arguments: callback,
+                                    );
+                                  },
+                                  child: Text(
+                                    address!,
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      color: Colors.black,
                                     ),
                                   ),
                                 ),

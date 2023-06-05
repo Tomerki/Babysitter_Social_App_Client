@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
 import 'package:tuple/tuple.dart';
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -157,5 +160,37 @@ class AuthService {
 
     // User not found in either collection
     return null;
+  }
+
+  static Future<int?> calculateDistance(
+      String address1, String address2) async {
+    try {
+      final apiKey = 'AIzaSyAATmkFbdy8cMiF5lPaFEZ9qBNSkty8OEA';
+      final address1Encoded = Uri.encodeQueryComponent(address1);
+      final address2Encoded = Uri.encodeQueryComponent(address2);
+      final apiUrl =
+          'https://maps.googleapis.com/maps/api/geocode/json?address=$address1Encoded&key=$apiKey';
+      final response1 = await http.get(Uri.parse(apiUrl));
+      final json1 = jsonDecode(response1.body);
+      final location1 = json1['results'][0]['geometry']['location'];
+      final lat1 = location1['lat'];
+      final lon1 = location1['lng'];
+
+      final apiUrl2 =
+          'https://maps.googleapis.com/maps/api/geocode/json?address=$address2Encoded&key=$apiKey';
+      final response2 = await http.get(Uri.parse(apiUrl2));
+      final json2 = jsonDecode(response2.body);
+      final location2 = json2['results'][0]['geometry']['location'];
+      final lat2 = location2['lat'];
+      final lon2 = location2['lng'];
+
+      final distanceInMeters =
+          await Geolocator.distanceBetween(lat1, lon1, lat2, lon2);
+
+      return distanceInMeters.toInt();
+    } catch (e) {
+      print('Error calculating distance: $e');
+      return null;
+    }
   }
 }
