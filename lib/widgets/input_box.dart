@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class InputBox extends StatelessWidget {
   final bool isSecure;
@@ -28,8 +29,13 @@ class InputBox extends StatelessWidget {
         onChanged: (value) => onChanged(value),
         decoration: InputDecoration(
           hintText: text,
-          hintStyle: TextStyle(
-            fontWeight: FontWeight.w700,
+          hintStyle: GoogleFonts.workSans(
+            color: Colors.black,
+            textStyle: const TextStyle(
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+            ),
           ),
           contentPadding:
               EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),

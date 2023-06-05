@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:ffi';
 
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
@@ -50,13 +51,22 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
       currentDate.day + 1,
     );
     return ElevatedButton(
-      child: Text("Click here to schedule with the babysitter"),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Color.fromARGB(255, 51, 65, 78),
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+      child: Text(
+        "Click here to schedule with the babysitter",
+        style: GoogleFonts.workSans(
+          color: Colors.white,
+          textStyle: const TextStyle(
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.w400,
+            fontSize: 16,
+          ),
         ),
+      ),
+      style: ElevatedButton.styleFrom(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        backgroundColor: Colors.black.withOpacity(0.8),
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       ),
       onPressed: () {
         showDialog(
@@ -68,7 +78,17 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 10, vertical: 40),
                   scrollable: true,
-                  title: Text('New Job'),
+                  title: Text(
+                    'New Job',
+                    style: GoogleFonts.workSans(
+                      color: Colors.black,
+                      textStyle: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
                   content: Padding(
                     padding: const EdgeInsets.all(0),
                     child: Form(
@@ -85,7 +105,17 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                               ),
                               enableFeedback: true,
                             ),
-                            label: Text('Pick a date'),
+                            label: Text(
+                              'Pick a date',
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
                             icon: Icon(Icons.date_range),
                             onPressed: () async {
                               await showDatePicker(
@@ -116,7 +146,17 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                               ),
                               enableFeedback: true,
                             ),
-                            label: Text('Pick time'),
+                            label: Text(
+                              'Pick time',
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
                             icon: Icon(Icons.timer),
                             onPressed: () async {
                               await showTimeRangePicker(
@@ -160,11 +200,30 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                           // startTime != '' && endTime != '' && selectedDate != ''
                           //     ?
                           Text(
-                              '${selectedDate}\n from: ${startTime}\nUntil: ${endTime}\n'),
+                            '${selectedDate.toString().substring(0, 10)}\n from: ${startTime}\nUntil: ${endTime}\n',
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
                           // : Text('No hours/day selected yet'),
                           Divider(),
                           Divider(),
-                          Text('job description:'),
+                          Text(
+                            'job description:',
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
                           Card(
                             elevation: 5,
                             child: Padding(
@@ -173,7 +232,14 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                                 maxLines: 8,
                                 decoration: InputDecoration.collapsed(
                                     hintText: "Enter your text here"),
-                                style: TextStyle(color: Colors.black),
+                                style: GoogleFonts.workSans(
+                                  color: Colors.black,
+                                  textStyle: const TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                  ),
+                                ),
                                 onChanged: (value) {
                                   setState(
                                     () {
@@ -190,7 +256,17 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                   ),
                   actions: [
                     TextButton(
-                      child: Text("Submit"),
+                      child: Text(
+                        "Submit",
+                        style: GoogleFonts.workSans(
+                          color: Colors.blue,
+                          textStyle: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
                       onPressed: () async {
                         await ServerManager()
                             .postRequest(
@@ -223,43 +299,13 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                                         json.decode(value.body)['id'],
                                     'was_tap': false,
                                     'type': 'new job request',
+                                    'parent_id': widget.parentId,
                                   },
                                 ));
                           },
                         );
                         Navigator.of(context, rootNavigator: true).pop();
                       },
-
-                      // onPressed: () async {
-                      //   await serverManager
-                      //       .postRequest(
-                      //     'add_doc',
-                      //     'Jobs',
-                      //     body: jsonEncode(
-                      //       {
-                      //         "publisher": widget.publisherName,
-                      //         "parent_id": widget.parentId,
-                      //         "date": selectedDate.toString(),
-                      //         "startHour": startTime,
-                      //         "endHour": endTime,
-                      //         "childrens": children,
-                      //         "description": jobDescription,
-                      //       },
-                      //     ),
-                      //   )
-                      //       .then((response) async {
-                      //     serverManager
-                      //         .getRequest(
-                      //       'items',
-                      //       'Jobs',
-                      //     )
-                      //         .then((newList) {
-                      //       jobs = json.decode(newList.body);
-                      //       widget.callback(jobs);
-                      //       Navigator.of(context, rootNavigator: true).pop();
-                      //     });
-                      //   });
-                      // },
                     ),
                   ],
                 );

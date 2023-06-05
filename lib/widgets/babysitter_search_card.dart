@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:baby_sitter/models/appUser.dart';
+import 'package:baby_sitter/screens/babysitter_main_screen.dart';
 import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
 import 'package:baby_sitter/screens/filter_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../server_manager.dart';
@@ -42,36 +45,37 @@ class _BabysitterSearchCardState extends State<BabysitterSearchCard> {
               .then((user) {
             PersistentNavBarNavigator.pushNewScreen(
               context,
-              // settings: RouteSettings(name: FilterScreen.routeName),
               screen: BabysitterProfileScreen(
                 user_body: user.body,
+                from_search_card: true,
               ),
               withNavBar: false,
             );
-            // Navigator.push(
+            // if (json.decode(user.body)['uid'] != AppUser.getUid()) {
+            //   PersistentNavBarNavigator.pushNewScreen(
             //     context,
-            //     new MaterialPageRoute(
-            //         fullscreenDialog: true,
-            //         builder: (context) => new BabysitterProfileScreen(
-            //               user_body: user.body,
-            //             )));
+            //     screen: BabysitterProfileScreen(
+            //       user_body: user.body,
+            //       from_search_card: true,
+            //     ),
+            //     withNavBar: false,
+            //   );
+            // }
           });
         },
-
-        // decoration: BoxDecoration(
-        //   gradient: LinearGradient(
-        //     begin: Alignment.topLeft,
-        //     end: Alignment.centerRight,
-        //     colors: [
-        //       Color.fromARGB(188, 227, 183, 160),
-        //       Color.fromARGB(255, 236, 232, 217),
-        //       Color.fromARGB(255, 250, 246, 233),
-        //     ],
-        //   ),
-        // ),
         child: ListTile(
           leading: CircleAvatar(child: Icon(Icons.person)),
-          title: Text(widget.babysitter_name),
+          title: Text(
+            widget.babysitter_name,
+            style: GoogleFonts.workSans(
+              color: Colors.black,
+              textStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
+              ),
+            ),
+          ),
           trailing: Icon(
             Icons.arrow_right_sharp,
             size: 26,

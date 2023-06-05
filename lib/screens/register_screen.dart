@@ -84,12 +84,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
           }
         });
       },
-      child: Text('I\'m a $text'),
+      child: Text(
+        'I\'m a $text',
+        style: GoogleFonts.workSans(
+          textStyle: const TextStyle(
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.w400,
+            fontSize: 15,
+          ),
+        ),
+      ),
       style: ElevatedButton.styleFrom(
         foregroundColor: userType == text ? Colors.white : Colors.black,
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        backgroundColor: userType == text ? Colors.black : Colors.white,
+        backgroundColor:
+            userType == text ? Colors.black.withOpacity(0.5) : Colors.white,
       ),
     );
   }
@@ -135,7 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   style: GoogleFonts.indieFlower(
                                     textStyle: const TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 40,
+                                      fontSize: 50,
                                     ),
                                   ),
                                 ),
@@ -433,7 +443,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 20,
+                                  height: 10,
                                 ),
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(
@@ -591,7 +601,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     },
                                     child: Text(
                                       'Sign Up',
-                                      style: TextStyle(fontSize: 17),
+                                      style: GoogleFonts.workSans(
+                                        textStyle: const TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 20,
+                                        ),
+                                      ),
                                     ))
                               ],
                             ),
@@ -602,8 +618,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           children: [
                             Text(
                               'already have an account?',
-                              style: TextStyle(
-                                color: Colors.black.withOpacity(0.6),
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                             TextButton(
@@ -613,9 +634,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                               child: Text(
                                 'Sign In',
-                                style: TextStyle(
-                                    color: Colors.purple,
-                                    fontWeight: FontWeight.w500),
+                                style: GoogleFonts.workSans(
+                                  color: Colors.purple,
+                                  textStyle: const TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 18,
+                                  ),
+                                ),
                               ),
                             )
                           ],

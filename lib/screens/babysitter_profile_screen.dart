@@ -6,6 +6,7 @@ import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
 import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
 import 'package:baby_sitter/widgets/babysitter_description.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:time_range_picker/time_range_picker.dart';
 import '../models/appUser.dart';
@@ -17,8 +18,10 @@ import 'babysitter_recommendations_screen.dart';
 class BabysitterProfileScreen extends StatefulWidget {
   static final routeName = 'BabysitterProfileScreen';
   final String user_body;
+  final bool from_search_card;
 
-  const BabysitterProfileScreen({super.key, required this.user_body});
+  const BabysitterProfileScreen(
+      {super.key, required this.user_body, this.from_search_card = false});
 
   @override
   State<BabysitterProfileScreen> createState() =>
@@ -222,7 +225,17 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
   AppBar build_appBar(var decoded_user_body) {
     return AppBar(
       centerTitle: true,
-      title: Text(decoded_user_body['fullName'] + ' ' + "profile"),
+      title: Text(
+        decoded_user_body['fullName'] + ' ' + "Profile",
+        style: GoogleFonts.workSans(
+          color: Colors.black,
+          textStyle: const TextStyle(
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.w400,
+            fontSize: 24,
+          ),
+        ),
+      ),
       backgroundColor: Color.fromARGB(255, 129, 100, 110).withOpacity(0.2),
       elevation: 5.0,
     );
@@ -236,126 +249,131 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     // AppUser.getUid() == decoded_user_body['uid'] ?
     // return Scaffold(
     //   body:
-    return AppUser.getUid() == decoded_user_body['uid']
+    return (AppUser.getUid() == decoded_user_body['uid'] &&
+            !widget.from_search_card)
         ? SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Center(
-                child: Container(
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(
-                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
-                          fit: BoxFit.cover,
-                          opacity: 0.3)),
-                  width: (queryData.size.width),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            ElevatedButton(
-                              child: Text("recommendation"),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor:
-                                    Color.fromARGB(255, 51, 65, 78),
-                                elevation: 5,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+            child: Center(
+              child: Container(
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(
+                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                        fit: BoxFit.cover,
+                        opacity: 0.3)),
+                width: (queryData.size.width),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ElevatedButton(
+                            child: Text(
+                              "Recommendation",
+                              style: GoogleFonts.workSans(
+                                color: Colors.white,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
                                 ),
                               ),
-                              onPressed: () {
-                                PersistentNavBarNavigator.pushNewScreen(
-                                  context,
-                                  screen: BabysitterRecommendationScreen(
-                                    babysitter_id:
-                                        json.decode(widget.user_body)['uid'],
-                                  ),
-                                  withNavBar: false,
-                                );
-                              },
                             ),
-                          ],
-                        ),
-                      ),
-                      Center(
-                        child: SizedBox(
-                          // width: (queryData.size.width) * 0.9,
-                          height: (queryData.size.height -
-                                  queryData.padding.top -
-                                  queryData.padding.bottom) *
-                              0.4,
-                          child: BabysitterUpperPage(
-                            pageHight: (queryData.size.height -
-                                queryData.padding.top -
-                                queryData.padding.bottom),
-                            pagewidth: queryData.size.width,
-                            name: decoded_user_body['firstName'] +
-                                ' ' +
-                                decoded_user_body['lastName'],
-                            age: decoded_user_body['age'],
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              backgroundColor: Colors.black.withOpacity(0.8),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                            ),
+                            onPressed: () {
+                              PersistentNavBarNavigator.pushNewScreen(
+                                context,
+                                screen: BabysitterRecommendationScreen(
+                                  babysitter_id:
+                                      json.decode(widget.user_body)['uid'],
+                                ),
+                                withNavBar: false,
+                              );
+                            },
                           ),
-                        ),
+                        ],
                       ),
-                      Center(
-                        child: BabysitterMiddlePage(
+                    ),
+                    Center(
+                      child: SizedBox(
+                        // width: (queryData.size.width) * 0.9,
+                        height: (queryData.size.height -
+                                queryData.padding.top -
+                                queryData.padding.bottom) *
+                            0.4,
+                        child: BabysitterUpperPage(
                           pageHight: (queryData.size.height -
-                                  queryData.padding.top -
-                                  queryData.padding.bottom) *
-                              0.1,
+                              queryData.padding.top -
+                              queryData.padding.bottom),
                           pagewidth: queryData.size.width,
-                          price: decoded_user_body['price'] > 0
-                              ? decoded_user_body['price'].toString() + '\$\h'
-                              : 'unknown price',
+                          name: decoded_user_body['firstName'] +
+                              ' ' +
+                              decoded_user_body['lastName'],
+                          age: decoded_user_body['age'],
                         ),
                       ),
-                      BabysitterDescription(
-                        pageHight:
-                            queryData.size.height - queryData.padding.top,
+                    ),
+                    Center(
+                      child: BabysitterMiddlePage(
+                        user_body: widget.user_body,
+                        pageHight: (queryData.size.height -
+                                queryData.padding.top -
+                                queryData.padding.bottom) *
+                            0.1,
                         pagewidth: queryData.size.width,
-                        description: decoded_user_body['about'],
+                        price: decoded_user_body['price'] > 0
+                            ? decoded_user_body['price'].toString() + '\$\h'
+                            : 'unknown price',
                       ),
-                      !AppUser.getUserKind()
-                          ? Container(
-                              padding: EdgeInsets.only(top: 5, bottom: 30),
-                              child: ScheduleWithaBysitter(
-                                parentId: AppUser.getUid(),
-                                user_body: widget.user_body,
-                              ),
-                            )
-                          : SizedBox(),
-                    ],
-                  ),
+                    ),
+                    BabysitterDescription(
+                      pageHight: queryData.size.height - queryData.padding.top,
+                      pagewidth: queryData.size.width,
+                      description: decoded_user_body['about'],
+                    ),
+                    !AppUser.getUserKind()
+                        ? Container(
+                            padding: EdgeInsets.only(top: 5, bottom: 30),
+                            child: ScheduleWithaBysitter(
+                              parentId: AppUser.getUid(),
+                              user_body: widget.user_body,
+                            ),
+                          )
+                        : SizedBox(),
+                  ],
                 ),
               ),
-              // ),
-              // ),
             ),
           )
         : Scaffold(
             appBar: build_appBar(decoded_user_body),
             body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 0),
-                child: Center(
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: NetworkImage(
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
-                            fit: BoxFit.cover,
-                            opacity: 0.3)),
-                    width: (queryData.size.width),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Container(
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(
+                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                        fit: BoxFit.cover,
+                        opacity: 0.3)),
+                // width: (queryData.size.width),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(20),
+                      child: Row(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
                             children: [
                               (!AppUser.getUserKind()
                                   ? IconButton(
@@ -405,7 +423,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                       },
                                     )
                                   : SizedBox()),
-                              ElevatedButton(
+                              IconButton(
                                 onPressed: () async {
                                   await AuthService.addChatUser(
                                           decoded_user_body['email'])
@@ -419,106 +437,97 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                         ));
                                   });
                                 },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Color.fromARGB(255, 51, 65, 78),
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.message_outlined),
-                                    SizedBox(
-                                        width:
-                                            8.0), // Adjust spacing between icon and text as needed
-                                    Text("Message me!"),
-                                  ],
-                                ),
-                              ),
-                              ElevatedButton(
-                                child: Text("recommendation"),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Color.fromARGB(255, 51, 65, 78),
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  PersistentNavBarNavigator.pushNewScreen(
-                                    context,
-                                    screen: BabysitterRecommendationScreen(
-                                      babysitter_id:
-                                          json.decode(widget.user_body)['uid'],
-                                    ),
-                                    withNavBar: false,
-                                  );
-                                },
+                                icon: Icon(Icons.message_outlined),
                               ),
                             ],
                           ),
-                        ),
-                        Center(
-                          child: SizedBox(
-                            // width: (queryData.size.width) * 0.9,
-                            height: (queryData.size.height -
-                                    queryData.padding.top -
-                                    -queryData.padding.bottom) *
-                                0.4,
-                            child: BabysitterUpperPage(
-                              pageHight: (queryData.size.height -
-                                  queryData.padding.top -
-                                  queryData.padding.bottom -
-                                  AppBar().preferredSize.height),
-                              pagewidth: queryData.size.width,
-                              name: decoded_user_body['firstName'] +
-                                  ' ' +
-                                  decoded_user_body['lastName'],
-                              age: decoded_user_body['age'],
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: BabysitterMiddlePage(
-                            pageHight: (queryData.size.height -
-                                    queryData.padding.top -
-                                    queryData.padding.bottom -
-                                    AppBar().preferredSize.height) *
-                                0.15,
-                            pagewidth: queryData.size.width,
-                            price: decoded_user_body['price'] > 0
-                                ? decoded_user_body['price'].toString() + '\$\h'
-                                : 'unknown price',
-                          ),
-                        ),
-                        BabysitterDescription(
-                          pageHight: (queryData.size.height -
-                                  queryData.padding.top -
-                                  queryData.padding.bottom -
-                                  AppBar().preferredSize.height) *
-                              1.2,
-                          pagewidth: queryData.size.width,
-                          description: decoded_user_body['about'],
-                        ),
-                        !AppUser.getUserKind()
-                            ? Container(
-                                padding: EdgeInsets.only(top: 5, bottom: 30),
-                                child: ScheduleWithaBysitter(
-                                  parentId: AppUser.getUid(),
-                                  user_body: widget.user_body,
+                          ElevatedButton(
+                            child: Text(
+                              "Recommendation",
+                              style: GoogleFonts.workSans(
+                                color: Colors.white,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
                                 ),
-                              )
-                            : SizedBox(),
-                      ],
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                              backgroundColor: Colors.black.withOpacity(0.8),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                            ),
+                            onPressed: () {
+                              PersistentNavBarNavigator.pushNewScreen(
+                                context,
+                                screen: BabysitterRecommendationScreen(
+                                  babysitter_id:
+                                      json.decode(widget.user_body)['uid'],
+                                ),
+                                withNavBar: false,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                    Center(
+                      child: SizedBox(
+                        // width: (queryData.size.width) * 0.9,
+                        height: (queryData.size.height -
+                                queryData.padding.top -
+                                -queryData.padding.bottom) *
+                            0.4,
+                        child: BabysitterUpperPage(
+                          pageHight: (queryData.size.height -
+                              queryData.padding.top -
+                              queryData.padding.bottom -
+                              AppBar().preferredSize.height),
+                          pagewidth: queryData.size.width,
+                          name: decoded_user_body['firstName'] +
+                              ' ' +
+                              decoded_user_body['lastName'],
+                          age: decoded_user_body['age'],
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: BabysitterMiddlePage(
+                        user_body: widget.user_body,
+                        pageHight: (queryData.size.height -
+                                queryData.padding.top -
+                                queryData.padding.bottom -
+                                AppBar().preferredSize.height) *
+                            0.15,
+                        pagewidth: queryData.size.width,
+                        price: decoded_user_body['price'] > 0
+                            ? decoded_user_body['price'].toString() + '\$\h'
+                            : 'unknown price',
+                      ),
+                    ),
+                    BabysitterDescription(
+                      pageHight: (queryData.size.height -
+                              queryData.padding.top -
+                              queryData.padding.bottom -
+                              AppBar().preferredSize.height) *
+                          1.2,
+                      pagewidth: queryData.size.width,
+                      description: decoded_user_body['about'],
+                    ),
+                    !AppUser.getUserKind()
+                        ? Container(
+                            padding: EdgeInsets.only(top: 5, bottom: 30),
+                            child: ScheduleWithaBysitter(
+                              parentId: AppUser.getUid(),
+                              user_body: widget.user_body,
+                            ),
+                          )
+                        : SizedBox(),
+                  ],
                 ),
-                // ),
-                // ),
               ),
             ));
   }

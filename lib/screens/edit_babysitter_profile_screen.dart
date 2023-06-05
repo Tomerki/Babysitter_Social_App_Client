@@ -5,8 +5,10 @@ import 'package:baby_sitter/server_manager.dart';
 import 'package:baby_sitter/widgets/circle_button_one.dart';
 import 'package:baby_sitter/widgets/loading.dart';
 import 'package:baby_sitter/widgets/user_image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/src/response.dart';
 
 import '../models/appUser.dart';
@@ -17,16 +19,17 @@ class EditBabysitterProfileScreen extends StatefulWidget {
   String? about;
   double? price;
   String? age;
+  String? image;
 
   static const routeName = 'babysitter-register-screen';
 
-  EditBabysitterProfileScreen({
-    super.key,
-    required this.texts,
-    this.about = '',
-    this.price = -0.1,
-    this.age = '18',
-  });
+  EditBabysitterProfileScreen(
+      {super.key,
+      required this.texts,
+      this.about = '',
+      this.price = -0.1,
+      this.age = '18',
+      this.image});
 
   @override
   State<EditBabysitterProfileScreen> createState() =>
@@ -49,7 +52,7 @@ class _EditBabysitterProfileScreenState
   }
 
   final _formKey2 = GlobalKey<FormState>();
-  File? _imageFile;
+  File? _selectedImage;
 
   TextEditingController _aboutController = TextEditingController(text: '');
 
@@ -92,24 +95,39 @@ class _EditBabysitterProfileScreenState
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            UserImagePicker(
+                              image: widget.image,
+                              onPickImage: (pickedImage) {
+                                _selectedImage = pickedImage;
+                              },
+                            ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
+                                SizedBox(
+                                  height: 10,
+                                ),
                                 Text(
                                   'About',
-                                  style: TextStyle(
+                                  style: GoogleFonts.workSans(
                                     color: Colors.black.withOpacity(0.5),
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.bold,
+                                    textStyle: const TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 50,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(height: 10),
                                 Text(
                                   'Me',
-                                  style: TextStyle(
+                                  style: GoogleFonts.workSans(
                                     color: Colors.black.withOpacity(0.5),
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.w700,
+                                    textStyle: const TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 40,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -135,8 +153,16 @@ class _EditBabysitterProfileScreenState
                               },
                               maxLines: 6,
                               decoration: InputDecoration.collapsed(
-                                  hintText: babysitter['about']),
-                              style: TextStyle(color: Colors.black),
+                                hintText: babysitter['about'],
+                              ),
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 18,
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -149,8 +175,18 @@ class _EditBabysitterProfileScreenState
                           items: ageList.map((age) {
                             return DropdownMenuItem<String>(
                               value: age,
-                              child: Text(double.parse(age)
-                                  .toStringAsFixed(age.endsWith('.0') ? 0 : 1)),
+                              child: Text(
+                                double.parse(age).toStringAsFixed(
+                                    age.endsWith('.0') ? 0 : 1),
+                                style: GoogleFonts.workSans(
+                                  color: Colors.black,
+                                  textStyle: const TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
                             );
                           }).toList(),
                           onChanged: (value) {
@@ -160,6 +196,14 @@ class _EditBabysitterProfileScreenState
                           },
                           hint: Text(
                             babysitter['age'],
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
                           isExpanded: true,
                         ),
@@ -167,6 +211,14 @@ class _EditBabysitterProfileScreenState
                       Container(
                         width: MediaQuery.of(context).size.width * 0.5,
                         child: TextField(
+                          style: GoogleFonts.workSans(
+                            color: Colors.black,
+                            textStyle: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                            ),
+                          ),
                           decoration: InputDecoration(
                             hintText: babysitter['price'] > 0
                                 ? babysitter['price'].toString()
@@ -184,10 +236,13 @@ class _EditBabysitterProfileScreenState
                         padding: EdgeInsets.only(top: 30, bottom: 15),
                         child: Text(
                           'Your skills:',
-                          style: TextStyle(
-                            fontSize: 20,
-                            wordSpacing: 2,
-                            letterSpacing: 2,
+                          style: GoogleFonts.workSans(
+                            color: Colors.black,
+                            textStyle: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ),
@@ -200,7 +255,17 @@ class _EditBabysitterProfileScreenState
                                 widget.texts[key] = val!;
                               });
                             },
-                            title: Text(key),
+                            title: Text(
+                              key,
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
                             controlAffinity: ListTileControlAffinity.leading,
                           );
                         },
@@ -216,6 +281,14 @@ class _EditBabysitterProfileScreenState
                               child: ElevatedButton(
                                 child: Text(
                                   'Save Changes',
+                                  style: GoogleFonts.workSans(
+                                    color: Colors.white,
+                                    textStyle: const TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
@@ -228,6 +301,16 @@ class _EditBabysitterProfileScreenState
                                   ),
                                 ),
                                 onPressed: () async {
+                                  if (_selectedImage != null) {
+                                    final storageRef = FirebaseStorage.instance
+                                        .ref()
+                                        .child('user_images')
+                                        .child('${AppUser.getUid()}.jpg');
+
+                                    await storageRef.putFile(_selectedImage!);
+                                    widget.image =
+                                        await storageRef.getDownloadURL();
+                                  }
                                   await ServerManager()
                                       .putRequest(
                                     'items/' + AppUser.getUid(),
@@ -239,6 +322,7 @@ class _EditBabysitterProfileScreenState
                                             : widget.price,
                                         'about': widget.about,
                                         'age': widget.age,
+                                        'image': widget.image,
                                         'ComeToClient': widget
                                             .texts['Come to client']
                                             .toString(),
@@ -293,6 +377,14 @@ class _EditBabysitterProfileScreenState
                               child: ElevatedButton(
                                 child: Text(
                                   'Cancle',
+                                  style: GoogleFonts.workSans(
+                                    color: Colors.white,
+                                    textStyle: const TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20,
+                                    ),
+                                  ),
                                 ),
                                 style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(

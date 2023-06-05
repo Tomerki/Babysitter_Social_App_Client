@@ -1,5 +1,6 @@
 import 'package:baby_sitter/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -96,6 +97,14 @@ class _NewMessageState extends State<NewMessage> {
       child: Row(children: [
         Expanded(
           child: TextField(
+            style: GoogleFonts.workSans(
+              color: Colors.black,
+              textStyle: const TextStyle(
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w500,
+                fontSize: 18,
+              ),
+            ),
             controller: _messageController,
             textCapitalization: TextCapitalization.sentences,
             autocorrect: true,
