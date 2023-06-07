@@ -58,6 +58,9 @@ dependencies:
   open_street_map_search_and_pick: ^0.0.17
   geolocator: ^9.0.2
   geocoding: ^2.1.0
+  chat_gpt_sdk: ^2.1.2
+  flutter_dotenv: ^5.1.0
+
 
 
 dev_dependencies:

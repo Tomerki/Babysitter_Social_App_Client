@@ -1,11 +1,20 @@
+import 'dart:convert';
+
+import 'package:baby_sitter/models/appUser.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../server_manager.dart';
 
 class RecommendationPost extends StatefulWidget {
   final recommendation;
   bool hide;
+  Function() callback;
   RecommendationPost(
-      {super.key, required this.recommendation, required this.hide});
+      {super.key,
+      required this.recommendation,
+      required this.hide,
+      required this.callback});
 
   @override
   State<RecommendationPost> createState() => _RecommendationPostState();
@@ -72,6 +81,38 @@ class _RecommendationPostState extends State<RecommendationPost> {
                 ),
               ),
             ),
+            AppUser.getUid() == widget.recommendation['babysitter_id']
+                ? Visibility(
+                    visible: widget.hide,
+                    child: Card(
+                      elevation: 5,
+                      borderOnForeground: true,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () async {
+                              await ServerManager()
+                                  .deleteRequest(
+                                      'delete_inner_item_collection/' +
+                                          AppUser.getUid() +
+                                          '/' +
+                                          (widget.recommendation)['doc_id'] +
+                                          '/recommendation',
+                                      'Babysitter')
+                                  .then((value) {
+                                widget.callback();
+                              });
+                            },
+                            icon: Icon(
+                              Icons.delete,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                : SizedBox()
           ],
         ),
       ),

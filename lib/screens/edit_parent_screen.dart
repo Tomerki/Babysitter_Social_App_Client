@@ -13,14 +13,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/src/response.dart';
 
 import '../models/appUser.dart';
+import '../widgets/map_place_picker.dart';
 import 'babysitter_main_screen.dart';
 
 class EditParentProfileScreen extends StatefulWidget {
   String? image;
+  String? address;
 
   static const routeName = 'babysitter-register-screen';
 
-  EditParentProfileScreen({super.key, this.image = ''});
+  EditParentProfileScreen(
+      {super.key, this.image, this.address = "Pick Address"});
 
   @override
   State<EditParentProfileScreen> createState() =>
@@ -33,6 +36,12 @@ class _EditParentProfileScreenState extends State<EditParentProfileScreen> {
     final result =
         await ServerManager().getRequest('items/' + AppUser.getUid(), 'Parent');
     return json.decode(result.body);
+  }
+
+  callback(String newAddress) {
+    setState(() {
+      widget.address = newAddress;
+    });
   }
 
   @override
@@ -83,6 +92,35 @@ class _EditParentProfileScreenState extends State<EditParentProfileScreen> {
                         },
                       ),
                       Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: TextButton(
+                            onPressed: () async {
+                              Navigator.of(context).pushNamed(
+                                MapPlacePicker.routeName,
+                                arguments: callback,
+                              );
+                            },
+                            child: Text(
+                              widget.address!,
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
                         padding: const EdgeInsets.only(
                             left: 20, right: 20, bottom: 10, top: 10),
                         child: Row(
@@ -129,6 +167,7 @@ class _EditParentProfileScreenState extends State<EditParentProfileScreen> {
                                     body: jsonEncode(
                                       {
                                         'image': widget.image,
+                                        'address': widget.address,
                                       },
                                     ),
                                   )

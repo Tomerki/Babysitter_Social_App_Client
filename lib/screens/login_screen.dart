@@ -278,7 +278,7 @@ class _loginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'You have\'t any account?',
+                              'Not registered yet?',
                               style: GoogleFonts.workSans(
                                 color: Colors.black,
                                 textStyle: const TextStyle(

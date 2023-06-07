@@ -41,7 +41,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final AuthService _auth = AuthService();
 
   var _formKey = GlobalKey<FormState>();
-  String userType = '';
+  String userType = 'Parent';
   String _selectedCountry = '';
   Response? response;
   File? _selectedImage;
@@ -417,9 +417,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   },
                                   child: Text(
                                     address!,
-                                    style: TextStyle(
-                                      fontSize: 22,
+                                    style: GoogleFonts.workSans(
                                       color: Colors.black,
+                                      textStyle: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 20,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -510,7 +514,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                             lastName!,
                                                         'phoneNumber':
                                                             phoneNumber,
-                                                        'address': address,
+                                                        'address': address ==
+                                                                'Pick address'
+                                                            ? 'Africam Safari, Blvd. Capitán Carlos Camacho Espíritu, Oasis, Puebla, Mexico'
+                                                            : address,
                                                         'county':
                                                             _selectedCountry,
                                                         'image':
@@ -530,7 +537,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                             lastName!,
                                                         'phoneNumber':
                                                             phoneNumber,
-                                                        'address': address,
+                                                        'address': address ==
+                                                                'Pick address'
+                                                            ? 'Africam Safari, Blvd. Capitán Carlos Camacho Espíritu, Oasis, Puebla, Mexico'
+                                                            : address,
                                                         'county':
                                                             _selectedCountry,
                                                         'image':
