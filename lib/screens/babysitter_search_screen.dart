@@ -113,55 +113,57 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
               fit: BoxFit.cover,
               opacity: 0.3)),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Container(
-                  width: queryData.size.width * 0.7,
-                  child: InputBox(
-                    keyType: TextInputType.name,
-                    text: "Enter a name",
-                    validator: () {},
-                    onChanged: (value) {
-                      name = value;
-                    },
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Container(
+                    width: queryData.size.width * 0.7,
+                    child: InputBox(
+                      keyType: TextInputType.name,
+                      text: "Enter a name",
+                      validator: () {},
+                      onChanged: (value) {
+                        name = value;
+                      },
+                    ),
                   ),
-                ),
-                Container(
-                  width: queryData.size.width * 0.1,
-                  child: IconButton(
-                    onPressed: () {
-                      if (name != null && name!.length > 0) {
-                        setState(() {
-                          babysittersFuture = fetchBabysittersByName();
-                        });
-                      }
-                    },
-                    icon: Icon(Icons.search),
-                    iconSize: 32,
+                  Container(
+                    width: queryData.size.width * 0.1,
+                    child: IconButton(
+                      onPressed: () {
+                        if (name != null && name!.length > 0) {
+                          setState(() {
+                            babysittersFuture = fetchBabysittersByName();
+                          });
+                        }
+                      },
+                      icon: Icon(Icons.search),
+                      iconSize: 32,
+                    ),
                   ),
-                ),
-                Container(
-                  width: queryData.size.width * 0.1,
-                  child: IconButton(
-                    onPressed: () {
-                      PersistentNavBarNavigator.pushNewScreen(
-                        context,
-                        // settings: RouteSettings(name: FilterScreen.routeName),
-                        screen: FilterScreen(
-                          callback: callback,
-                        ),
-                        withNavBar: false,
-                      );
-                    },
-                    icon: Icon(Icons.tune),
-                    iconSize: 32,
+                  Container(
+                    width: queryData.size.width * 0.1,
+                    child: IconButton(
+                      onPressed: () {
+                        PersistentNavBarNavigator.pushNewScreen(
+                          context,
+                          // settings: RouteSettings(name: FilterScreen.routeName),
+                          screen: FilterScreen(
+                            callback: callback,
+                          ),
+                          withNavBar: false,
+                        );
+                      },
+                      icon: Icon(Icons.tune),
+                      iconSize: 32,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           FutureBuilder<List<dynamic>>(

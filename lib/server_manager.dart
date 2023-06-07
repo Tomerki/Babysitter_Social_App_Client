@@ -15,6 +15,7 @@ class ServerManager {
 
   ServerManager._internal();
 
+
   static const String _baseUrl = 'http://172.18.71.133:8080';
   Future<http.Response> getRequest(
     String path,

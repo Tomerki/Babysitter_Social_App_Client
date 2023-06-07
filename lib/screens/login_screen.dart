@@ -174,102 +174,102 @@ class _loginScreenState extends State<LoginScreen> {
                                   height: 20,
                                 ),
                                 ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0)),
-                                        backgroundColor: Colors.purple,
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 131, vertical: 20)),
-                                    onPressed: () async {
-                                      print(AppUser.getUserType());
-                                      if (_formKey.currentState == null) {
-                                        print('_formKey.currentState == null');
-                                      } else if (_formKey.currentState!
-                                          .validate()) {
-                                        setState(() {
-                                          () => loading = true;
-                                        });
-                                        dynamic result = await _auth
-                                            .signInWithEmailAndpassword(
-                                                email!, password!);
-                                        if (result == null) {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                            backgroundColor:
-                                                Color.fromARGB(255, 120, 12, 5),
-                                            content: Center(
-                                              child: Text(
-                                                "email or password incorrect",
-                                                style: TextStyle(
-                                                    color: Colors.white),
-                                              ),
+                                  style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      backgroundColor: Colors.purple,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 131, vertical: 20)),
+                                  onPressed: () async {
+                                    FocusScope.of(context).unfocus();
+                                    if (_formKey.currentState == null) {
+                                      print('_formKey.currentState == null');
+                                    } else if (_formKey.currentState!
+                                        .validate()) {
+                                      setState(() {
+                                        () => loading = true;
+                                      });
+                                      dynamic result = await _auth
+                                          .signInWithEmailAndpassword(
+                                              email!, password!);
+                                      if (result == null) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          backgroundColor:
+                                              Color.fromARGB(255, 120, 12, 5),
+                                          content: Center(
+                                            child: Text(
+                                              "email or password incorrect",
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             ),
-                                          ));
-                                          setState(() {
-                                            () => loading = false;
-                                          });
-                                        } else {
-                                          await ServerManager()
-                                              .getRequest(
-                                                  'search/uid/' +
-                                                      result.uid.toString(),
-                                                  'Users')
-                                              .then((value) async {
-                                            isBabysitter = json.decode(value
-                                                .body
-                                                .toString())['isBabysitter'];
-
-                                            final type = isBabysitter
-                                                ? 'Babysitter'
-                                                : 'Parent';
-                                            AppUser.updateInstance(
-                                              uid: result.uid.toString(),
-                                              isBabysitter: isBabysitter,
-                                              userType: type,
-                                            );
-                                            if (isBabysitter) {
-                                              await ServerManager()
-                                                  .getRequest(
-                                                      'search/email/' + email!,
-                                                      'Babysitter')
-                                                  .then((user) {
-                                                Navigator.of(context)
-                                                    .popAndPushNamed(
-                                                  BabysitterMainScreen
-                                                      .routeName,
-                                                  arguments: user.body,
-                                                );
-                                              });
-                                            } else {
-                                              await ServerManager()
-                                                  .getRequest(
-                                                      'search/email/' + email!,
-                                                      'Parent')
-                                                  .then((user) {
-                                                Navigator.of(context)
-                                                    .popAndPushNamed(
-                                                  ParentMainScreen.routeName,
-                                                  arguments: user.body,
-                                                );
-                                              });
-                                            }
-                                          });
-                                        }
+                                          ),
+                                        ));
+                                        setState(() {
+                                          () => loading = false;
+                                        });
                                       } else {
-                                        print('not good');
+                                        await ServerManager()
+                                            .getRequest(
+                                                'search/uid/' +
+                                                    result.uid.toString(),
+                                                'Users')
+                                            .then((value) async {
+                                          isBabysitter = json.decode(value.body
+                                              .toString())['isBabysitter'];
+
+                                          final type = isBabysitter
+                                              ? 'Babysitter'
+                                              : 'Parent';
+                                          AppUser.updateInstance(
+                                            uid: result.uid.toString(),
+                                            isBabysitter: isBabysitter,
+                                            userType: type,
+                                          );
+                                          if (isBabysitter) {
+                                            await ServerManager()
+                                                .getRequest(
+                                                    'search/email/' + email!,
+                                                    'Babysitter')
+                                                .then((user) {
+                                              Navigator.of(context)
+                                                  .popAndPushNamed(
+                                                BabysitterMainScreen.routeName,
+                                                arguments: user.body,
+                                              );
+                                            });
+                                          } else {
+                                            await ServerManager()
+                                                .getRequest(
+                                                    'search/email/' + email!,
+                                                    'Parent')
+                                                .then((user) {
+                                              Navigator.of(context)
+                                                  .popAndPushNamed(
+                                                ParentMainScreen.routeName,
+                                                arguments: user.body,
+                                              );
+                                            });
+                                          }
+                                        });
+                                        AuthService.setUserData();
                                       }
-                                    },
-                                    child: Text(
-                                      'Log In',
-                                      style: GoogleFonts.workSans(
-                                        textStyle: const TextStyle(
-                                          fontStyle: FontStyle.italic,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 20,
-                                        ),
+                                    } else {
+                                      print('not good');
+                                    }
+                                  },
+                                  child: Text(
+                                    'Log In',
+                                    style: GoogleFonts.workSans(
+                                      textStyle: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 20,
                                       ),
-                                    ))
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),

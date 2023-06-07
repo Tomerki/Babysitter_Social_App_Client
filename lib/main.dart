@@ -16,15 +16,14 @@ import './screens/welcome_screen.dart';
 import './screens/register_screen.dart';
 import './screens/babysitter_register_screen.dart';
 import './widgets/map_place_picker.dart';
-import './screens/filter_screen.dart';
-import './screens/jobs_search_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
-
-import 'screens/babysitter_recommendations_screen.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
