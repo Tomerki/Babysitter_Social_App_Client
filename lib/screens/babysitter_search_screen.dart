@@ -81,98 +81,100 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
               fit: BoxFit.cover,
               opacity: 0.3)),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Container(
-                  width: queryData.size.width * 0.7,
-                  child: InputBox(
-                    keyType: TextInputType.name,
-                    text: "Enter a name",
-                    validator: () {},
-                    onChanged: (value) {
-                      name = value;
-                    },
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Container(
+                    width: queryData.size.width * 0.7,
+                    child: InputBox(
+                      keyType: TextInputType.name,
+                      text: "Enter a name",
+                      validator: () {},
+                      onChanged: (value) {
+                        name = value;
+                      },
+                    ),
                   ),
-                ),
-                Container(
-                  width: queryData.size.width * 0.1,
-                  child: IconButton(
-                    onPressed: () {
-                      if (name != null && name!.length > 0) {
-                        setState(() {
-                          babysittersFuture = fetchBabysittersByName();
-                        });
-                      }
-                    },
-                    icon: Icon(Icons.search),
-                    iconSize: 32,
+                  Container(
+                    width: queryData.size.width * 0.1,
+                    child: IconButton(
+                      onPressed: () {
+                        if (name != null && name!.length > 0) {
+                          setState(() {
+                            babysittersFuture = fetchBabysittersByName();
+                          });
+                        }
+                      },
+                      icon: Icon(Icons.search),
+                      iconSize: 32,
+                    ),
                   ),
-                ),
-                Container(
-                  width: queryData.size.width * 0.1,
-                  child: IconButton(
-                    onPressed: () {
-                      PersistentNavBarNavigator.pushNewScreen(
-                        context,
-                        // settings: RouteSettings(name: FilterScreen.routeName),
-                        screen: FilterScreen(
-                          callback: callback,
-                        ),
-                        withNavBar: false,
-                      );
-                    },
-                    icon: Icon(Icons.tune),
-                    iconSize: 32,
+                  Container(
+                    width: queryData.size.width * 0.1,
+                    child: IconButton(
+                      onPressed: () {
+                        PersistentNavBarNavigator.pushNewScreen(
+                          context,
+                          // settings: RouteSettings(name: FilterScreen.routeName),
+                          screen: FilterScreen(
+                            callback: callback,
+                          ),
+                          withNavBar: false,
+                        );
+                      },
+                      icon: Icon(Icons.tune),
+                      iconSize: 32,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          FutureBuilder<List<dynamic>>(
-            future: babysittersFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // While waiting for the future to complete, show a progress indicator
-                return CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                // If there's an error, display an error message
-                return Text('Error: ${snapshot.error}');
-              } else {
-                // Once the future completes successfully, render the list
-                List? babysitters = snapshot.data;
-                return Column(
-                  children: (babysitters != null && babysitters.isNotEmpty)
-                      ? babysitters.reversed.map((babysitter) {
-                          return BabysitterSearchCard(
-                            imageUrl: 'bla',
-                            babysitter_email: babysitter['email'],
-                            babysitter_name: babysitter['firstName'] +
-                                ' ' +
-                                babysitter['lastName'],
-                          );
-                        }).toList()
-                      : [
-                          Text(
-                            'No Results',
-                            style: GoogleFonts.workSans(
-                              color: Colors.black,
-                              textStyle: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 20,
+            FutureBuilder<List<dynamic>>(
+              future: babysittersFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // While waiting for the future to complete, show a progress indicator
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  // If there's an error, display an error message
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  // Once the future completes successfully, render the list
+                  List? babysitters = snapshot.data;
+                  return Column(
+                    children: (babysitters != null && babysitters.isNotEmpty)
+                        ? babysitters.reversed.map((babysitter) {
+                            return BabysitterSearchCard(
+                              imageUrl: 'bla',
+                              babysitter_email: babysitter['email'],
+                              babysitter_name: babysitter['firstName'] +
+                                  ' ' +
+                                  babysitter['lastName'],
+                            );
+                          }).toList()
+                        : [
+                            Text(
+                              'No Results',
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20,
+                                ),
                               ),
-                            ),
-                          )
-                        ],
-                );
-              }
-            },
-          ),
-        ],
+                            )
+                          ],
+                  );
+                }
+              },
+            ),
+          ],
+        ),
       ),
       // ),
     );

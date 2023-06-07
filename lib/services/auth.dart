@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart';
 import 'package:tuple/tuple.dart';
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,8 +11,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
-  static FirebaseFirestore firestore = FirebaseFirestore.instance;
-  static FirebaseAuth auth = FirebaseAuth.instance;
+  static final fcm = FirebaseMessaging.instance;
+  static final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  static final FirebaseAuth auth = FirebaseAuth.instance;
+  static var userToken = '';
+  static var myUserData;
 
   AppUser? _userFromFirebaseUser(User? user) {
     return user != null ? AppUser(uid: user.uid) : null;
@@ -72,17 +77,20 @@ class AuthService {
     }
   }
 
+  static void setUserData() async {
+    final data = await firestore
+        .collection(AppUser.getUserType())
+        .doc(AppUser.getUid())
+        .get();
+    myUserData = data.data();
+  }
+
   static User get connectedUser => auth.currentUser!;
 
   static Future<String> addChatUser(String email) async {
     Tuple2<QuerySnapshot<Map<String, dynamic>?>, String>? res =
         await searchUserByEmail(email);
     final data = res!.item1;
-
-    final myData = await firestore
-        .collection(AppUser.getUserType())
-        .doc(AppUser.getUid())
-        .get();
 
     log('data: ${data.docs}');
 
@@ -93,7 +101,6 @@ class AuthService {
       await firestore.collection('Chats').doc(docId).collection('Messages');
 
       final secondUserData = data.docs.first.data();
-      final myUserData = myData.data();
 
       log('user exists: ${data.docs.first.data()}');
       firestore
@@ -170,7 +177,7 @@ class AuthService {
       final address2Encoded = Uri.encodeQueryComponent(address2);
       final apiUrl =
           'https://maps.googleapis.com/maps/api/geocode/json?address=$address1Encoded&key=$apiKey';
-      final response1 = await http.get(Uri.parse(apiUrl));
+      final response1 = await get(Uri.parse(apiUrl));
       final json1 = jsonDecode(response1.body);
       final location1 = json1['results'][0]['geometry']['location'];
       final lat1 = location1['lat'];
@@ -178,7 +185,7 @@ class AuthService {
 
       final apiUrl2 =
           'https://maps.googleapis.com/maps/api/geocode/json?address=$address2Encoded&key=$apiKey';
-      final response2 = await http.get(Uri.parse(apiUrl2));
+      final response2 = await get(Uri.parse(apiUrl2));
       final json2 = jsonDecode(response2.body);
       final location2 = json2['results'][0]['geometry']['location'];
       final lat2 = location2['lat'];
@@ -193,4 +200,48 @@ class AuthService {
       return null;
     }
   }
+
+  static void setupPushNotifications() async {
+    await fcm.requestPermission();
+
+    await fcm.getToken().then((token) {
+      if (token != null) {
+        userToken = token;
+        firestore
+            .collection(AppUser.getUserType())
+            .doc(AppUser.getUid())
+            .update({'Token': token});
+      }
+    });
+  }
+
+  static Future<void> sendPushNotification(String email, String msg) async {
+    Tuple2<QuerySnapshot<Map<String, dynamic>?>, String>? res =
+        await searchUserByEmail(email);
+    final secondUser = res!.item1.docs.first.data();
+    try {
+      final body = {
+        "to": secondUser!['Token'],
+        "notification": {
+          "title": myUserData['fullName'], //our name should be send
+          "body": msg,
+          "android_channel_id": "chats"
+        },
+      };
+
+      var res = await post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+          headers: {
+            HttpHeaders.contentTypeHeader: 'application/json',
+            HttpHeaders.authorizationHeader:
+                'key=AAAAZQss7YY:APA91bF0h9zzJcmSXXecGJuOaGnDCIgeyJKeI4KGCOCVA2_g31Huj9XVU52ea80pNsU_oa8kILpYjQWFQSY7-dQqzWusMt08MMMA7rNZpj-vLZ11skAM2Hd_ACn89irdrIMaiGJbiADB'
+          },
+          body: jsonEncode(body));
+      log('Response status: ${res.statusCode}');
+      log('Response body: ${res.body}');
+    } catch (e) {
+      log('\nsendPushNotificationE: $e');
+    }
+  }
+
+  static Future<void> recieveMessage() async {}
 }

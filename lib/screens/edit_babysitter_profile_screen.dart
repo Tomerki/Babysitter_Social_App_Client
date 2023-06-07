@@ -73,7 +73,6 @@ class _EditBabysitterProfileScreenState
             return Text('Error: ${snapshot.error}');
           } else {
             dynamic babysitter = snapshot.data;
-
             return Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,

@@ -52,6 +52,7 @@ class _NewMessageState extends State<NewMessage> {
         .get();
 
     final secondData = secondUserData.docs.first.data();
+    AuthService.sendPushNotification(secondData['email'], enteredMessage);
 
     AuthService.firestore
         .collection(AppUser.getUserType())
@@ -83,7 +84,8 @@ class _NewMessageState extends State<NewMessage> {
         .collection('Messages')
         .add({
       'text': enteredMessage,
-      'createdAt': DateFormat('hh:mm a').format(Timestamp.now().toDate()),
+      // 'createdAt': DateFormat('hh:mm a').format(Timestamp.now().toDate()),
+      'createdAt': Timestamp.now(),
       'username': userData.data()!['fullName'],
       'userImage': userData.data()!['image'],
       'uid': user.uid

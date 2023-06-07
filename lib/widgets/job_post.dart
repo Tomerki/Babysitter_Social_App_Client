@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:baby_sitter/services/auth.dart';
+import 'package:baby_sitter/widgets/icon_with_description.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../models/appUser.dart';
@@ -10,12 +12,14 @@ import '../server_manager.dart';
 class JobPost extends StatefulWidget {
   Function(List jobs) callback;
   final job;
-  bool hide;
-  JobPost(
-      {super.key,
-      required this.job,
-      required this.hide,
-      required this.callback});
+  bool hide, isJobRequestSent;
+  JobPost({
+    super.key,
+    required this.job,
+    required this.hide,
+    required this.callback,
+    required this.isJobRequestSent,
+  });
 
   @override
   State<JobPost> createState() => _JobPostState();
@@ -23,6 +27,83 @@ class JobPost extends StatefulWidget {
 
 class _JobPostState extends State<JobPost> {
   List jobs = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  Future<void> loadData() async {
+    final data = await AuthService.firestore
+        .collection('Parent')
+        .doc(widget.job['parent_id'])
+        .collection('notification')
+        .where('babysitter_id', isEqualTo: AppUser.getUid())
+        .get();
+
+    if (data.docs.isNotEmpty) {
+      setState(() {
+        widget.isJobRequestSent = true;
+      });
+    }
+  }
+
+  void _showSnackMessage(String content, String label) {
+    if (widget.isJobRequestSent) {
+      log("return first");
+      return;
+    }
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+          SnackBar(
+            content: Text(content),
+            duration: Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
+            action: SnackBarAction(
+              label: label,
+              onPressed: () {},
+            ),
+          ),
+        )
+        .closed
+        .then((SnackBarClosedReason reason) {
+      if (reason == SnackBarClosedReason.action) {
+        // Snack bar was dismissed by pressing the action button
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Job request canceled!"),
+            duration: Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      } else {
+        sendJobRequest();
+      }
+    });
+  }
+
+  void sendJobRequest() async {
+    log("sent");
+    await ServerManager().postRequest(
+      'add_inner_collection/' + widget.job['parent_id'] + '/notification',
+      'Parent',
+      body: jsonEncode(
+        {
+          'title': "Babysitter is interested in your post",
+          'massage': "Click to see here page",
+          'babysitter_id': AppUser.getUid(),
+          'job_id': widget.job['doc_id'],
+          'was_tap': false,
+          'type': "job bell",
+        },
+      ),
+    );
+    setState(() {
+      widget.isJobRequestSent = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -192,27 +273,22 @@ class _JobPostState extends State<JobPost> {
                           children: [
                             IconButton(
                               alignment: Alignment.bottomLeft,
-                              onPressed: () async {
-                                await ServerManager().postRequest(
-                                    'add_inner_collection/' +
-                                        (widget.job)['parent_id'] +
-                                        '/notification',
-                                    'Parent',
-                                    body: jsonEncode(
-                                      {
-                                        'title':
-                                            "Babysitter is interested in your post",
-                                        'massage': "Click to see here page",
-                                        'babysitter_id': AppUser.getUid(),
-                                        'job_id': (widget.job)['doc_id'],
-                                        'was_tap': false,
-                                        'type': "job bell",
-                                      },
-                                    ));
+                              onPressed: () {
+                                if (!widget.isJobRequestSent) {
+                                  _showSnackMessage(
+                                      "Job request sent!", "Undo");
+                                }
                               },
-                              icon: Icon(
-                                Icons.notification_add_outlined,
+                              icon: IconWithDescription(
+                                icon: widget.isJobRequestSent
+                                    ? Icons.done
+                                    : Icons.notification_add_outlined,
                               ),
+                              // icon: Icon(
+                              //   widget.isJobRequestSent
+                              //       ? Icons.done
+                              //       : Icons.notification_add_outlined,
+                              // ),
                             ),
                           ],
                         ),
