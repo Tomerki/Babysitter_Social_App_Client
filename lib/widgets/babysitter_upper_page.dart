@@ -6,13 +6,19 @@ class BabysitterUpperPage extends StatelessWidget {
   final double pagewidth;
   final String name;
   final String age;
-
-  const BabysitterUpperPage(
-      {super.key,
-      required this.pageHight,
-      required this.pagewidth,
-      required this.name,
-      required this.age});
+  final String address;
+  final String image;
+  final int reviews;
+  const BabysitterUpperPage({
+    super.key,
+    required this.pageHight,
+    required this.pagewidth,
+    required this.name,
+    required this.age,
+    required this.address,
+    required this.image,
+    required this.reviews,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,106 +26,111 @@ class BabysitterUpperPage extends StatelessWidget {
       //card column
       child: Stack(
         children: [
-          Column(
-            children: [
-              Spacer(),
-              CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://anaphotography.co.uk/wp-content/uploads/2022/03/Child-Toddler-Photography-Bodmin-Cornwall-269.jpg'),
-                radius: (pageHight) * 0.4 * 0.25,
-              ),
-              //ToDo: Full Name in bold, Country and City in light
-              Text(
-                name,
-                style: GoogleFonts.workSans(
-                  color: Colors.black,
-                  textStyle: const TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 20,
-                  ),
+          Center(
+            child: Column(
+              children: [
+                Spacer(),
+                CircleAvatar(
+                  backgroundImage: NetworkImage(image),
+                  radius: (pageHight) * 0.4 * 0.25,
                 ),
-              ),
-              Text(
-                'Country and City',
-                style: GoogleFonts.workSans(
-                  color: Colors.black,
-                  textStyle: const TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
+                //ToDo: Full Name in bold, Country and City in light
+                Text(
+                  name,
+                  style: GoogleFonts.workSans(
+                    color: Colors.black,
+                    textStyle: const TextStyle(
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                    ),
                   ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              Spacer(),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30.0),
-                child: Container(
-                  width: (pagewidth) * 0.9 * 0.7,
-                  // color: Colors.white,
-                  child: Row(
-                    children: [
-                      Spacer(),
-                      Column(
-                        children: [
-                          Text(
-                            '58',
-                            style: GoogleFonts.workSans(
-                              color: Colors.black,
-                              textStyle: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            'Reviews',
-                            style: GoogleFonts.workSans(
-                              color: Colors.black,
-                              textStyle: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ],
+                Center(
+                  child: Text(
+                    address,
+                    style: GoogleFonts.workSans(
+                      color: Colors.black,
+                      textStyle: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
                       ),
-                      Spacer(),
-                      Column(
-                        children: [
-                          Text(
-                            age,
-                            style: GoogleFonts.workSans(
-                              color: Colors.black,
-                              textStyle: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                          Text(
-                            'age',
-                            style: GoogleFonts.workSans(
-                              color: Colors.black,
-                              textStyle: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Spacer(),
-                    ],
+                    ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ),
-              Spacer(),
-            ],
+                Spacer(),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  child: Container(
+                    width: (pagewidth) * 0.9 * 0.7,
+                    // color: Colors.white,
+                    child: Row(
+                      children: [
+                        Spacer(),
+                        Column(
+                          children: [
+                            Text(
+                              reviews.toString(),
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'Reviews',
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Column(
+                          children: [
+                            Text(
+                              age,
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            Text(
+                              'age',
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                      ],
+                    ),
+                  ),
+                ),
+                Spacer(),
+              ],
+            ),
           ),
         ],
       ),

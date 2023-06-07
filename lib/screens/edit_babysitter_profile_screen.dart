@@ -12,6 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/src/response.dart';
 
 import '../models/appUser.dart';
+import '../widgets/map_place_picker.dart';
 import 'babysitter_main_screen.dart';
 
 class EditBabysitterProfileScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class EditBabysitterProfileScreen extends StatefulWidget {
   double? price;
   String? age;
   String? image;
+  String? address;
 
   static const routeName = 'babysitter-register-screen';
 
@@ -29,7 +31,8 @@ class EditBabysitterProfileScreen extends StatefulWidget {
       this.about = '',
       this.price = -0.1,
       this.age = '18',
-      this.image});
+      this.image,
+      this.address = "Pick Address"});
 
   @override
   State<EditBabysitterProfileScreen> createState() =>
@@ -49,6 +52,12 @@ class _EditBabysitterProfileScreenState
   void initState() {
     babysitterFuture = fetchBabysitter();
     super.initState();
+  }
+
+  callback(String newAddress) {
+    setState(() {
+      widget.address = newAddress;
+    });
   }
 
   final _formKey2 = GlobalKey<FormState>();
@@ -231,6 +240,35 @@ class _EditBabysitterProfileScreenState
                           },
                         ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          decoration: BoxDecoration(
+                            border: Border.all(width: 1),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: TextButton(
+                            onPressed: () async {
+                              Navigator.of(context).pushNamed(
+                                MapPlacePicker.routeName,
+                                arguments: callback,
+                              );
+                            },
+                            child: Text(
+                              widget.address!,
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       Container(
                         padding: EdgeInsets.only(top: 30, bottom: 15),
                         child: Text(
@@ -322,6 +360,7 @@ class _EditBabysitterProfileScreenState
                                         'about': widget.about,
                                         'age': widget.age,
                                         'image': widget.image,
+                                        'address': widget.address,
                                         'ComeToClient': widget
                                             .texts['Come to client']
                                             .toString(),

@@ -60,6 +60,12 @@ class _BabysitterRecommendationScreenState
     return result;
   }
 
+  void updateRecommendations() {
+    setState(() {
+      recommendationsFuture = Future.value(fetchRecommendations());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     bool showFloatingActionButton = !AppUser.getUserKind();
@@ -107,6 +113,7 @@ class _BabysitterRecommendationScreenState
                           ? recommendations.map((recommendation) {
                               return RecommendationPost(
                                 recommendation: recommendation,
+                                callback: updateRecommendations,
                                 hide: true,
                               );
                             }).toList()
