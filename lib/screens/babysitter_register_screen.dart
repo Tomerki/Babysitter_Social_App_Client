@@ -1,11 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:baby_sitter/screens/login_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
-import 'package:baby_sitter/widgets/circle_button_one.dart';
-import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BabysitterRegisterScreen extends StatefulWidget {
@@ -18,12 +14,12 @@ class BabysitterRegisterScreen extends StatefulWidget {
 
 class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
   final _formKey2 = GlobalKey<FormState>();
-  File? _imageFile;
   String about = '';
   double price = -1.0;
   String age = '18';
   List<String> ageList =
       List.generate(165, (index) => (18 + (index * 0.5)).toStringAsFixed(1));
+  bool good = true;
 
   Map<String, bool> texts = {
     'Come to client': false,
@@ -99,15 +95,19 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                   padding: const EdgeInsets.all(10.0),
                   child: Card(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      side: BorderSide(color: good ? Colors.white : Colors.red),
+                    ),
                     margin: EdgeInsets.all(8.0),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: TextField(
                         onChanged: (value) {
-                          setState(() {
-                            about = value;
-                          });
+                          setState(
+                            () {
+                              about = value;
+                            },
+                          );
                         },
                         maxLines: 6,
                         decoration: InputDecoration.collapsed(
@@ -190,42 +190,72 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                       padding:
                           EdgeInsets.symmetric(horizontal: 100, vertical: 20)),
                   onPressed: () async {
-                    String id =
-                        ModalRoute.of(context)!.settings.arguments as String;
-                    await ServerManager()
-                        .putRequest(
-                          'items/$id',
-                          'Babysitter',
-                          body: jsonEncode(
-                            {
-                              'price': price == '' ? 0 : price,
-                              'about': about,
-                              'age': age,
-                              'ComeToClient':
-                                  texts['Come to client'].toString(),
-                              'InMyPlace': texts['In my place'].toString(),
-                              'HelpingWithHouseWork':
-                                  texts['Helping with housework'].toString(),
-                              'KnowsHowToCook':
-                                  texts['Knows how to cook'].toString(),
-                              'FirstAidCertified':
-                                  texts['First aid certified'].toString(),
-                              'HasDriverLicense':
-                                  texts['Has a driver\'s license'].toString(),
-                              'HasPastExperience':
-                                  texts['Has past experience'].toString(),
-                              'HasAnEducationInEducation':
-                                  texts['Has an education in education']
-                                      .toString(),
-                              'TakesToActivities':
-                                  texts['Takes to/from activities'].toString(),
-                              'ChangeADiaper':
-                                  texts['Change a diaper'].toString(),
+                    ServerManager.checkLanguage(about).then(
+                      (value) async {
+                        if (!value) {
+                          setState(
+                            () {
+                              good = true;
                             },
-                          ),
-                        )
-                        .then((value) => Navigator.of(context)
-                            .pushNamed(LoginScreen.routeName));
+                          );
+                          String id = ModalRoute.of(context)!.settings.arguments
+                              as String;
+                          await ServerManager()
+                              .putRequest(
+                                'items/$id',
+                                'Babysitter',
+                                body: jsonEncode(
+                                  {
+                                    'price': price == '' ? 0 : price,
+                                    'about': about,
+                                    'age': age,
+                                    'ComeToClient':
+                                        texts['Come to client'].toString(),
+                                    'InMyPlace':
+                                        texts['In my place'].toString(),
+                                    'HelpingWithHouseWork':
+                                        texts['Helping with housework']
+                                            .toString(),
+                                    'KnowsHowToCook':
+                                        texts['Knows how to cook'].toString(),
+                                    'FirstAidCertified':
+                                        texts['First aid certified'].toString(),
+                                    'HasDriverLicense':
+                                        texts['Has a driver\'s license']
+                                            .toString(),
+                                    'HasPastExperience':
+                                        texts['Has past experience'].toString(),
+                                    'HasAnEducationInEducation':
+                                        texts['Has an education in education']
+                                            .toString(),
+                                    'TakesToActivities':
+                                        texts['Takes to/from activities']
+                                            .toString(),
+                                    'ChangeADiaper':
+                                        texts['Change a diaper'].toString(),
+                                  },
+                                ),
+                              )
+                              .then((value) => Navigator.of(context)
+                                  .pushReplacementNamed(LoginScreen.routeName));
+                        } else {
+                          setState(() {
+                            good = false;
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              behavior: SnackBarBehavior.floating,
+                              elevation: 5,
+                              content: Text(
+                                "Please Use with an appropriate language",
+                                style: TextStyle(color: Colors.red),
+                              ),
+                              duration: Duration(seconds: 3),
+                            ),
+                          );
+                        }
+                      },
+                    );
                   },
                 ),
                 SizedBox(
