@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/babysitter_main_screen.dart';
 import 'package:baby_sitter/screens/babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/favorites_screen.dart';
 import 'package:baby_sitter/screens/parent_main_screen.dart';
 import 'package:baby_sitter/services/auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './screens/login_screen.dart';
@@ -26,22 +23,8 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // void navigateToScreen(Map<String, dynamic> notificationData) {
-  //   log(notificationData.toString());
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // AuthService.fcm.getInitialMessage().then((RemoteMessage? message) {
-    //   if (message != null) {
-    //     // Extract the necessary data from the message and navigate to the desired screen
-    //     final notificationData = message.data;
-    //     navigateToScreen(notificationData);
-    //   } else {
-    //     log("Null");
-    //   }
-    // });
-
     return StreamProvider<AppUser?>.value(
       value: AuthService().user,
       initialData: null,
