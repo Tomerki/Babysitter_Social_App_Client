@@ -55,9 +55,6 @@ dependencies:
   geolocator: ^9.0.2
   geocoding: ^2.1.0
   firebase_messaging: ^14.6.2
-  chat_gpt_sdk: ^2.1.2
-  flutter_dotenv: ^5.1.0
-
 
 
 dev_dependencies:

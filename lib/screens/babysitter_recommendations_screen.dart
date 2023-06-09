@@ -68,6 +68,7 @@ class _BabysitterRecommendationScreenState
 
   @override
   Widget build(BuildContext context) {
+    FocusManager.instance.primaryFocus?.unfocus();
     bool showFloatingActionButton = !AppUser.getUserKind();
     return Scaffold(
       appBar: AppBar(
@@ -169,24 +170,29 @@ class _BabysitterRecommendationScreenState
                               key: _formKey,
                               child: Column(
                                 children: <Widget>[
-                                  TextField(
-                                    decoration: InputDecoration.collapsed(
-                                        hintText: "Enter your Name"),
-                                    style: GoogleFonts.workSans(
-                                      color: Colors.black,
-                                      textStyle: const TextStyle(
-                                        fontStyle: FontStyle.italic,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 18,
+                                  Card(
+                                    child: Container(
+                                      color: Colors.white70,
+                                      child: TextField(
+                                        decoration: InputDecoration.collapsed(
+                                            hintText: "Enter your Name"),
+                                        style: GoogleFonts.workSans(
+                                          color: Colors.black,
+                                          textStyle: const TextStyle(
+                                            fontStyle: FontStyle.italic,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                        onChanged: (value) {
+                                          setState(
+                                            () {
+                                              parentNameValue = value;
+                                            },
+                                          );
+                                        },
                                       ),
                                     ),
-                                    onChanged: (value) {
-                                      setState(
-                                        () {
-                                          parentNameValue = value;
-                                        },
-                                      );
-                                    },
                                   ),
                                   Card(
                                     elevation: 5,
@@ -221,61 +227,86 @@ class _BabysitterRecommendationScreenState
                           ),
                           actions: [
                             TextButton(
-                                child: Text(
-                                  "Submit",
-                                  style: GoogleFonts.workSans(
-                                    color: Colors.blue,
-                                    textStyle: const TextStyle(
-                                      fontStyle: FontStyle.italic,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16,
-                                    ),
+                              child: Text(
+                                "Submit",
+                                style: GoogleFonts.workSans(
+                                  color: Colors.blue,
+                                  textStyle: const TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
                                   ),
                                 ),
-                                onPressed: () async {
-                                  await ServerManager()
-                                      .postRequest(
-                                          'add_inner_collection/' +
-                                              widget.babysitter_id +
-                                              '/recommendation',
-                                          'Babysitter',
-                                          body: jsonEncode(
-                                            {
-                                              'babysitter_id':
-                                                  widget.babysitter_id,
-                                              'description':
-                                                  recommendationValue,
-                                              'is_confirmed': false,
-                                              'parent_fullName':
-                                                  parentNameValue.length == 0
-                                                      ? 'anonymous'
-                                                      : parentNameValue,
-                                            },
-                                          ))
-                                      .then((value) async {
-                                    print(value);
-                                    await ServerManager().postRequest(
-                                        'add_inner_collection/' +
-                                            widget.babysitter_id +
-                                            '/notification',
-                                        'Babysitter',
-                                        body: jsonEncode(
-                                          {
-                                            'title':
-                                                "A parent wants to publish a recommendation about you",
-                                            'massage':
-                                                "Click to see the recommendation",
-                                            'recommendation_id':
-                                                json.decode(value.body)['id'],
-                                            'was_tap': false,
-                                            'type': 'new recommendation',
-                                          },
-                                        ));
-                                  });
-
-                                  Navigator.of(context, rootNavigator: true)
-                                      .pop();
-                                }),
+                              ),
+                              onPressed: () async {
+                                await ServerManager.checkLanguage(
+                                        recommendationValue)
+                                    .then(
+                                  (value) async {
+                                    if (!value) {
+                                      await ServerManager()
+                                          .postRequest(
+                                              'add_inner_collection/' +
+                                                  widget.babysitter_id +
+                                                  '/recommendation',
+                                              'Babysitter',
+                                              body: jsonEncode(
+                                                {
+                                                  'babysitter_id':
+                                                      widget.babysitter_id,
+                                                  'description':
+                                                      recommendationValue,
+                                                  'is_confirmed': false,
+                                                  'parent_fullName':
+                                                      parentNameValue.length ==
+                                                              0
+                                                          ? 'anonymous'
+                                                          : parentNameValue,
+                                                },
+                                              ))
+                                          .then(
+                                        (value) async {
+                                          print(value);
+                                          await ServerManager().postRequest(
+                                            'add_inner_collection/' +
+                                                widget.babysitter_id +
+                                                '/notification',
+                                            'Babysitter',
+                                            body: jsonEncode(
+                                              {
+                                                'title':
+                                                    "A parent wants to publish a recommendation about you",
+                                                'massage':
+                                                    "Click to see the recommendation",
+                                                'recommendation_id': json
+                                                    .decode(value.body)['id'],
+                                                'was_tap': false,
+                                                'type': 'new recommendation',
+                                              },
+                                            ),
+                                          );
+                                        },
+                                      );
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          behavior: SnackBarBehavior.floating,
+                                          elevation: 5,
+                                          content: Text(
+                                            "Please Use with an appropriate language",
+                                            style: TextStyle(color: Colors.red),
+                                          ),
+                                          duration: Duration(seconds: 3),
+                                        ),
+                                      );
+                                    }
+                                  },
+                                );
+                              },
+                            ),
                           ],
                         );
                       },

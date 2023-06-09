@@ -7,7 +7,6 @@ import 'package:http/http.dart';
 import 'package:tuple/tuple.dart';
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthService {
@@ -223,7 +222,7 @@ class AuthService {
       final body = {
         "to": secondUser!['Token'],
         "notification": {
-          "title": myUserData['fullName'], //our name should be send
+          "title": myUserData['fullName'],
           "body": msg,
           "android_channel_id": "chats"
         },
@@ -236,12 +235,10 @@ class AuthService {
                 'key=AAAAZQss7YY:APA91bF0h9zzJcmSXXecGJuOaGnDCIgeyJKeI4KGCOCVA2_g31Huj9XVU52ea80pNsU_oa8kILpYjQWFQSY7-dQqzWusMt08MMMA7rNZpj-vLZ11skAM2Hd_ACn89irdrIMaiGJbiADB'
           },
           body: jsonEncode(body));
-      log('Response status: ${res.statusCode}');
-      log('Response body: ${res.body}');
     } catch (e) {
       log('\nsendPushNotificationE: $e');
     }
   }
 
-  static Future<void> recieveMessage() async {}
+  
 }
