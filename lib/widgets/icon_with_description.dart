@@ -36,14 +36,6 @@ class _IconWithDescriptionState extends State<IconWithDescription> {
     return Positioned.fill(
       child: GestureDetector(
         onTap: _hideDescriptionDialog,
-        child: Container(
-          color: Colors.black54,
-          alignment: Alignment.center,
-          child: AlertDialog(
-            title: Text('Button Description'),
-            content: Text('This button performs a certain action.'),
-          ),
-        ),
       ),
     );
   }

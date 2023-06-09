@@ -585,8 +585,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               );
                                             } else if (userType ==
                                                 'Babysitter') {
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
+                                              Navigator.of(context).pushNamed(
                                                 BabysitterRegisterScreen
                                                     .routeName,
                                                 arguments: json.decode(

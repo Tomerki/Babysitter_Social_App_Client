@@ -62,7 +62,9 @@ class _JobPostState extends State<JobPost> {
             behavior: SnackBarBehavior.floating,
             action: SnackBarAction(
               label: label,
-              onPressed: () {},
+              onPressed: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
             ),
           ),
         )
@@ -284,11 +286,6 @@ class _JobPostState extends State<JobPost> {
                                     ? Icons.done
                                     : Icons.notification_add_outlined,
                               ),
-                              // icon: Icon(
-                              //   widget.isJobRequestSent
-                              //       ? Icons.done
-                              //       : Icons.notification_add_outlined,
-                              // ),
                             ),
                           ],
                         ),

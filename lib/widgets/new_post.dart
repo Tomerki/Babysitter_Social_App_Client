@@ -439,34 +439,56 @@ class _NewPostState extends State<NewPost> {
                         ),
                       ),
                       onPressed: () async {
-                        await serverManager
-                            .postRequest(
-                          'add_doc',
-                          'Jobs',
-                          body: jsonEncode(
-                            {
-                              "publisher": widget.publisherName,
-                              "parent_id": widget.parentId,
-                              "date": selectedDate.toString(),
-                              "startHour": startTime,
-                              "endHour": endTime,
-                              "childrens": children,
-                              "description": jobDescription,
-                            },
-                          ),
-                        )
-                            .then((response) async {
-                          serverManager
-                              .getRequest(
-                            'items',
-                            'Jobs',
-                          )
-                              .then((newList) {
-                            jobs = json.decode(newList.body);
-                            widget.callback(jobs);
-                            Navigator.of(context, rootNavigator: true).pop();
-                          });
-                        });
+                        FocusScope.of(context).unfocus();
+                        await ServerManager.checkLanguage(jobDescription).then(
+                          (value) async {
+                            if (!value) {
+                              await serverManager
+                                  .postRequest(
+                                'add_doc',
+                                'Jobs',
+                                body: jsonEncode(
+                                  {
+                                    "publisher": widget.publisherName,
+                                    "parent_id": widget.parentId,
+                                    "date": selectedDate.toString(),
+                                    "startHour": startTime,
+                                    "endHour": endTime,
+                                    "childrens": children,
+                                    "description": jobDescription,
+                                  },
+                                ),
+                              )
+                                  .then(
+                                (response) async {
+                                  serverManager
+                                      .getRequest(
+                                    'items',
+                                    'Jobs',
+                                  )
+                                      .then((newList) {
+                                    jobs = json.decode(newList.body);
+                                    widget.callback(jobs);
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
+                                  });
+                                },
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  behavior: SnackBarBehavior.floating,
+                                  elevation: 5,
+                                  content: Text(
+                                    "Please Use with an appropriate language",
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                  duration: Duration(seconds: 3),
+                                ),
+                              );
+                            }
+                          },
+                        );
                       },
                     ),
                   ],
