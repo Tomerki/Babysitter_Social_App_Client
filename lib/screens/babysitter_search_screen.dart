@@ -165,120 +165,119 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                 ],
               ),
             ),
-          ),
-          FutureBuilder<List<dynamic>>(
-            future: babysittersFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // While waiting for the future to complete, show a progress indicator
-                return CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                // If there's an error, display an error message
-                return Text('Error: ${snapshot.error}');
-              } else {
-                // Once the future completes successfully, render the list
-                List? babysitters = snapshot.data;
-
-                if (babysitters != null && babysitters.isNotEmpty) {
-                  babysittersFutureDisSort = sortByDis(babysitters);
-                  return FutureBuilder(
-                    future: babysittersFutureDisSort,
-                    builder: (context, distanceSnapshot) {
-                      if (distanceSnapshot.connectionState ==
-                          ConnectionState.waiting) {
-                        // While waiting for the distance calculations to complete, show a progress indicator
-                        return CircularProgressIndicator();
-                      } else if (distanceSnapshot.hasError) {
-                        // If there's an error in distance calculation, display an error message
-                        return Text('Error: ${distanceSnapshot.error}');
-                      } else {
-                        List? babysitters2 = distanceSnapshot.data;
-                        // Once the distance calculations complete successfully, render the list of babysitters
-                        return Column(
-                          children: babysitters2 != null &&
-                                  babysitters2.isNotEmpty
-                              ? babysitters2.reversed.map(
-                                  (babysitter) {
-                                    if (true) {
-                                      return BabysitterSearchCard(
-                                        imageUrl: 'bla',
-                                        babysitter_email: babysitter['email'],
-                                        babysitter_name:
-                                            babysitter['firstName'] +
-                                                ' ' +
-                                                babysitter['lastName'],
-                                        dis: babysitter['dis'],
-                                      );
-                                    }
-                                  },
-                                ).toList()
-                              : [
-                                  Text(
-                                    'No Results',
-                                    style: GoogleFonts.workSans(
-                                      color: Colors.black,
-                                      textStyle: const TextStyle(
-                                        fontStyle: FontStyle.italic,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                        );
-                      }
-                    },
-                  );
+            FutureBuilder<List<dynamic>>(
+              future: babysittersFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // While waiting for the future to complete, show a progress indicator
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  // If there's an error, display an error message
+                  return Text('Error: ${snapshot.error}');
                 } else {
-                  return Text(
-                    'No Results',
-                    style: GoogleFonts.workSans(
-                      color: Colors.black,
-                      textStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                  );
-                }
-                // return Column(
-                //   children: (babysitters != null && babysitters.isNotEmpty)
-                //       ? babysitters.reversed.map(
-                //           (babysitter) {
-                //             // dyna dis = await AuthService.calculateDistance(babysitter['address'], babysitter['address']);
+                  // Once the future completes successfully, render the list
+                  List? babysitters = snapshot.data;
 
-                //             if (true) {
-                //               return BabysitterSearchCard(
-                //                 imageUrl: 'bla',
-                //                 babysitter_email: babysitter['email'],
-                //                 babysitter_name: babysitter['firstName'] +
-                //                     ' ' +
-                //                     babysitter['lastName'],
-                //               );
-                //             }
-                //           },
-                //         ).toList()
-                //       : [
-                //           Text(
-                //             'No Results',
-                //             style: GoogleFonts.workSans(
-                //               color: Colors.black,
-                //               textStyle: const TextStyle(
-                //                 fontStyle: FontStyle.italic,
-                //                 fontWeight: FontWeight.w400,
-                //                 fontSize: 20,
-                //               ),
-                //             ),
-                //           )
-                //         ],
-                // );
-              }
-            },
-          ),
-        ],
+                  if (babysitters != null && babysitters.isNotEmpty) {
+                    babysittersFutureDisSort = sortByDis(babysitters);
+                    return FutureBuilder(
+                      future: babysittersFutureDisSort,
+                      builder: (context, distanceSnapshot) {
+                        if (distanceSnapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          // While waiting for the distance calculations to complete, show a progress indicator
+                          return CircularProgressIndicator();
+                        } else if (distanceSnapshot.hasError) {
+                          // If there's an error in distance calculation, display an error message
+                          return Text('Error: ${distanceSnapshot.error}');
+                        } else {
+                          List? babysitters2 = distanceSnapshot.data;
+                          // Once the distance calculations complete successfully, render the list of babysitters
+                          return Column(
+                            children: babysitters2 != null &&
+                                    babysitters2.isNotEmpty
+                                ? babysitters2.reversed.map(
+                                    (babysitter) {
+                                      if (true) {
+                                        return BabysitterSearchCard(
+                                          imageUrl: 'bla',
+                                          babysitter_email: babysitter['email'],
+                                          babysitter_name:
+                                              babysitter['firstName'] +
+                                                  ' ' +
+                                                  babysitter['lastName'],
+                                          dis: babysitter['dis'],
+                                        );
+                                      }
+                                    },
+                                  ).toList()
+                                : [
+                                    Text(
+                                      'No Results',
+                                      style: GoogleFonts.workSans(
+                                        color: Colors.black,
+                                        textStyle: const TextStyle(
+                                          fontStyle: FontStyle.italic,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                          );
+                        }
+                      },
+                    );
+                  } else {
+                    return Text(
+                      'No Results',
+                      style: GoogleFonts.workSans(
+                        color: Colors.black,
+                        textStyle: const TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 20,
+                        ),
+                      ),
+                    );
+                  }
+                  // return Column(
+                  //   children: (babysitters != null && babysitters.isNotEmpty)
+                  //       ? babysitters.reversed.map(
+                  //           (babysitter) {
+                  //             // dyna dis = await AuthService.calculateDistance(babysitter['address'], babysitter['address']);
+
+                  //             if (true) {
+                  //               return BabysitterSearchCard(
+                  //                 imageUrl: 'bla',
+                  //                 babysitter_email: babysitter['email'],
+                  //                 babysitter_name: babysitter['firstName'] +
+                  //                     ' ' +
+                  //                     babysitter['lastName'],
+                  //               );
+                  //             }
+                  //           },
+                  //         ).toList()
+                  //       : [
+                  //           Text(
+                  //             'No Results',
+                  //             style: GoogleFonts.workSans(
+                  //               color: Colors.black,
+                  //               textStyle: const TextStyle(
+                  //                 fontStyle: FontStyle.italic,
+                  //                 fontWeight: FontWeight.w400,
+                  //                 fontSize: 20,
+                  //               ),
+                  //             ),
+                  //           )
+                  //         ],
+                  // );
+                }
+              },
+            ),
+          ],
+        ),
       ),
-      // ),
     );
   }
 }
