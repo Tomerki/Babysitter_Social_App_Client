@@ -21,6 +21,27 @@ class RecommendationPost extends StatefulWidget {
 }
 
 class _RecommendationPostState extends State<RecommendationPost> {
+  String image =
+      'https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol.png';
+
+  Future<String> fetchImage() async {
+    final response = await ServerManager()
+        .getRequest('items/' + widget.recommendation['parent_id'], 'Parent');
+    final decodedBody = json.decode(response.body);
+
+    return (decodedBody['image']);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchImage().then((value) {
+      setState(() {
+        image = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,38 +52,48 @@ class _RecommendationPostState extends State<RecommendationPost> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0, left: 8.0),
-                  child: Text(
-                    '${widget.recommendation['parent_fullName']}',
-                    style: GoogleFonts.workSans(
-                      color: Colors.black,
-                      textStyle: const TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 24,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(image),
                       ),
-                    ),
-                  ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      widget.hide = !widget.hide;
-                    });
-                  },
-                  icon: widget.hide
-                      ? Icon(
-                          Icons.minimize,
-                        )
-                      : Icon(
-                          Icons.add,
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+                        child: Text(
+                          '${widget.recommendation['parent_fullName']}',
+                          style: GoogleFonts.workSans(
+                            color: Colors.black,
+                            textStyle: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 24,
+                            ),
+                          ),
                         ),
-                ),
-              ],
+                      ),
+                    ],
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        widget.hide = !widget.hide;
+                      });
+                    },
+                    icon: widget.hide
+                        ? Icon(
+                            Icons.minimize,
+                          )
+                        : Icon(
+                            Icons.add,
+                          ),
+                  ),
+                ],
+              ),
             ),
             Visibility(
               visible: widget.hide,
@@ -93,13 +124,15 @@ class _RecommendationPostState extends State<RecommendationPost> {
                           IconButton(
                             onPressed: () async {
                               await ServerManager()
-                                  .deleteRequest(
-                                      'delete_inner_item_collection/' +
-                                          AppUser.getUid() +
-                                          '/' +
-                                          (widget.recommendation)['doc_id'] +
-                                          '/recommendation',
-                                      'Babysitter')
+                                  .putRequest(
+                                'put_inner_item_collection/' +
+                                    AppUser.getUid() +
+                                    '/' +
+                                    (widget.recommendation)['doc_id'] +
+                                    '/recommendation',
+                                AppUser.getUserType(),
+                                body: jsonEncode({'is_confirmed': false}),
+                              )
                                   .then((value) {
                                 widget.callback();
                               });

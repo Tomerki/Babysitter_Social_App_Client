@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'circle_button_two.dart';
 
@@ -63,7 +64,17 @@ class _NewRecommendationState extends State<NewRecommendation> {
                   ),
                   actions: [
                     TextButton(
-                        child: Text("Submit"),
+                        child: Text(
+                          "Submit",
+                          style: GoogleFonts.workSans(
+                            color: Colors.blue,
+                            textStyle: const TextStyle(
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
                         onPressed: () {
                           setState(
                             () {
@@ -75,6 +86,23 @@ class _NewRecommendationState extends State<NewRecommendation> {
                           widget.callback(recommendations);
                           Navigator.of(context, rootNavigator: true).pop();
                         }),
+                    TextButton(
+                      child: Text(
+                        "Cancel",
+                        style: GoogleFonts.workSans(
+                          color:
+                              Color.fromARGB(255, 81, 26, 26).withOpacity(0.8),
+                          textStyle: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      onPressed: () async {
+                        Navigator.of(context, rootNavigator: true).pop();
+                      },
+                    ),
                   ],
                 );
               },

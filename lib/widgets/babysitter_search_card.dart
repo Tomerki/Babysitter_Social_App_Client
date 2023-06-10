@@ -56,7 +56,9 @@ class _BabysitterSearchCardState extends State<BabysitterSearchCard> {
           });
         },
         child: ListTile(
-          leading: CircleAvatar(child: Icon(Icons.person)),
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(widget.imageUrl),
+          ),
           title: Text(
             widget.babysitter_name,
             style: GoogleFonts.workSans(

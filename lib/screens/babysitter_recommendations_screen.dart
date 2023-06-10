@@ -239,6 +239,7 @@ class _BabysitterRecommendationScreenState
                                 ),
                               ),
                               onPressed: () async {
+                                FocusScope.of(context).unfocus();
                                 await ServerManager.checkLanguage(
                                         recommendationValue)
                                     .then(
@@ -257,6 +258,7 @@ class _BabysitterRecommendationScreenState
                                                   'description':
                                                       recommendationValue,
                                                   'is_confirmed': false,
+                                                  'parent_id': AppUser.getUid(),
                                                   'parent_fullName':
                                                       parentNameValue.length ==
                                                               0
@@ -266,7 +268,6 @@ class _BabysitterRecommendationScreenState
                                               ))
                                           .then(
                                         (value) async {
-                                          print(value);
                                           await ServerManager().postRequest(
                                             'add_inner_collection/' +
                                                 widget.babysitter_id +
@@ -290,6 +291,8 @@ class _BabysitterRecommendationScreenState
                                       Navigator.of(context, rootNavigator: true)
                                           .pop();
                                     } else {
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pop();
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
@@ -305,6 +308,24 @@ class _BabysitterRecommendationScreenState
                                     }
                                   },
                                 );
+                              },
+                            ),
+                            TextButton(
+                              child: Text(
+                                "Cancel",
+                                style: GoogleFonts.workSans(
+                                  color: Color.fromARGB(255, 81, 26, 26)
+                                      .withOpacity(0.8),
+                                  textStyle: const TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              onPressed: () async {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop();
                               },
                             ),
                           ],

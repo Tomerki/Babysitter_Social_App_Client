@@ -221,23 +221,12 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
         });
       });
     }
-    _loadIsFavorite();
     fetchRecommendationSize().then((value) {
       setState(() {
         recommendation_len = value;
         print(recommendation_len);
       });
     });
-  }
-
-  void _loadIsFavorite() {
-    if (!AppUser.getUserKind()) {
-      fetchIsFavorite().then((value) {
-        setState(() {
-          isFavorite = value;
-        });
-      });
-    }
   }
 
   AppBar build_appBar(var decoded_user_body) {

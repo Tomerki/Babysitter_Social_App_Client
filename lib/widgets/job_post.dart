@@ -27,10 +27,25 @@ class JobPost extends StatefulWidget {
 
 class _JobPostState extends State<JobPost> {
   List jobs = [];
+  String image =
+      'https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol.png';
+
+  Future<String> fetchImage() async {
+    final response = await ServerManager()
+        .getRequest('items/' + widget.job['parent_id'], 'Parent');
+    final decodedBody = json.decode(response.body);
+
+    return (decodedBody['image']);
+  }
 
   @override
   void initState() {
     super.initState();
+    fetchImage().then((value) {
+      setState(() {
+        image = value;
+      });
+    });
     loadData();
   }
 
@@ -121,16 +136,26 @@ class _JobPostState extends State<JobPost> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      widget.job['publisher'],
-                      style: GoogleFonts.workSans(
-                        color: Colors.black,
-                        textStyle: const TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 24,
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(image),
                         ),
-                      ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            widget.job['publisher'],
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 24,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   IconButton(

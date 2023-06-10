@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../models/appUser.dart';
-import '../models/notification.dart';
 import '../screens/babysitter_profile_screen.dart';
 import '../screens/chat_page_screen.dart';
 import '../server_manager.dart';
@@ -146,7 +145,7 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                       actions: [
                         TextButton(
                           child: Text(
-                            "confirm",
+                            "Confirm",
                             style: GoogleFonts.workSans(
                               color: Colors.blue,
                               textStyle: const TextStyle(
@@ -172,13 +171,41 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                             Navigator.of(context, rootNavigator: true).pop();
                           },
                         ),
+                        TextButton(
+                          child: Text(
+                            "Cancel",
+                            style: GoogleFonts.workSans(
+                              color: Color.fromARGB(255, 81, 26, 26)
+                                  .withOpacity(0.8),
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          onPressed: () async {
+                            final put_body = json.decode(value.body);
+                            put_body['is_confirmed'] = false;
+                            await ServerManager().putRequest(
+                              'put_inner_item_collection/' +
+                                  AppUser.getUid() +
+                                  '/' +
+                                  (widget.notification)['recommendation_id'] +
+                                  '/recommendation',
+                              AppUser.getUserType(),
+                              body: jsonEncode(put_body),
+                            );
+                            // widget.callback(recommendations);
+                            Navigator.of(context, rootNavigator: true).pop();
+                          },
+                        ),
                       ],
                     );
                   },
                 );
               },
             );
-            // print(json.decode(value.body)['created']);
           });
         } else if (widget.notification["type"] == "new job request") {
           await ServerManager()
@@ -309,7 +336,7 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                                 child: Text(
                                   'chat with the parent',
                                   style: GoogleFonts.workSans(
-                                    color: Color.fromARGB(255, 17, 78, 127),
+                                    color: Colors.blue,
                                     textStyle: const TextStyle(
                                       fontStyle: FontStyle.italic,
                                       fontWeight: FontWeight.w500,
@@ -342,7 +369,7 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                                 }),
                             TextButton(
                                 child: Text(
-                                  "close",
+                                  "Close",
                                   style: GoogleFonts.workSans(
                                     color: Color.fromARGB(255, 81, 26, 26)
                                         .withOpacity(0.8),
