@@ -16,7 +16,8 @@ import '../widgets/main_drawer.dart';
 import 'chats_screen.dart';
 
 class BabysitterMainScreen extends StatefulWidget {
-  const BabysitterMainScreen({Key? key}) : super(key: key);
+  String? user_body;
+  BabysitterMainScreen({Key? key, this.user_body}) : super(key: key);
   static final routeName = 'BabysitterMainScreen';
 
   @override
@@ -38,8 +39,12 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
 
   @override
   void didChangeDependencies() {
-    if (user_body == null) {
+    if (widget.user_body == null) {
       user_body = ModalRoute.of(context)!.settings.arguments as String;
+    } else {
+      setState(() {
+        user_body = widget.user_body;
+      });
     }
     _screens = [
       JobsSearchScreen(

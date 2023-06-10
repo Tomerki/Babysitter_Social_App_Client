@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:baby_sitter/draft/welcome_draft.dart';
+import 'package:baby_sitter/screens/chats_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -85,6 +89,11 @@ class AuthService {
   }
 
   static User get connectedUser => auth.currentUser!;
+
+  static Future<SharedPreferences> prefs() async {
+    SharedPreferences instance = await SharedPreferences.getInstance();
+    return instance;
+  }
 
   static Future<String> addChatUser(String email) async {
     Tuple2<QuerySnapshot<Map<String, dynamic>?>, String>? res =
@@ -220,6 +229,7 @@ class AuthService {
     final secondUser = res!.item1.docs.first.data();
     try {
       final body = {
+        "screen": "chat",
         "to": secondUser!['Token'],
         "notification": {
           "title": myUserData['fullName'],
@@ -240,5 +250,20 @@ class AuthService {
     }
   }
 
-  
+  static Widget initializeFirebaseMessaging() {
+    Widget res = WelcomeScreen();
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      res = handleNotificationTap(message);
+    });
+    return res;
+  }
+
+  static Widget handleNotificationTap(RemoteMessage message) {
+    // Map<String, dynamic> data = message.data;
+
+    // if (data['screen'] == 'chat') {
+    //   return ChatsScreen();
+    // }
+    return ChatsScreen();
+  }
 }

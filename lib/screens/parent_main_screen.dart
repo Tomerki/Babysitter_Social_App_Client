@@ -14,7 +14,8 @@ import '../server_manager.dart';
 import '../widgets/main_drawer.dart';
 
 class ParentMainScreen extends StatefulWidget {
-  const ParentMainScreen({Key? key}) : super(key: key);
+  String? user_body;
+  ParentMainScreen({Key? key, this.user_body}) : super(key: key);
   static final routeName = 'ParentMainScreen';
 
   @override
@@ -26,6 +27,7 @@ class _ParentMainScreenState extends State<ParentMainScreen>
   List<Widget> _screens = [];
   List<String> _screenName = [];
   String screen_name = '';
+  String? user_body;
 
   @override
   void initState() {
@@ -36,10 +38,17 @@ class _ParentMainScreenState extends State<ParentMainScreen>
 
   @override
   void didChangeDependencies() {
-    String user_body = ModalRoute.of(context)!.settings.arguments as String;
+    if (widget.user_body == null) {
+      user_body = ModalRoute.of(context)!.settings.arguments as String;
+    } else {
+      setState(() {
+        user_body = widget.user_body;
+      });
+    }
+
     _screens = [
       JobsSearchScreen(
-        user_body: user_body,
+        user_body: user_body!,
       ),
       NotificationScreen(),
       BabysitterSearchScreen(),
