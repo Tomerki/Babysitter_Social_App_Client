@@ -18,7 +18,6 @@ class ServerManager {
     String collectionName,
   ) async {
     final url = '$_baseUrl/$path';
-    print(url);
     return await http.get(Uri.parse(url), headers: <String, String>{
       'Content-Type': 'application/json',
       'Collection-Name': collectionName,
@@ -32,24 +31,11 @@ class ServerManager {
   ) async {
     final url =
         Uri.parse('$_baseUrl/$path').replace(queryParameters: queryParams);
-    print(url);
     return await http.get(url, headers: <String, String>{
       'Content-Type': 'application/json',
       'Collection-Name': collectionName,
     });
   }
-
-  //   Future<http.Response> getRequestInnerCollection(
-  //   String path,
-  //   String collectionName,
-  // ) async {
-  //   final url = '$_baseUrl/$path';
-  //   print(url);
-  //   return await http.get(Uri.parse(url), headers: <String, String>{
-  //     'Content-Type': 'application/json',
-  //     'Collection-Name': collectionName,
-  //   });
-  // }
 
   Future<http.Response> postRequest(String path, String collectionName,
       {required String body}) async {
@@ -112,7 +98,7 @@ class ServerManager {
   ) async {
     final url =
         Uri.parse('$_baseUrl/$path').replace(queryParameters: queryParams);
-    print(url);
+
     return await http.put(url, headers: <String, String>{
       'Content-Type': 'application/json',
       'Collection-Name': collectionName,

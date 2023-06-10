@@ -472,7 +472,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             password!,
                                           );
                                           if (result == null) {
-                                            print('not good');
                                             setState(() {
                                               loading = false;
                                             });
@@ -604,8 +603,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             ),
                                           ));
                                         }
-                                      } else {
-                                        print('not good');
                                       }
                                     },
                                     child: Text(

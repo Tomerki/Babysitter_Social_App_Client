@@ -54,7 +54,6 @@ class _BabysitterRecommendationScreenState
             is_confirmed_map)
         .then((value) {
       result = json.decode(value.body);
-      print(result);
     });
 
     return result;

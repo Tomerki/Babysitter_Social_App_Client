@@ -255,8 +255,6 @@ class _loginScreenState extends State<LoginScreen> {
                                         });
                                         AuthService.setUserData();
                                       }
-                                    } else {
-                                      print('not good');
                                     }
                                   },
                                   child: Text(

@@ -206,7 +206,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
             '/recommendation',
         'Babysitter',
         is_confirmed_map);
-    print(json.decode(result.body).length);
     return json.decode(result.body).length;
   }
 
@@ -224,7 +223,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     fetchRecommendationSize().then((value) {
       setState(() {
         recommendation_len = value;
-        print(recommendation_len);
       });
     });
   }

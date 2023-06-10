@@ -196,7 +196,6 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                               AppUser.getUserType(),
                               body: jsonEncode(put_body),
                             );
-                            // widget.callback(recommendations);
                             Navigator.of(context, rootNavigator: true).pop();
                           },
                         ),
@@ -217,7 +216,6 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                       '/jobRequest',
                   AppUser.getUserType())
               .then((value) {
-            print(value.body);
             showDialog(
               context: context,
               builder: (BuildContext context) {
