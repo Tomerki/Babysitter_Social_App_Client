@@ -68,7 +68,6 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
   }
 
   void updateUser(String edit_user) {
-    // print("updateUser updateUser updateUser updateUser updateUser");
     setState(() {
       user_body = edit_user;
     });

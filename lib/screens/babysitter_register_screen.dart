@@ -246,11 +246,19 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                           );
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
+                              backgroundColor: Color.fromARGB(255, 122, 25, 18),
                               behavior: SnackBarBehavior.floating,
                               elevation: 5,
                               content: Text(
-                                "Please Use with an appropriate language",
-                                style: TextStyle(color: Colors.red),
+                                "Please use an appropriate language!",
+                                style: GoogleFonts.workSans(
+                                  color: Colors.white,
+                                  textStyle: const TextStyle(
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                  ),
+                                ),
                               ),
                               duration: Duration(seconds: 3),
                             ),

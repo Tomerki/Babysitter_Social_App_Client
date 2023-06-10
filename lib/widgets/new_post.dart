@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:time_range_picker/time_range_picker.dart';
@@ -473,13 +474,23 @@ class _NewPostState extends State<NewPost> {
                                 },
                               );
                             } else {
+                              Navigator.of(context, rootNavigator: true).pop();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
+                                  backgroundColor:
+                                      Color.fromARGB(255, 122, 25, 18),
                                   behavior: SnackBarBehavior.floating,
                                   elevation: 5,
                                   content: Text(
-                                    "Please Use with an appropriate language",
-                                    style: TextStyle(color: Colors.red),
+                                    "Please use an appropriate language!",
+                                    style: GoogleFonts.workSans(
+                                      color: Colors.white,
+                                      textStyle: const TextStyle(
+                                        fontStyle: FontStyle.italic,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16,
+                                      ),
+                                    ),
                                   ),
                                   duration: Duration(seconds: 3),
                                 ),
@@ -487,6 +498,23 @@ class _NewPostState extends State<NewPost> {
                             }
                           },
                         );
+                      },
+                    ),
+                    TextButton(
+                      child: Text(
+                        "Cancel",
+                        style: GoogleFonts.workSans(
+                          color:
+                              Color.fromARGB(255, 81, 26, 26).withOpacity(0.8),
+                          textStyle: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      onPressed: () async {
+                        Navigator.of(context, rootNavigator: true).pop();
                       },
                     ),
                   ],

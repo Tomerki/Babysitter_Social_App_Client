@@ -79,7 +79,7 @@ class _FavoritesScreenScreenState extends State<FavoritesScreen> {
                       children: (babysitters != null && babysitters.isNotEmpty)
                           ? babysitters.reversed.map((babysitter) {
                               return BabysitterSearchCard(
-                                  imageUrl: 'bla',
+                                  imageUrl: babysitter['image'],
                                   babysitter_email: babysitter['email'],
                                   babysitter_name: babysitter['firstName'] +
                                       ' ' +
