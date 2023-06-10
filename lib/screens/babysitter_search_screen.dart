@@ -43,6 +43,7 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
   Future<List<dynamic>>? babysittersFutureDisSort;
   String? name;
   Map<String, String> currentAdditionsFilters = {};
+  bool ByName = true;
   callback(Map<String, bool> booleanFilters, RangeValues priceValues,
       RangeValues distanceValues) {
     double startPrice = priceValues.start;
@@ -51,6 +52,8 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
     setState(() {
       minDis = distanceValues.start;
       maxDis = distanceValues.end;
+      ByName = false;
+      name = null;
       Map<String, String> transformedFilters = {};
       booleanFilters.forEach((key, value) {
         if (value) {
@@ -75,30 +78,34 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
 
   Future<List<dynamic>> fetchBabysittersByName() async {
     final response = await ServerManager()
-        .getRequest('/search_contain/fullName/' + name!, 'Babysitter');
+        .getRequest('search_contain/fullName/' + name!, 'Babysitter');
     final decodedBody = json.decode(response.body);
     return decodedBody;
   }
 
   Future<List<dynamic>> sortByDis(List babysitters) async {
     List<dynamic> result = [];
-    final response =
-        await ServerManager().getRequest('items/' + AppUser.getUid(), 'Parent');
+    final response = await ServerManager()
+        .getRequest('items/' + AppUser.getUid(), AppUser.getUserType());
     for (var babysitter in babysitters.reversed) {
       await AuthService.calculateDistance(
               babysitter['address'], json.decode(response.body)['address'])
           .then((value) {
-        if (value != null) {
+        if (value != null && ByName == false) {
           if (value / 1000 <= maxDis && value / 1000 >= minDis) {
             dynamic babysitter2 = babysitter;
             babysitter2['dis'] = value / 1000;
             result.add(babysitter2);
           }
+        } else if (value != null && ByName == true) {
+          dynamic babysitter2 = babysitter;
+          babysitter2['dis'] = value / 1000;
+          result.add(babysitter2);
         }
       });
     }
     babysitters = result;
-    print(babysitters);
+
     return babysitters;
   }
 
@@ -135,8 +142,10 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                     width: queryData.size.width * 0.1,
                     child: IconButton(
                       onPressed: () {
+                        FocusScope.of(context).unfocus();
                         if (name != null && name!.length > 0) {
                           setState(() {
+                            ByName = true;
                             babysittersFuture = fetchBabysittersByName();
                           });
                         }
@@ -149,6 +158,7 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                     width: queryData.size.width * 0.1,
                     child: IconButton(
                       onPressed: () {
+                        FocusScope.of(context).unfocus();
                         PersistentNavBarNavigator.pushNewScreen(
                           context,
                           // settings: RouteSettings(name: FilterScreen.routeName),
@@ -180,6 +190,7 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
 
                   if (babysitters != null && babysitters.isNotEmpty) {
                     babysittersFutureDisSort = sortByDis(babysitters);
+
                     return FutureBuilder(
                       future: babysittersFutureDisSort,
                       builder: (context, distanceSnapshot) {
@@ -200,7 +211,7 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                                     (babysitter) {
                                       if (true) {
                                         return BabysitterSearchCard(
-                                          imageUrl: 'bla',
+                                          imageUrl: babysitter['image'],
                                           babysitter_email: babysitter['email'],
                                           babysitter_name:
                                               babysitter['firstName'] +
@@ -241,37 +252,6 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                       ),
                     );
                   }
-                  // return Column(
-                  //   children: (babysitters != null && babysitters.isNotEmpty)
-                  //       ? babysitters.reversed.map(
-                  //           (babysitter) {
-                  //             // dyna dis = await AuthService.calculateDistance(babysitter['address'], babysitter['address']);
-
-                  //             if (true) {
-                  //               return BabysitterSearchCard(
-                  //                 imageUrl: 'bla',
-                  //                 babysitter_email: babysitter['email'],
-                  //                 babysitter_name: babysitter['firstName'] +
-                  //                     ' ' +
-                  //                     babysitter['lastName'],
-                  //               );
-                  //             }
-                  //           },
-                  //         ).toList()
-                  //       : [
-                  //           Text(
-                  //             'No Results',
-                  //             style: GoogleFonts.workSans(
-                  //               color: Colors.black,
-                  //               textStyle: const TextStyle(
-                  //                 fontStyle: FontStyle.italic,
-                  //                 fontWeight: FontWeight.w400,
-                  //                 fontSize: 20,
-                  //               ),
-                  //             ),
-                  //           )
-                  //         ],
-                  // );
                 }
               },
             ),

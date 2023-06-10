@@ -307,6 +307,23 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                         Navigator.of(context, rootNavigator: true).pop();
                       },
                     ),
+                    TextButton(
+                      child: Text(
+                        "Cancel",
+                        style: GoogleFonts.workSans(
+                          color:
+                              Color.fromARGB(255, 81, 26, 26).withOpacity(0.8),
+                          textStyle: const TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      onPressed: () async {
+                        Navigator.of(context, rootNavigator: true).pop();
+                      },
+                    ),
                   ],
                 );
               },
