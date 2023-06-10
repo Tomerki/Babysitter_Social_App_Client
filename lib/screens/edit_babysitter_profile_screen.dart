@@ -338,73 +338,97 @@ class _EditBabysitterProfileScreenState
                                   ),
                                 ),
                                 onPressed: () async {
-                                  if (_selectedImage != null) {
-                                    final storageRef = FirebaseStorage.instance
-                                        .ref()
-                                        .child('user_images')
-                                        .child('${AppUser.getUid()}.jpg');
+                                  bool good = await ServerManager.checkLanguage(
+                                      widget.about!);
+                                  if (!good) {
+                                    if (_selectedImage != null) {
+                                      final storageRef = FirebaseStorage
+                                          .instance
+                                          .ref()
+                                          .child('user_images')
+                                          .child('${AppUser.getUid()}.jpg');
 
-                                    await storageRef.putFile(_selectedImage!);
-                                    widget.image =
-                                        await storageRef.getDownloadURL();
-                                  }
-                                  await ServerManager()
-                                      .putRequest(
-                                    'items/' + AppUser.getUid(),
-                                    'Babysitter',
-                                    body: jsonEncode(
-                                      {
-                                        'price': widget.price == ''
-                                            ? 0
-                                            : widget.price,
-                                        'about': widget.about,
-                                        'age': widget.age,
-                                        'image': widget.image,
-                                        'address': widget.address,
-                                        'ComeToClient': widget
-                                            .texts['Come to client']
-                                            .toString(),
-                                        'InMyPlace': widget.texts['In my place']
-                                            .toString(),
-                                        'HelpingWithHouseWork': widget
-                                            .texts['Helping with housework']
-                                            .toString(),
-                                        'KnowsHowToCook': widget
-                                            .texts['Knows how to cook']
-                                            .toString(),
-                                        'FirstAidCertified': widget
-                                            .texts['First aid certified']
-                                            .toString(),
-                                        'HasDriverLicense': widget
-                                            .texts['Has a driver\'s license']
-                                            .toString(),
-                                        'HasPastExperience': widget
-                                            .texts['Has past experience']
-                                            .toString(),
-                                        'HasAnEducationInEducation': widget
-                                            .texts[
-                                                'Has an education in education']
-                                            .toString(),
-                                        'TakesToActivities': widget
-                                            .texts['Takes to/from activities']
-                                            .toString(),
-                                        'ChangeADiaper': widget
-                                            .texts['Change a diaper']
-                                            .toString(),
-                                      },
-                                    ),
-                                  )
-                                      .then((value) async {
+                                      await storageRef.putFile(_selectedImage!);
+                                      widget.image =
+                                          await storageRef.getDownloadURL();
+                                    }
                                     await ServerManager()
-                                        .getRequest('items/' + AppUser.getUid(),
-                                            'Babysitter')
-                                        .then((val) {
-                                      Navigator.of(context).popAndPushNamed(
-                                        BabysitterMainScreen.routeName,
-                                        arguments: val.body,
-                                      );
-                                    });
-                                  });
+                                        .putRequest(
+                                      'items/' + AppUser.getUid(),
+                                      'Babysitter',
+                                      body: jsonEncode(
+                                        {
+                                          'price': widget.price == ''
+                                              ? 0
+                                              : widget.price,
+                                          'about': widget.about,
+                                          'age': widget.age,
+                                          'image': widget.image,
+                                          'address': widget.address,
+                                          'ComeToClient': widget
+                                              .texts['Come to client']
+                                              .toString(),
+                                          'InMyPlace': widget
+                                              .texts['In my place']
+                                              .toString(),
+                                          'HelpingWithHouseWork': widget
+                                              .texts['Helping with housework']
+                                              .toString(),
+                                          'KnowsHowToCook': widget
+                                              .texts['Knows how to cook']
+                                              .toString(),
+                                          'FirstAidCertified': widget
+                                              .texts['First aid certified']
+                                              .toString(),
+                                          'HasDriverLicense': widget
+                                              .texts['Has a driver\'s license']
+                                              .toString(),
+                                          'HasPastExperience': widget
+                                              .texts['Has past experience']
+                                              .toString(),
+                                          'HasAnEducationInEducation': widget
+                                              .texts[
+                                                  'Has an education in education']
+                                              .toString(),
+                                          'TakesToActivities': widget
+                                              .texts['Takes to/from activities']
+                                              .toString(),
+                                          'ChangeADiaper': widget
+                                              .texts['Change a diaper']
+                                              .toString(),
+                                        },
+                                      ),
+                                    )
+                                        .then(
+                                      (value) async {
+                                        await ServerManager()
+                                            .getRequest(
+                                                'items/' + AppUser.getUid(),
+                                                'Babysitter')
+                                            .then(
+                                          (val) {
+                                            Navigator.of(context)
+                                                .popAndPushNamed(
+                                              BabysitterMainScreen.routeName,
+                                              arguments: val.body,
+                                            );
+                                          },
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        behavior: SnackBarBehavior.floating,
+                                        elevation: 5,
+                                        content: Text(
+                                          "Please Use with an appropriate language",
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                        duration: Duration(seconds: 3),
+                                      ),
+                                    );
+                                  }
                                 },
                               ),
                             ),

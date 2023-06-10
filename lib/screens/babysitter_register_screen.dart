@@ -239,9 +239,11 @@ class _BabysitterRegisterScreenState extends State<BabysitterRegisterScreen> {
                               .then((value) => Navigator.of(context)
                                   .pushReplacementNamed(LoginScreen.routeName));
                         } else {
-                          setState(() {
-                            good = false;
-                          });
+                          setState(
+                            () {
+                              good = false;
+                            },
+                          );
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               behavior: SnackBarBehavior.floating,

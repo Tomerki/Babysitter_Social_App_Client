@@ -22,61 +22,50 @@ Widget? homeScreen;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AuthService.initializeFirebaseMessaging();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await SharedPreferencesHelper.init();
+  String userId = SharedPreferencesHelper.getLoggedInUserId();
+  String userType = SharedPreferencesHelper.getLoggedInUserType();
+  String email = SharedPreferencesHelper.getLoggedInUserEmail();
 
-  bool openedFromNotification = await wasLaunchedFromNotification();
-
-  if (openedFromNotification) {
-    // Handle the notification tap event
-    handleNotificationTap();
-  } else {
-    String userId = SharedPreferencesHelper.getLoggedInUserId();
-    String userType = SharedPreferencesHelper.getLoggedInUserType();
-    String email = SharedPreferencesHelper.getLoggedInUserEmail();
-
-    if (userId.isNotEmpty && userType.isNotEmpty) {
-      // User is logged in
-      if (userType == 'Babysitter') {
-        await ServerManager()
-            .getRequest('search/email/' + email, 'Babysitter')
-            .then(
-          (user) async {
-            homeScreen = BabysitterMainScreen(
-              user_body: user.body,
-            );
-          },
-        );
-        AppUser.updateInstance(
-          uid: userId,
-          isBabysitter: true,
-          userType: 'Babysitter',
-        );
-      } else {
-        await ServerManager()
-            .getRequest('search/email/' + email, 'Parent')
-            .then(
-          (user) async {
-            homeScreen = ParentMainScreen(
-              user_body: user.body,
-            );
-          },
-        );
-        AppUser.updateInstance(
-          uid: userId,
-          isBabysitter: false,
-          userType: 'Parent',
-        );
-      }
+  if (userId.isNotEmpty && userType.isNotEmpty) {
+    // User is logged in
+    if (userType == 'Babysitter') {
+      await ServerManager()
+          .getRequest('search/email/' + email, 'Babysitter')
+          .then(
+        (user) async {
+          homeScreen = BabysitterMainScreen(
+            user_body: user.body,
+          );
+        },
+      );
+      AppUser.updateInstance(
+        uid: userId,
+        isBabysitter: true,
+        userType: 'Babysitter',
+      );
     } else {
-      // User is not logged in
-      homeScreen = WelcomeScreen();
+      await ServerManager().getRequest('search/email/' + email, 'Parent').then(
+        (user) async {
+          homeScreen = ParentMainScreen(
+            user_body: user.body,
+          );
+        },
+      );
+      AppUser.updateInstance(
+        uid: userId,
+        isBabysitter: false,
+        userType: 'Parent',
+      );
     }
-    runApp(MyApp());
+  } else {
+    // User is not logged in
+    homeScreen = WelcomeScreen();
   }
+  runApp(MyApp());
 }
 
 Future<bool> wasLaunchedFromNotification() async {
