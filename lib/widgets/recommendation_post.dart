@@ -10,11 +10,12 @@ class RecommendationPost extends StatefulWidget {
   final recommendation;
   bool hide;
   Function() callback;
-  RecommendationPost(
-      {super.key,
-      required this.recommendation,
-      required this.hide,
-      required this.callback});
+  RecommendationPost({
+    super.key,
+    required this.recommendation,
+    required this.hide,
+    required this.callback,
+  });
 
   @override
   State<RecommendationPost> createState() => _RecommendationPostState();
@@ -39,6 +40,71 @@ class _RecommendationPostState extends State<RecommendationPost> {
       setState(() {
         image = value;
       });
+    });
+  }
+
+  void _showSnackMessage(String content, String label) async {
+    ScaffoldMessenger.of(context)
+        .showSnackBar(
+          SnackBar(
+            content: Text(
+              content,
+              style: GoogleFonts.workSans(
+                color: Colors.white,
+                textStyle: const TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            duration: Duration(seconds: 5),
+            behavior: SnackBarBehavior.floating,
+            action: SnackBarAction(
+              label: label,
+              onPressed: () {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              },
+            ),
+          ),
+        )
+        .closed
+        .then((SnackBarClosedReason reason) async {
+      if (reason == SnackBarClosedReason.action) {
+        // Snack bar was dismissed by pressing the action button
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Color.fromARGB(255, 76, 95, 111),
+            content: Text(
+              "Delete Recommendation canceled!",
+              style: GoogleFonts.workSans(
+                color: Colors.white,
+                textStyle: const TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            duration: Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      } else {
+        await ServerManager()
+            .putRequest(
+          'put_inner_item_collection/' +
+              AppUser.getUid() +
+              '/' +
+              (widget.recommendation)['doc_id'] +
+              '/recommendation',
+          AppUser.getUserType(),
+          body: jsonEncode({'is_confirmed': false}),
+        )
+            .then((value) {
+          widget.callback();
+        });
+      }
     });
   }
 
@@ -122,21 +188,26 @@ class _RecommendationPostState extends State<RecommendationPost> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           IconButton(
-                            onPressed: () async {
-                              await ServerManager()
-                                  .putRequest(
-                                'put_inner_item_collection/' +
-                                    AppUser.getUid() +
-                                    '/' +
-                                    (widget.recommendation)['doc_id'] +
-                                    '/recommendation',
-                                AppUser.getUserType(),
-                                body: jsonEncode({'is_confirmed': false}),
-                              )
-                                  .then((value) {
-                                widget.callback();
-                              });
+                            onPressed: () {
+                              _showSnackMessage(
+                                  "The recommendation has been deleted",
+                                  "Undo");
                             },
+                            // onPressed: () async {
+                            //   await ServerManager()
+                            //       .putRequest(
+                            //     'put_inner_item_collection/' +
+                            //         AppUser.getUid() +
+                            //         '/' +
+                            //         (widget.recommendation)['doc_id'] +
+                            //         '/recommendation',
+                            //     AppUser.getUserType(),
+                            //     body: jsonEncode({'is_confirmed': false}),
+                            //   )
+                            //       .then((value) {
+                            //     widget.callback();
+                            //   });
+                            // },
                             icon: Icon(
                               Icons.delete,
                             ),

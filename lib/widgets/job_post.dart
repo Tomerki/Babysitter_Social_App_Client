@@ -72,8 +72,18 @@ class _JobPostState extends State<JobPost> {
     ScaffoldMessenger.of(context)
         .showSnackBar(
           SnackBar(
-            content: Text(content),
-            duration: Duration(seconds: 3),
+            content: Text(
+              content,
+              style: GoogleFonts.workSans(
+                color: Colors.white,
+                textStyle: const TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            duration: Duration(seconds: 5),
             behavior: SnackBarBehavior.floating,
             action: SnackBarAction(
               label: label,
@@ -89,7 +99,18 @@ class _JobPostState extends State<JobPost> {
         // Snack bar was dismissed by pressing the action button
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Job request canceled!"),
+            backgroundColor: Color.fromARGB(255, 76, 95, 111),
+            content: Text(
+              "Job request canceled!",
+              style: GoogleFonts.workSans(
+                color: Colors.white,
+                textStyle: const TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+            ),
             duration: Duration(seconds: 3),
             behavior: SnackBarBehavior.floating,
           ),
