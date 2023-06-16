@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 
-// 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
 class ServerManager {
   static final ServerManager _instance = ServerManager._internal();
 

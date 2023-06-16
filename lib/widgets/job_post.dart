@@ -29,7 +29,7 @@ class _JobPostState extends State<JobPost> {
   List jobs = [];
   String image =
       'https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol.png';
-
+  String email = '';
   Future<String> fetchImage() async {
     final response = await ServerManager()
         .getRequest('items/' + widget.job['parent_id'], 'Parent');
@@ -38,12 +38,25 @@ class _JobPostState extends State<JobPost> {
     return (decodedBody['image']);
   }
 
+  Future<String> fetchEmail() async {
+    final response = await ServerManager()
+        .getRequest('items/' + widget.job['parent_id'], 'Parent');
+    final decodedBody = json.decode(response.body);
+
+    return (decodedBody['email']);
+  }
+
   @override
   void initState() {
     super.initState();
     fetchImage().then((value) {
       setState(() {
         image = value;
+      });
+    });
+    fetchEmail().then((value) {
+      setState(() {
+        email = value;
       });
     });
     loadData();
@@ -203,6 +216,32 @@ class _JobPostState extends State<JobPost> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Email: ',
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            email,
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       Row(
                         children: [
                           Text(

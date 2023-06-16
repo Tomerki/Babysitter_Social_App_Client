@@ -329,6 +329,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                   'Africam Safari, Blvd. Capitán Carlos Camacho Espíritu, Oasis, Puebla, Mexico'
                               ? 'No Address'
                               : decoded_user_body['address'],
+                          mail: decoded_user_body['email'],
                         ),
                       ),
                     ),
@@ -508,6 +509,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                   'Africam Safari, Blvd. Capitán Carlos Camacho Espíritu, Oasis, Puebla, Mexico'
                               ? 'No Address'
                               : decoded_user_body['address'],
+                          mail: decoded_user_body['email'],
                         ),
                       ),
                     ),
