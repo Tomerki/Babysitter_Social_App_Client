@@ -7,6 +7,7 @@ class BabysitterUpperPage extends StatelessWidget {
   final String name;
   final String age;
   final String address;
+  final String mail;
   final String image;
   final int reviews;
   const BabysitterUpperPage({
@@ -16,6 +17,7 @@ class BabysitterUpperPage extends StatelessWidget {
     required this.name,
     required this.age,
     required this.address,
+    required this.mail,
     required this.image,
     required this.reviews,
   });
@@ -35,21 +37,37 @@ class BabysitterUpperPage extends StatelessWidget {
                   radius: (pageHight) * 0.4 * 0.25,
                 ),
                 //ToDo: Full Name in bold, Country and City in light
-                Text(
-                  name,
-                  style: GoogleFonts.workSans(
-                    color: Colors.black,
-                    textStyle: const TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 20,
+                Center(
+                  child: Text(
+                    name,
+                    style: GoogleFonts.workSans(
+                      color: Colors.black,
+                      textStyle: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20,
+                      ),
                     ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
                 Center(
                   child: Text(
                     address,
+                    style: GoogleFonts.workSans(
+                      color: Colors.black,
+                      textStyle: const TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Center(
+                  child: Text(
+                    mail,
                     style: GoogleFonts.workSans(
                       color: Colors.black,
                       textStyle: const TextStyle(
