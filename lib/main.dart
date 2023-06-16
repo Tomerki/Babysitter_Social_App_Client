@@ -61,21 +61,12 @@ Future<void> main() async {
         userType: 'Parent',
       );
     }
+    AuthService.setUserData();
   } else {
     // User is not logged in
     homeScreen = WelcomeScreen();
   }
   runApp(MyApp());
-}
-
-Future<bool> wasLaunchedFromNotification() async {
-  RemoteMessage? initialMessage =
-      await FirebaseMessaging.instance.getInitialMessage();
-  return (initialMessage != null);
-}
-
-void handleNotificationTap() {
-  homeScreen = ChatsScreen();
 }
 
 class MyApp extends StatelessWidget {

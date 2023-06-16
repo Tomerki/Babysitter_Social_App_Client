@@ -28,7 +28,7 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
   @override
   void initState() {
     super.initState();
-    screen_name = 'Job Search';
+    screen_name = 'Your Profile';
     AuthService.setupPushNotifications();
   }
 

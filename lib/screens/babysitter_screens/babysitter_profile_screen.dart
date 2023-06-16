@@ -27,164 +27,211 @@ class BabysitterProfileScreen extends StatefulWidget {
 }
 
 class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
   String startTime = '';
   String endTime = '';
   bool isFavorite = false;
   int recommendation_len = 0;
-  void _presentDatePicker() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 10, vertical: 40),
-              scrollable: true,
-              title: Text('Choose Babysitting Time'),
-              content: Padding(
-                padding: const EdgeInsets.all(0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      ElevatedButton.icon(
-                        style: ButtonStyle(
-                          foregroundColor: MaterialStatePropertyAll(
-                            Colors.black,
-                          ),
-                          backgroundColor: MaterialStatePropertyAll(
-                            Colors.transparent,
-                          ),
-                          enableFeedback: true,
-                        ),
-                        label: Text('Pick a date'),
-                        icon: Icon(Icons.date_range),
-                        onPressed: () {
-                          final currentDate = DateTime.now();
-                          showDatePicker(
-                            context: context,
-                            initialDate: currentDate,
-                            firstDate: currentDate,
-                            builder: (context, child) {
-                              return Theme(
-                                data: ThemeData.light().copyWith(
-                                  colorScheme: ColorScheme.light(
-                                    primary: Colors.black,
-                                  ),
-                                ),
-                                child: child!,
-                              );
-                            },
-                            lastDate: DateTime(
-                              currentDate.year,
-                              currentDate.month + 3,
-                              currentDate.day,
-                            ),
-                          ).then((value) => {
-                                setState(
-                                  () {
-                                    // selectedDate = value!;
-                                  },
-                                )
-                              });
-                        },
-                      ),
-                      ElevatedButton.icon(
-                        style: ButtonStyle(
-                          foregroundColor: MaterialStatePropertyAll(
-                            Colors.black,
-                          ),
-                          backgroundColor: MaterialStatePropertyAll(
-                            Colors.transparent,
-                          ),
-                          enableFeedback: true,
-                        ),
-                        label: Text('Pick time'),
-                        icon: Icon(Icons.timer),
-                        onPressed: () async {
-                          TimeRange? result = await showTimeRangePicker(
-                            context: context,
-                            builder: (context, child) {
-                              return Theme(
-                                data: ThemeData.dark().copyWith(
-                                  colorScheme: ColorScheme.light(
-                                    primary: Colors
-                                        .black, // set primary color to black
-                                  ),
-                                ),
-                                child: child!,
-                              );
-                            },
-                            start: const TimeOfDay(hour: 9, minute: 0),
-                            end: const TimeOfDay(hour: 12, minute: 0),
-                            strokeWidth: 4,
-                            ticks: 24,
-                            ticksOffset: -7,
-                            ticksLength: 15,
-                            ticksColor: Colors.grey,
-                            labels: [
-                              "12 am",
-                              "3 am",
-                              "6 am",
-                              "9 am",
-                              "12 pm",
-                              "3 pm",
-                              "6 pm",
-                              "9 pm"
-                            ].asMap().entries.map((e) {
-                              return ClockLabel.fromIndex(
-                                  idx: e.key, length: 8, text: e.value);
-                            }).toList(),
-                            labelOffset: 35,
-                            rotateLabels: false,
-                            padding: 60,
-                            onStartChange: (p0) {
-                              setState(() {
-                                startTime = p0.format(context);
-                              });
-                            },
-                            onEndChange: (p0) {
-                              setState(() {
-                                endTime = p0.format(context);
-                              });
-                            },
-                          );
-                        },
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 5),
-                      ),
-                      startTime != '' || endTime != ''
-                          ? Text('From: ${startTime}\nUntil: ${endTime}')
-                          : Text('No hours selected yet'),
-                    ],
-                  ),
-                ),
-              ),
-              actions: [
-                Center(
-                  child: ElevatedButton(
-                    child: Text("Send"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 51, 65, 78),
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true).pop();
-                    },
-                  ),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
+  String chatId = "";
+  // void _presentDatePicker() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return StatefulBuilder(
+  //         builder: (context, setState) {
+  //           return AlertDialog(
+  //             contentPadding:
+  //                 EdgeInsets.symmetric(horizontal: 10, vertical: 40),
+  //             scrollable: true,
+  //             title: Text('Choose Babysitting Time'),
+  //             content: Padding(
+  //               padding: const EdgeInsets.all(0),
+  //               child: Form(
+  //                 key: _formKey,
+  //                 child: Column(
+  //                   children: <Widget>[
+  //                     ElevatedButton.icon(
+  //                       style: ButtonStyle(
+  //                         foregroundColor: MaterialStatePropertyAll(
+  //                           Colors.black,
+  //                         ),
+  //                         backgroundColor: MaterialStatePropertyAll(
+  //                           Colors.transparent,
+  //                         ),
+  //                         enableFeedback: true,
+  //                       ),
+  //                       label: Text('Pick a date'),
+  //                       icon: Icon(Icons.date_range),
+  //                       onPressed: () {
+  //                         final currentDate = DateTime.now();
+  //                         showDatePicker(
+  //                           context: context,
+  //                           initialDate: currentDate,
+  //                           firstDate: currentDate,
+  //                           builder: (context, child) {
+  //                             return Theme(
+  //                               data: ThemeData.light().copyWith(
+  //                                 colorScheme: ColorScheme.light(
+  //                                   primary: Colors.black,
+  //                                 ),
+  //                               ),
+  //                               child: child!,
+  //                             );
+  //                           },
+  //                           lastDate: DateTime(
+  //                             currentDate.year,
+  //                             currentDate.month + 3,
+  //                             currentDate.day,
+  //                           ),
+  //                         ).then((value) => {
+  //                               setState(
+  //                                 () {
+  //                                   // selectedDate = value!;
+  //                                 },
+  //                               )
+  //                             });
+  //                       },
+  //                     ),
+  //                     ElevatedButton.icon(
+  //                       style: ButtonStyle(
+  //                         foregroundColor: MaterialStatePropertyAll(
+  //                           Colors.black,
+  //                         ),
+  //                         backgroundColor: MaterialStatePropertyAll(
+  //                           Colors.transparent,
+  //                         ),
+  //                         enableFeedback: true,
+  //                       ),
+  //                       label: Text('Pick time'),
+  //                       icon: Icon(Icons.timer),
+  //                       onPressed: () async {
+  //                         TimeRange? result = await showTimeRangePicker(
+  //                           context: context,
+  //                           builder: (context, child) {
+  //                             return Theme(
+  //                               data: ThemeData.dark().copyWith(
+  //                                 colorScheme: ColorScheme.light(
+  //                                   primary: Colors
+  //                                       .black, // set primary color to black
+  //                                 ),
+  //                               ),
+  //                               child: child!,
+  //                             );
+  //                           },
+  //                           start: const TimeOfDay(hour: 9, minute: 0),
+  //                           end: const TimeOfDay(hour: 12, minute: 0),
+  //                           strokeWidth: 4,
+  //                           ticks: 24,
+  //                           ticksOffset: -7,
+  //                           ticksLength: 15,
+  //                           ticksColor: Colors.grey,
+  //                           labels: [
+  //                             "12 am",
+  //                             "3 am",
+  //                             "6 am",
+  //                             "9 am",
+  //                             "12 pm",
+  //                             "3 pm",
+  //                             "6 pm",
+  //                             "9 pm"
+  //                           ].asMap().entries.map((e) {
+  //                             return ClockLabel.fromIndex(
+  //                                 idx: e.key, length: 8, text: e.value);
+  //                           }).toList(),
+  //                           labelOffset: 35,
+  //                           rotateLabels: false,
+  //                           padding: 60,
+  //                           onStartChange: (p0) {
+  //                             setState(() {
+  //                               startTime = p0.format(context);
+  //                             });
+  //                           },
+  //                           onEndChange: (p0) {
+  //                             setState(() {
+  //                               endTime = p0.format(context);
+  //                             });
+  //                           },
+  //                         );
+  //                       },
+  //                     ),
+  //                     Padding(
+  //                       padding: EdgeInsets.only(top: 5),
+  //                     ),
+  //                     startTime != '' || endTime != ''
+  //                         ? Text('From: ${startTime}\nUntil: ${endTime}')
+  //                         : Text('No hours selected yet'),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //             actions: [
+  //               Center(
+  //                 child: ElevatedButton(
+  //                   child: Text("Send"),
+  //                   style: ElevatedButton.styleFrom(
+  //                     backgroundColor: Color.fromARGB(255, 51, 65, 78),
+  //                     elevation: 5,
+  //                     shape: RoundedRectangleBorder(
+  //                       borderRadius: BorderRadius.circular(10),
+  //                     ),
+  //                   ),
+  //                   onPressed: () {
+  //                     Navigator.of(context, rootNavigator: true).pop();
+  //                   },
+  //                 ),
+  //               ),
+  //             ],
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
+
+  Future<bool> checkDocumentExists() async {
+    final collectionRef = await AuthService.firestore
+        .collection(AppUser.getUserType())
+        .doc(AppUser.getUid())
+        .collection('chats');
+    final documentRef =
+        await collectionRef.doc(json.decode(widget.user_body)['uid']);
+
+    try {
+      final snapshot = await documentRef.get();
+
+      if (snapshot.exists) {
+        // Document exists
+        print('Document data: ${snapshot.data()}');
+        return true;
+      }
+    } catch (e) {
+      print('Error getting document: $e');
+      return false;
+    }
+    print('Document does not exist');
+    return false;
+  }
+
+  Future<String?> getSpecificField() async {
+    final collectionRef = await AuthService.firestore
+        .collection(AppUser.getUserType())
+        .doc(AppUser.getUid())
+        .collection('chats');
+    final documentRef = collectionRef.doc(json.decode(widget.user_body)['uid']);
+
+    try {
+      final documentSnapshot = await documentRef.get();
+
+      if (documentSnapshot.exists) {
+        // Access a specific field (string) using dot notation
+        final fieldValue = documentSnapshot.data()!['chatId'];
+
+        print('Field value: $fieldValue');
+        return fieldValue;
+      }
+    } catch (e) {
+      print('Error getting document: $e');
+    }
   }
 
   Future<bool> fetchIsFavorite() async {
@@ -249,9 +296,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
     var decoded_user_body = json.decode(widget.user_body);
     MediaQueryData queryData = MediaQuery.of(context);
 
-    // AppUser.getUid() == decoded_user_body['uid'] ?
-    // return Scaffold(
-    //   body:
     return (AppUser.getUid() == decoded_user_body['uid'] &&
             !widget.from_search_card)
         ? SingleChildScrollView(
@@ -307,7 +351,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                     ),
                     Center(
                       child: SizedBox(
-                        // width: (queryData.size.width) * 0.9,
                         height: (queryData.size.height -
                                 queryData.padding.top -
                                 queryData.padding.bottom) *
@@ -372,14 +415,12 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
                         fit: BoxFit.cover,
                         opacity: 0.3)),
-                // width: (queryData.size.width),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
                       padding: EdgeInsets.all(20),
                       child: Row(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
@@ -434,16 +475,33 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                   : SizedBox()),
                               IconButton(
                                 onPressed: () async {
-                                  await AuthService.addChatUser(
-                                          decoded_user_body['email'])
-                                      .then((value) {
-                                    PersistentNavBarNavigator.pushNewScreen(
+                                  checkDocumentExists().then((value) async {
+                                    if (value) {
+                                      final id = await getSpecificField();
+                                      PersistentNavBarNavigator.pushNewScreen(
                                         context,
                                         screen: ChatPageScreen(
                                           secondUid: decoded_user_body['uid'],
-                                          chatId: value,
+                                          chatId: id!,
                                           secondUserType: 'Babysitter',
-                                        ));
+                                        ),
+                                        withNavBar: false,
+                                      );
+                                    } else {
+                                      await AuthService.addChatUser(
+                                              decoded_user_body['email'])
+                                          .then((value) {
+                                        PersistentNavBarNavigator.pushNewScreen(
+                                          context,
+                                          screen: ChatPageScreen(
+                                            secondUid: decoded_user_body['uid'],
+                                            chatId: value,
+                                            secondUserType: 'Babysitter',
+                                          ),
+                                          withNavBar: false,
+                                        );
+                                      });
+                                    }
                                   });
                                 },
                                 icon: Icon(Icons.message_outlined),
@@ -485,7 +543,6 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                     ),
                     Center(
                       child: SizedBox(
-                        // width: (queryData.size.width) * 0.9,
                         height: (queryData.size.height -
                                 queryData.padding.top -
                                 -queryData.padding.bottom) *

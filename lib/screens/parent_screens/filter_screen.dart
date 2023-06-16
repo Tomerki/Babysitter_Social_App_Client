@@ -57,25 +57,6 @@ class _FilterScreennState extends State<FilterScreen>
   // LocationOptions? _locationOprions = LocationOptions.at_your_house;
   String? name;
 
-  void _presentDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365)),
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Colors.black,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData = MediaQuery.of(context);

@@ -40,13 +40,13 @@ class _JobPostState extends State<JobPost> {
 
   @override
   void initState() {
-    super.initState();
     fetchImage().then((value) {
       setState(() {
         image = value;
       });
     });
     loadData();
+    super.initState();
   }
 
   Future<void> loadData() async {
@@ -66,7 +66,6 @@ class _JobPostState extends State<JobPost> {
 
   void _showSnackMessage(String content, String label) {
     if (widget.isJobRequestSent) {
-      log("return first");
       return;
     }
     ScaffoldMessenger.of(context)
