@@ -1,29 +1,26 @@
 import 'dart:convert';
-
-import 'package:baby_sitter/screens/parent_main_screen.dart';
+import 'parent_screens/parent_main_screen.dart';
 import 'package:baby_sitter/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../models/appUser.dart';
 import '../models/sharedPreferencesHelper.dart';
 import '../server_manager.dart';
 import '../services/auth.dart';
 import '../services/validation.dart';
 import '../widgets/loading.dart';
-import 'babysitter_main_screen.dart';
+import 'babysitter_screens/babysitter_main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static final routeName = 'login_screen';
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _loginScreenState();
+  State<LoginScreen> createState() => loginScreenState();
 }
 
-class _loginScreenState extends State<LoginScreen> {
+class loginScreenState extends State<LoginScreen> {
   final AuthService _auth = AuthService();
   String? email, password;
   final _formKey = GlobalKey<FormState>();

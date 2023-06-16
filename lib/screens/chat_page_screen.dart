@@ -1,5 +1,5 @@
-import 'package:baby_sitter/widgets/chat_messages.dart';
-import 'package:baby_sitter/widgets/new_message.dart';
+import '../widgets/chat_widgets/chat_messages.dart';
+import '../widgets/chat_widgets/new_message.dart';
 import 'package:flutter/material.dart';
 
 class ChatPageScreen extends StatefulWidget {

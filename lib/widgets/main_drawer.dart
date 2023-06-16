@@ -1,16 +1,11 @@
 import 'dart:convert';
-
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/models/sharedPreferencesHelper.dart';
-import 'package:baby_sitter/screens/edit_babysitter_profile_screen.dart';
-import 'package:baby_sitter/screens/edit_parent_screen.dart';
-import 'package:baby_sitter/screens/filter_screen.dart';
+import '../screens/babysitter_screens/edit_babysitter_profile_screen.dart';
+import '../screens/parent_screens/edit_parent_screen.dart';
 import 'package:baby_sitter/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../screens/wrapper.dart';
 import '../server_manager.dart';
 import '../services/auth.dart';
 

@@ -1,12 +1,8 @@
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
-
 import '../services/auth.dart';
 import './register_screen.dart';
-
 import './login_screen.dart';
 import 'package:flutter/material.dart';
-import '../widgets/circle_button_one.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static const routeName = 'welcome-screen';

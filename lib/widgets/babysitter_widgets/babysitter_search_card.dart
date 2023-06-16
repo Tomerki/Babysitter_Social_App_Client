@@ -1,14 +1,8 @@
-import 'dart:convert';
-
-import 'package:baby_sitter/models/appUser.dart';
-import 'package:baby_sitter/screens/babysitter_main_screen.dart';
-import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
-import 'package:baby_sitter/screens/filter_screen.dart';
+import '../../screens/babysitter_screens/babysitter_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-
-import '../server_manager.dart';
+import '../../server_manager.dart';
 
 class BabysitterSearchCard extends StatefulWidget {
   final String babysitter_email;
