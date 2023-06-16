@@ -7,7 +7,6 @@ import '../../widgets/babysitter_widgets/babysitter_middle_page.dart';
 import '../../widgets/babysitter_widgets/babysitter_description.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:time_range_picker/time_range_picker.dart';
 import '../../server_manager.dart';
 import '../../services/auth.dart';
 import '../../widgets/schedule_with_babysitter.dart';
@@ -370,6 +369,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                   'Africam Safari, Blvd. Capitán Carlos Camacho Espíritu, Oasis, Puebla, Mexico'
                               ? 'No Address'
                               : decoded_user_body['address'],
+                          mail: decoded_user_body['email'],
                         ),
                       ),
                     ),
@@ -563,6 +563,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
                                   'Africam Safari, Blvd. Capitán Carlos Camacho Espíritu, Oasis, Puebla, Mexico'
                               ? 'No Address'
                               : decoded_user_body['address'],
+                          mail: decoded_user_body['email'],
                         ),
                       ),
                     ),
