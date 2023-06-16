@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'parent_screens/parent_main_screen.dart';
 import 'package:baby_sitter/screens/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -171,7 +172,11 @@ class loginScreenState extends State<LoginScreen> {
                                               BorderRadius.circular(10.0)),
                                       backgroundColor: Colors.purple,
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 131, vertical: 20)),
+                                          horizontal: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
+                                          vertical: 20)),
                                   onPressed: () async {
                                     FocusScope.of(context).unfocus();
                                     if (_formKey.currentState == null) {
@@ -209,6 +214,7 @@ class loginScreenState extends State<LoginScreen> {
                                             .then((value) async {
                                           isBabysitter = json.decode(value.body
                                               .toString())['isBabysitter'];
+                                          log(isBabysitter.toString());
 
                                           final type = isBabysitter
                                               ? 'Babysitter'

@@ -98,7 +98,7 @@ class AuthService {
         await searchUserByEmail(email);
     final data = res!.item1;
 
-    log('data: ${data.docs}');
+    // log('data: ${data.docs}');
 
     if (data.docs.isNotEmpty && data.docs.first.id != connectedUser.uid) {
       //user exists
@@ -108,7 +108,7 @@ class AuthService {
 
       final secondUserData = data.docs.first.data();
 
-      log('user exists: ${data.docs.first.data()}');
+      // log('user exists: ${data.docs.first.data()}');
       firestore
           .collection(AppUser.getUserType())
           .doc(connectedUser.uid)

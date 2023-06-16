@@ -439,7 +439,11 @@ class RegisterScreenState extends State<RegisterScreen> {
                                                 BorderRadius.circular(10.0)),
                                         backgroundColor: Colors.purple,
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 131, vertical: 20)),
+                                            horizontal: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            vertical: 20)),
                                     onPressed: () async {
                                       if (_formKey.currentState == null) {
                                         print('_formKey.currentState == null');
