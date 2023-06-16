@@ -1,35 +1,27 @@
 import 'dart:convert';
-
-import 'package:baby_sitter/screens/parent_main_screen.dart';
+import 'dart:developer';
+import 'parent_screens/parent_main_screen.dart';
 import 'package:baby_sitter/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../models/appUser.dart';
+import '../models/sharedPreferencesHelper.dart';
 import '../server_manager.dart';
 import '../services/auth.dart';
 import '../services/validation.dart';
 import '../widgets/loading.dart';
-import 'babysitter_main_screen.dart';
+import 'babysitter_screens/babysitter_main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   static final routeName = 'login_screen';
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _loginScreenState();
+  State<LoginScreen> createState() => loginScreenState();
 }
 
-class _loginScreenState extends State<LoginScreen> {
-  TextEditingController _textEditingController = TextEditingController();
-
-  @override
-  void dispose() {
-    _textEditingController.clear();
-    super.dispose();
-  }
-
+class loginScreenState extends State<LoginScreen> {
   final AuthService _auth = AuthService();
   String? email, password;
   final _formKey = GlobalKey<FormState>();
@@ -180,7 +172,11 @@ class _loginScreenState extends State<LoginScreen> {
                                               BorderRadius.circular(10.0)),
                                       backgroundColor: Colors.purple,
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 131, vertical: 20)),
+                                          horizontal: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.3,
+                                          vertical: 20)),
                                   onPressed: () async {
                                     FocusScope.of(context).unfocus();
                                     if (_formKey.currentState == null) {
@@ -218,6 +214,7 @@ class _loginScreenState extends State<LoginScreen> {
                                             .then((value) async {
                                           isBabysitter = json.decode(value.body
                                               .toString())['isBabysitter'];
+                                          log(isBabysitter.toString());
 
                                           final type = isBabysitter
                                               ? 'Babysitter'
@@ -232,7 +229,13 @@ class _loginScreenState extends State<LoginScreen> {
                                                 .getRequest(
                                                     'search/email/' + email!,
                                                     'Babysitter')
-                                                .then((user) {
+                                                .then((user) async {
+                                              await SharedPreferencesHelper
+                                                  .setLoggedInUser(
+                                                json.decode(user.body)['uid'],
+                                                'Babysitter',
+                                                email!,
+                                              );
                                               Navigator.of(context)
                                                   .popAndPushNamed(
                                                 BabysitterMainScreen.routeName,
@@ -242,15 +245,24 @@ class _loginScreenState extends State<LoginScreen> {
                                           } else {
                                             await ServerManager()
                                                 .getRequest(
-                                                    'search/email/' + email!,
-                                                    'Parent')
-                                                .then((user) {
-                                              Navigator.of(context)
-                                                  .popAndPushNamed(
-                                                ParentMainScreen.routeName,
-                                                arguments: user.body,
-                                              );
-                                            });
+                                              'search/email/' + email!,
+                                              'Parent',
+                                            )
+                                                .then(
+                                              (user) async {
+                                                await SharedPreferencesHelper
+                                                    .setLoggedInUser(
+                                                  json.decode(user.body)['uid'],
+                                                  'Parent',
+                                                  email!,
+                                                );
+                                                Navigator.of(context)
+                                                    .popAndPushNamed(
+                                                  ParentMainScreen.routeName,
+                                                  arguments: user.body,
+                                                );
+                                              },
+                                            );
                                           }
                                         });
                                         AuthService.setUserData();

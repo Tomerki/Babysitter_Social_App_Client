@@ -18,11 +18,11 @@ class _IconWithDescriptionState extends State<IconWithDescription> {
     _overlayEntry = OverlayEntry(builder: (_) => _buildDescriptionDialog());
   }
 
-  @override
-  void dispose() {
-    _overlayEntry.remove();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _overlayEntry.remove();
+  //   super.dispose();
+  // }
 
   void _showDescriptionDialog() {
     Overlay.of(context).insert(_overlayEntry);

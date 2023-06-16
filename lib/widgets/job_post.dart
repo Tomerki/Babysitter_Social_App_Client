@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:baby_sitter/services/auth.dart';
-import 'package:baby_sitter/widgets/icon_with_description.dart';
+import 'custom_widgets/icon_with_description.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -48,7 +48,6 @@ class _JobPostState extends State<JobPost> {
 
   @override
   void initState() {
-    super.initState();
     fetchImage().then((value) {
       setState(() {
         image = value;
@@ -60,6 +59,7 @@ class _JobPostState extends State<JobPost> {
       });
     });
     loadData();
+    super.initState();
   }
 
   Future<void> loadData() async {
@@ -79,7 +79,6 @@ class _JobPostState extends State<JobPost> {
 
   void _showSnackMessage(String content, String label) {
     if (widget.isJobRequestSent) {
-      log("return first");
       return;
     }
     ScaffoldMessenger.of(context)

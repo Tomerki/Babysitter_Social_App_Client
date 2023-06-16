@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../widgets/circle_button_one.dart';
-
 const kTextLabelTheme = TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700);
 const kCardTextStyle = TextStyle(color: Colors.white, fontSize: 15);
 
@@ -58,25 +56,6 @@ class _FilterScreennState extends State<FilterScreen>
   RangeValues distanceValues = RangeValues(0.0, 50.0);
   // LocationOptions? _locationOprions = LocationOptions.at_your_house;
   String? name;
-
-  void _presentDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365)),
-      builder: (context, child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Colors.black,
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

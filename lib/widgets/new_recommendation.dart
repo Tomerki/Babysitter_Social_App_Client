@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'circle_button_two.dart';
+import 'custom_widgets/circle_button_two.dart';
 
 class NewRecommendation extends StatefulWidget {
   Function(List jobs) callback;

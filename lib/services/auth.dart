@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuple/tuple.dart';
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -86,12 +88,17 @@ class AuthService {
 
   static User get connectedUser => auth.currentUser!;
 
+  static Future<SharedPreferences> prefs() async {
+    SharedPreferences instance = await SharedPreferences.getInstance();
+    return instance;
+  }
+
   static Future<String> addChatUser(String email) async {
     Tuple2<QuerySnapshot<Map<String, dynamic>?>, String>? res =
         await searchUserByEmail(email);
     final data = res!.item1;
 
-    log('data: ${data.docs}');
+    // log('data: ${data.docs}');
 
     if (data.docs.isNotEmpty && data.docs.first.id != connectedUser.uid) {
       //user exists
@@ -101,7 +108,7 @@ class AuthService {
 
       final secondUserData = data.docs.first.data();
 
-      log('user exists: ${data.docs.first.data()}');
+      // log('user exists: ${data.docs.first.data()}');
       firestore
           .collection(AppUser.getUserType())
           .doc(connectedUser.uid)
@@ -220,6 +227,7 @@ class AuthService {
     final secondUser = res!.item1.docs.first.data();
     try {
       final body = {
+        "screen": "chat",
         "to": secondUser!['Token'],
         "notification": {
           "title": myUserData['fullName'],
@@ -239,6 +247,4 @@ class AuthService {
       log('\nsendPushNotificationE: $e');
     }
   }
-
-  
 }

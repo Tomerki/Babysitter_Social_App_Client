@@ -1,7 +1,7 @@
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/services/auth.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../widgets/chat_card.dart';
+import '../widgets/chat_widgets/chat_card.dart';
 import 'package:flutter/material.dart';
 
 class ChatsScreen extends StatefulWidget {

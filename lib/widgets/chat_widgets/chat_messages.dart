@@ -1,5 +1,5 @@
 import 'package:baby_sitter/services/auth.dart';
-import 'package:baby_sitter/widgets/message_bubble.dart';
+import 'message_bubble.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

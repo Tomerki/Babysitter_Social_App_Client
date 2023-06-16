@@ -1,22 +1,18 @@
-import 'dart:ffi';
-
-import 'package:baby_sitter/models/appUser.dart';
-import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
-import 'package:baby_sitter/screens/babysitter_search_screen.dart';
-import 'package:baby_sitter/screens/filter_screen.dart';
+import './babysitter_profile_screen.dart';
+import './babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/jobs_search_screen.dart';
 import 'package:baby_sitter/screens/notifications_screen.dart';
-import 'package:baby_sitter/server_manager.dart';
 import 'package:baby_sitter/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-import '../widgets/main_drawer.dart';
-import 'chats_screen.dart';
+import '../../widgets/main_drawer.dart';
+import '../chats_screen.dart';
 
 class BabysitterMainScreen extends StatefulWidget {
-  const BabysitterMainScreen({Key? key}) : super(key: key);
+  String? user_body;
+  BabysitterMainScreen({Key? key, this.user_body}) : super(key: key);
   static final routeName = 'BabysitterMainScreen';
 
   @override
@@ -32,14 +28,18 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
   @override
   void initState() {
     super.initState();
-    screen_name = 'Job Search';
+    screen_name = 'Your Profile';
     AuthService.setupPushNotifications();
   }
 
   @override
   void didChangeDependencies() {
-    if (user_body == null) {
+    if (widget.user_body == null) {
       user_body = ModalRoute.of(context)!.settings.arguments as String;
+    } else {
+      setState(() {
+        user_body = widget.user_body;
+      });
     }
     _screens = [
       JobsSearchScreen(

@@ -4,7 +4,6 @@ import 'package:baby_sitter/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/appUser.dart';
-import '../models/notification.dart';
 import '../server_manager.dart';
 import '../widgets/notification_widget.dart';
 

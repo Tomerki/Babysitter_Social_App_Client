@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart';
-
 import '../server_manager.dart';
 import 'package:flutter/material.dart';
 import './login_screen.dart';
@@ -12,37 +10,22 @@ import '../services/auth.dart';
 import '../widgets/loading.dart';
 import '../widgets/map_place_picker.dart';
 import '../services/validation.dart';
-import '../widgets/input_box.dart';
-import './babysitter_register_screen.dart';
-import '../widgets/circle_button_one.dart';
-import 'dart:convert';
-
-import 'package:baby_sitter/screens/parent_main_screen.dart';
-import 'package:baby_sitter/screens/register_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'babysitter_screens/babysitter_register_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../models/appUser.dart';
-import '../server_manager.dart';
-import '../services/auth.dart';
-import '../services/validation.dart';
-import '../widgets/loading.dart';
-import 'babysitter_main_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = 'register-screen';
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegisterScreen> createState() => RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class RegisterScreenState extends State<RegisterScreen> {
   final AuthService _auth = AuthService();
 
   var _formKey = GlobalKey<FormState>();
   String userType = 'Parent';
-  String _selectedCountry = '';
+  String selectedCountry = '';
   Response? response;
   File? _selectedImage;
   bool loading = false;
@@ -456,7 +439,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 BorderRadius.circular(10.0)),
                                         backgroundColor: Colors.purple,
                                         padding: EdgeInsets.symmetric(
-                                            horizontal: 131, vertical: 20)),
+                                            horizontal: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            vertical: 20)),
                                     onPressed: () async {
                                       if (_formKey.currentState == null) {
                                         print('_formKey.currentState == null');
@@ -518,7 +505,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                             ? 'Africam Safari, Blvd. Capitán Carlos Camacho Espíritu, Oasis, Puebla, Mexico'
                                                             : address,
                                                         'county':
-                                                            _selectedCountry,
+                                                            selectedCountry,
                                                         'image':
                                                             imageUrl != null
                                                                 ? imageUrl
@@ -541,7 +528,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                             ? 'Africam Safari, Blvd. Capitán Carlos Camacho Espíritu, Oasis, Puebla, Mexico'
                                                             : address,
                                                         'county':
-                                                            _selectedCountry,
+                                                            selectedCountry,
                                                         'image':
                                                             imageUrl != null
                                                                 ? imageUrl

@@ -54,14 +54,17 @@ class _ChatCardState extends State<ChatCard> {
               .where('uid', isEqualTo: widget.secondUserUid)
               .get()
               .then((value) {
-            PersistentNavBarNavigator.pushNewScreen(context,
-                screen: ChatPageScreen(
-                  secondUid: widget.secondUserUid,
-                  chatId: widget.chatId,
-                  secondUserType: value.docs.first.data()['isBabysitter']
-                      ? 'Babysitter'
-                      : 'Parent',
-                ));
+            PersistentNavBarNavigator.pushNewScreen(
+              context,
+              screen: ChatPageScreen(
+                secondUid: widget.secondUserUid,
+                chatId: widget.chatId,
+                secondUserType: value.docs.first.data()['isBabysitter']
+                    ? 'Babysitter'
+                    : 'Parent',
+              ),
+              withNavBar: false,
+            );
           });
         },
         child: ListTile(

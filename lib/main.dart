@@ -1,24 +1,71 @@
 import 'package:baby_sitter/models/appUser.dart';
-import 'package:baby_sitter/screens/babysitter_main_screen.dart';
-import 'package:baby_sitter/screens/babysitter_search_screen.dart';
-import 'package:baby_sitter/screens/favorites_screen.dart';
-import 'package:baby_sitter/screens/parent_main_screen.dart';
+import 'screens/babysitter_screens/babysitter_main_screen.dart';
+import 'screens/babysitter_screens/babysitter_search_screen.dart';
+import 'package:baby_sitter/screens/chats_screen.dart';
+import 'screens/parent_screens/favorites_screen.dart';
+import 'screens/parent_screens/parent_main_screen.dart';
+import 'package:baby_sitter/server_manager.dart';
 import 'package:baby_sitter/services/auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './screens/login_screen.dart';
 import './screens/welcome_screen.dart';
 import './screens/register_screen.dart';
-import './screens/babysitter_register_screen.dart';
+import './screens/babysitter_screens/babysitter_register_screen.dart';
 import './widgets/map_place_picker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'models/sharedPreferencesHelper.dart';
+
+Widget? homeScreen;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await SharedPreferencesHelper.init();
+  String userId = SharedPreferencesHelper.getLoggedInUserId();
+  String userType = SharedPreferencesHelper.getLoggedInUserType();
+  String email = SharedPreferencesHelper.getLoggedInUserEmail();
+
+  if (userId.isNotEmpty && userType.isNotEmpty) {
+    // User is logged in
+    if (userType == 'Babysitter') {
+      await ServerManager()
+          .getRequest('search/email/' + email, 'Babysitter')
+          .then(
+        (user) async {
+          homeScreen = BabysitterMainScreen(
+            user_body: user.body,
+          );
+        },
+      );
+      AppUser.updateInstance(
+        uid: userId,
+        isBabysitter: true,
+        userType: 'Babysitter',
+      );
+    } else {
+      await ServerManager().getRequest('search/email/' + email, 'Parent').then(
+        (user) async {
+          homeScreen = ParentMainScreen(
+            user_body: user.body,
+          );
+        },
+      );
+      AppUser.updateInstance(
+        uid: userId,
+        isBabysitter: false,
+        userType: 'Parent',
+      );
+    }
+    AuthService.setUserData();
+  } else {
+    // User is not logged in
+    homeScreen = WelcomeScreen();
+  }
   runApp(MyApp());
 }
 
@@ -43,7 +90,7 @@ class MyApp extends StatelessWidget {
           BabysitterMainScreen.routeName: (context) => BabysitterMainScreen(),
           FavoritesScreen.routeName: (context) => FavoritesScreen(),
         },
-        home: WelcomeScreen(),
+        home: homeScreen,
       ),
     );
   }

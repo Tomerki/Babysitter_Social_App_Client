@@ -1,20 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:baby_sitter/screens/login_screen.dart';
-import 'package:baby_sitter/screens/parent_main_screen.dart';
+import 'parent_main_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
-import 'package:baby_sitter/widgets/circle_button_one.dart';
 import 'package:baby_sitter/widgets/loading.dart';
 import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/src/response.dart';
-
-import '../models/appUser.dart';
-import '../widgets/map_place_picker.dart';
-import 'babysitter_main_screen.dart';
+import '../../models/appUser.dart';
+import '../../widgets/map_place_picker.dart';
 
 class EditParentProfileScreen extends StatefulWidget {
   String? image;
