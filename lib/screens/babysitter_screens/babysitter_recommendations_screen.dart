@@ -1,13 +1,12 @@
 import 'dart:convert';
 
 import 'package:baby_sitter/widgets/loading.dart';
-import 'package:baby_sitter/widgets/new_recommendation.dart';
 import 'package:baby_sitter/widgets/recommendation_post.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../models/appUser.dart';
-import '../server_manager.dart';
+import '../../models/appUser.dart';
+import '../../server_manager.dart';
 
 class BabysitterRecommendationScreen extends StatefulWidget {
   static final routeName = 'BabysitterRecommendationScreen';

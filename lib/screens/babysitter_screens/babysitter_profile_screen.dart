@@ -1,18 +1,16 @@
 import 'dart:convert';
 import 'package:baby_sitter/models/appUser.dart';
 import 'package:baby_sitter/screens/chat_page_screen.dart';
-import 'package:baby_sitter/screens/parent_main_screen.dart';
-import 'package:baby_sitter/widgets/babysitter_upper_page.dart';
+import '../../widgets/babysitter_widgets/babysitter_upper_page.dart';
 import 'package:flutter/material.dart';
-import 'package:baby_sitter/widgets/babysitter_middle_page.dart';
-import 'package:baby_sitter/widgets/babysitter_description.dart';
+import '../../widgets/babysitter_widgets/babysitter_middle_page.dart';
+import '../../widgets/babysitter_widgets/babysitter_description.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:time_range_picker/time_range_picker.dart';
-import '../models/appUser.dart';
-import '../server_manager.dart';
-import '../services/auth.dart';
-import '../widgets/schedule_with_babysitter.dart';
+import '../../server_manager.dart';
+import '../../services/auth.dart';
+import '../../widgets/schedule_with_babysitter.dart';
 import 'babysitter_recommendations_screen.dart';
 
 class BabysitterProfileScreen extends StatefulWidget {

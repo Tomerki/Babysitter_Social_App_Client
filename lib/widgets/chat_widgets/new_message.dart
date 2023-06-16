@@ -1,10 +1,9 @@
 import 'package:baby_sitter/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/appUser.dart';
+import '../../models/appUser.dart';
 
 class NewMessage extends StatefulWidget {
   String secondUserUid;

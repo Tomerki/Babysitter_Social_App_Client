@@ -1,8 +1,5 @@
-import 'package:baby_sitter/screens/babysitter_profile_screen.dart';
-import 'package:baby_sitter/screens/babysitter_search_screen.dart';
-import 'package:baby_sitter/screens/chats_screen.dart';
-import 'package:baby_sitter/screens/favorites_screen.dart';
-import 'package:baby_sitter/screens/filter_screen.dart';
+import './babysitter_profile_screen.dart';
+import './babysitter_search_screen.dart';
 import 'package:baby_sitter/screens/jobs_search_screen.dart';
 import 'package:baby_sitter/screens/notifications_screen.dart';
 import 'package:baby_sitter/services/auth.dart';
@@ -10,20 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-import '../server_manager.dart';
-import '../widgets/main_drawer.dart';
+import '../../widgets/main_drawer.dart';
+import '../chats_screen.dart';
 
-class ParentMainScreen extends StatefulWidget {
+class BabysitterMainScreen extends StatefulWidget {
   String? user_body;
-  ParentMainScreen({Key? key, this.user_body}) : super(key: key);
-  static final routeName = 'ParentMainScreen';
+  BabysitterMainScreen({Key? key, this.user_body}) : super(key: key);
+  static final routeName = 'BabysitterMainScreen';
 
   @override
-  State<ParentMainScreen> createState() => _ParentMainScreenState();
+  State<BabysitterMainScreen> createState() => _BabysitterMainScreenState();
 }
 
-class _ParentMainScreenState extends State<ParentMainScreen>
-    with AutomaticKeepAliveClientMixin {
+class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
   List<Widget> _screens = [];
   List<String> _screenName = [];
   String screen_name = '';
@@ -45,7 +41,6 @@ class _ParentMainScreenState extends State<ParentMainScreen>
         user_body = widget.user_body;
       });
     }
-
     _screens = [
       JobsSearchScreen(
         user_body: user_body!,
@@ -53,25 +48,28 @@ class _ParentMainScreenState extends State<ParentMainScreen>
       NotificationScreen(),
       BabysitterSearchScreen(),
       ChatsScreen(),
-      FavoritesScreen(),
+      BabysitterProfileScreen(
+        user_body: user_body!,
+      )
     ];
-
     _screenName = [
       'Job Search',
       'Notifications',
       'Search for babysitter',
       'Inbox',
-      'Favorites'
+      'Your Profile'
     ];
     super.didChangeDependencies();
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  void updateUser(String edit_user) {
+    setState(() {
+      user_body = edit_user;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     List<PersistentBottomNavBarItem> _navBarsItems() {
       return [
         PersistentBottomNavBarItem(
@@ -123,8 +121,8 @@ class _ParentMainScreenState extends State<ParentMainScreen>
           inactiveColorPrimary: Colors.black.withOpacity(0.5),
         ),
         PersistentBottomNavBarItem(
-          icon: const Icon(Icons.favorite),
-          title: ("Favorites"),
+          icon: const Icon(Icons.person),
+          title: ("Profile"),
           textStyle: GoogleFonts.workSans(
             textStyle: const TextStyle(
               fontStyle: FontStyle.italic,
@@ -139,8 +137,8 @@ class _ParentMainScreenState extends State<ParentMainScreen>
 
     PersistentTabController _controller;
 
-    _controller = PersistentTabController(initialIndex: 0);
-
+    _controller = PersistentTabController(initialIndex: 4);
+    // _controller.index = 4;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -157,6 +155,7 @@ class _ParentMainScreenState extends State<ParentMainScreen>
         ),
         backgroundColor: Color.fromARGB(255, 129, 100, 110).withOpacity(0.2),
         elevation: 5.0,
+        // backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
       drawer: MainDrawer(),
       body: PersistentTabView(
@@ -168,25 +167,22 @@ class _ParentMainScreenState extends State<ParentMainScreen>
         onItemSelected: (index) {
           setState(() {
             screen_name = _screenName[index];
-            // if (index == 4) {
-            //   FavoritesScreen();
-            // }
           });
         },
+
         backgroundColor: Color.fromARGB(255, 129, 100, 110)
             .withOpacity(0.5), // Default is Colors.white.
         handleAndroidBackButtonPress: true, // Default is true.
         resizeToAvoidBottomInset:
             true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-        stateManagement: false,
-        // (_controller.index == 4) ? false : true, // Default is true.
+        stateManagement: false, // Default is true.
         hideNavigationBarWhenKeyboardShows:
             true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(0.0),
           colorBehindNavBar: Colors.white,
         ),
-        // popAllScreensOnTapOfSelectedTab: true,
+        popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
         itemAnimationProperties: const ItemAnimationProperties(
           // Navigation Bar's items animation properties.
