@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../models/appUser.dart';
-import '../screens/babysitter_profile_screen.dart';
+import '../screens/babysitter_screens/babysitter_profile_screen.dart';
 import '../screens/chat_page_screen.dart';
 import '../server_manager.dart';
 import '../services/auth.dart';

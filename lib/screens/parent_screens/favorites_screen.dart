@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../models/appUser.dart';
-import '../server_manager.dart';
-import '../widgets/babysitter_search_card.dart';
+import '../../models/appUser.dart';
+import '../../server_manager.dart';
+import '../../widgets/babysitter_widgets/babysitter_search_card.dart';
 
 class FavoritesScreen extends StatefulWidget {
   static final routeName = 'FavoritesScreen';
