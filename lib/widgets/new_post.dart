@@ -192,8 +192,6 @@ class _NewPostState extends State<NewPost> {
                               );
                             },
                           ),
-                          // startTime != '' && endTime != '' && selectedDate != ''
-                          //     ?
                           Text(
                             '${selectedDate.toString().substring(0, 10)}\nfrom: ${startTime}\nUntil: ${endTime}\n',
                             style: GoogleFonts.workSans(
@@ -205,7 +203,6 @@ class _NewPostState extends State<NewPost> {
                               ),
                             ),
                           ),
-                          // : Text('No hours/day selected yet'),
                           Divider(),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,

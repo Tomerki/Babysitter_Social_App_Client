@@ -60,8 +60,6 @@ class _EditParentProfileScreenState extends State<EditParentProfileScreen> {
             // If there's an error, display an error message
             return Text('Error: ${snapshot.error}');
           } else {
-            dynamic parent = snapshot.data;
-
             return Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,

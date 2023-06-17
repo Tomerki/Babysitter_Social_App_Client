@@ -56,7 +56,8 @@ dependencies:
   geocoding: ^2.1.0
   firebase_messaging: ^14.6.2
   shared_preferences: ^2.1.2
-  mockito: ^5.4.0
+  fake_cloud_firestore: ^2.4.1+1
+  
 
 
 dev_dependencies:
@@ -70,6 +71,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   build_runner: ^2.3.3
+  mockito: ^5.4.0
+  network_image_mock: ^2.1.1
 
 test:
   test_driver: null

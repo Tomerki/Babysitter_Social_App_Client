@@ -26,166 +26,11 @@ class BabysitterProfileScreen extends StatefulWidget {
 }
 
 class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
-  // final _formKey = GlobalKey<FormState>();
   String startTime = '';
   String endTime = '';
   bool isFavorite = false;
   int recommendation_len = 0;
   String chatId = "";
-  // void _presentDatePicker() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return StatefulBuilder(
-  //         builder: (context, setState) {
-  //           return AlertDialog(
-  //             contentPadding:
-  //                 EdgeInsets.symmetric(horizontal: 10, vertical: 40),
-  //             scrollable: true,
-  //             title: Text('Choose Babysitting Time'),
-  //             content: Padding(
-  //               padding: const EdgeInsets.all(0),
-  //               child: Form(
-  //                 key: _formKey,
-  //                 child: Column(
-  //                   children: <Widget>[
-  //                     ElevatedButton.icon(
-  //                       style: ButtonStyle(
-  //                         foregroundColor: MaterialStatePropertyAll(
-  //                           Colors.black,
-  //                         ),
-  //                         backgroundColor: MaterialStatePropertyAll(
-  //                           Colors.transparent,
-  //                         ),
-  //                         enableFeedback: true,
-  //                       ),
-  //                       label: Text('Pick a date'),
-  //                       icon: Icon(Icons.date_range),
-  //                       onPressed: () {
-  //                         final currentDate = DateTime.now();
-  //                         showDatePicker(
-  //                           context: context,
-  //                           initialDate: currentDate,
-  //                           firstDate: currentDate,
-  //                           builder: (context, child) {
-  //                             return Theme(
-  //                               data: ThemeData.light().copyWith(
-  //                                 colorScheme: ColorScheme.light(
-  //                                   primary: Colors.black,
-  //                                 ),
-  //                               ),
-  //                               child: child!,
-  //                             );
-  //                           },
-  //                           lastDate: DateTime(
-  //                             currentDate.year,
-  //                             currentDate.month + 3,
-  //                             currentDate.day,
-  //                           ),
-  //                         ).then((value) => {
-  //                               setState(
-  //                                 () {
-  //                                   // selectedDate = value!;
-  //                                 },
-  //                               )
-  //                             });
-  //                       },
-  //                     ),
-  //                     ElevatedButton.icon(
-  //                       style: ButtonStyle(
-  //                         foregroundColor: MaterialStatePropertyAll(
-  //                           Colors.black,
-  //                         ),
-  //                         backgroundColor: MaterialStatePropertyAll(
-  //                           Colors.transparent,
-  //                         ),
-  //                         enableFeedback: true,
-  //                       ),
-  //                       label: Text('Pick time'),
-  //                       icon: Icon(Icons.timer),
-  //                       onPressed: () async {
-  //                         TimeRange? result = await showTimeRangePicker(
-  //                           context: context,
-  //                           builder: (context, child) {
-  //                             return Theme(
-  //                               data: ThemeData.dark().copyWith(
-  //                                 colorScheme: ColorScheme.light(
-  //                                   primary: Colors
-  //                                       .black, // set primary color to black
-  //                                 ),
-  //                               ),
-  //                               child: child!,
-  //                             );
-  //                           },
-  //                           start: const TimeOfDay(hour: 9, minute: 0),
-  //                           end: const TimeOfDay(hour: 12, minute: 0),
-  //                           strokeWidth: 4,
-  //                           ticks: 24,
-  //                           ticksOffset: -7,
-  //                           ticksLength: 15,
-  //                           ticksColor: Colors.grey,
-  //                           labels: [
-  //                             "12 am",
-  //                             "3 am",
-  //                             "6 am",
-  //                             "9 am",
-  //                             "12 pm",
-  //                             "3 pm",
-  //                             "6 pm",
-  //                             "9 pm"
-  //                           ].asMap().entries.map((e) {
-  //                             return ClockLabel.fromIndex(
-  //                                 idx: e.key, length: 8, text: e.value);
-  //                           }).toList(),
-  //                           labelOffset: 35,
-  //                           rotateLabels: false,
-  //                           padding: 60,
-  //                           onStartChange: (p0) {
-  //                             setState(() {
-  //                               startTime = p0.format(context);
-  //                             });
-  //                           },
-  //                           onEndChange: (p0) {
-  //                             setState(() {
-  //                               endTime = p0.format(context);
-  //                             });
-  //                           },
-  //                         );
-  //                       },
-  //                     ),
-  //                     Padding(
-  //                       padding: EdgeInsets.only(top: 5),
-  //                     ),
-  //                     startTime != '' || endTime != ''
-  //                         ? Text('From: ${startTime}\nUntil: ${endTime}')
-  //                         : Text('No hours selected yet'),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //             actions: [
-  //               Center(
-  //                 child: ElevatedButton(
-  //                   child: Text("Send"),
-  //                   style: ElevatedButton.styleFrom(
-  //                     backgroundColor: Color.fromARGB(255, 51, 65, 78),
-  //                     elevation: 5,
-  //                     shape: RoundedRectangleBorder(
-  //                       borderRadius: BorderRadius.circular(10),
-  //                     ),
-  //                   ),
-  //                   onPressed: () {
-  //                     Navigator.of(context, rootNavigator: true).pop();
-  //                   },
-  //                 ),
-  //               ),
-  //             ],
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
 
   Future<bool> checkDocumentExists() async {
     final collectionRef = await AuthService.firestore
@@ -200,14 +45,11 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
 
       if (snapshot.exists) {
         // Document exists
-        print('Document data: ${snapshot.data()}');
         return true;
       }
     } catch (e) {
-      print('Error getting document: $e');
       return false;
     }
-    print('Document does not exist');
     return false;
   }
 
@@ -225,12 +67,12 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
         // Access a specific field (string) using dot notation
         final fieldValue = documentSnapshot.data()!['chatId'];
 
-        print('Field value: $fieldValue');
         return fieldValue;
       }
     } catch (e) {
-      print('Error getting document: $e');
+      return 'Error';
     }
+    return 'Error';
   }
 
   Future<bool> fetchIsFavorite() async {

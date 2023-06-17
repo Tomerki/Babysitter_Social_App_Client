@@ -58,8 +58,6 @@ class _EditBabysitterProfileScreenState
   final _formKey2 = GlobalKey<FormState>();
   File? _selectedImage;
 
-  TextEditingController _aboutController = TextEditingController(text: '');
-
   List<String> ageList =
       List.generate(165, (index) => (18 + (index * 0.5)).toStringAsFixed(1));
 
@@ -148,7 +146,6 @@ class _EditBabysitterProfileScreenState
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: TextField(
-                              // controller: _aboutController,
                               onChanged: (value) {
                                 setState(() {
                                   widget.about = value;

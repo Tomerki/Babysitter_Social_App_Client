@@ -1,5 +1,4 @@
 import 'package:google_fonts/google_fonts.dart';
-import '../services/auth.dart';
 import './register_screen.dart';
 import './login_screen.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +15,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   void initState() {
     super.initState();
   }
-
-  final AuthService _auth = AuthService();
 
   Widget buildRow(String text, IconData icon) {
     return Padding(
@@ -60,16 +57,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 SizedBox(
                   height: 20,
                 ),
-                // Image.network(
-                //   'https://i.ibb.co/3MLGsSx/logo-new.png',
-                //   height: 80,
-                //   width: 120,
-                // ),
-                // // Lottie.network(
-                // //     'https://assets1.lottiefiles.com/packages/lf20_1pxqjqps.json',
-                // //     height: 300,
-                // //     width: 600),
-
                 Column(
                   children: [
                     Padding(
@@ -80,7 +67,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           textStyle: const TextStyle(
                             fontStyle: FontStyle.italic,
                             fontWeight: FontWeight.w300,
-                            // fontWeight: FontWeight.bold,
                             fontSize: 50,
                           ),
                         ),
@@ -108,7 +94,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     buildRow('Safety for your child!', Icons.safety_check),
                   ],
                 ),
-
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

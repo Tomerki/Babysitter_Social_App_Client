@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 const kTextLabelTheme = TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700);
 const kCardTextStyle = TextStyle(color: Colors.white, fontSize: 15);
 
-// enum LocationOptions { at_your_house, at_her_house, never_mind }
 
 class FilterScreen extends StatefulWidget {
   static final routeName = 'FilterScreen';
@@ -22,7 +21,6 @@ class _FilterScreennState extends State<FilterScreen>
   late double selectedValue;
   int? fromDropdownValue;
   int? toDropdownValue;
-  // int? numOfChildren;
 
   Map<String, bool> currentAdditionsFilters = {
     'At your house': false,
@@ -54,7 +52,6 @@ class _FilterScreennState extends State<FilterScreen>
   bool isCheckedTwo = false;
   RangeValues priceValues = RangeValues(0.0, 100.0);
   RangeValues distanceValues = RangeValues(0.0, 50.0);
-  // LocationOptions? _locationOprions = LocationOptions.at_your_house;
   String? name;
 
   @override
@@ -111,12 +108,10 @@ class _FilterScreennState extends State<FilterScreen>
                   ),
                   SliderTheme(
                     data: SliderTheme.of(context).copyWith(
-                      // rangeThumbShape: CustomRangeThumbShape(),
                       activeTrackColor: Color.fromARGB(255, 129, 91, 91),
                       inactiveTrackColor: Color(0xffDFDFDF),
                       showValueIndicator: ShowValueIndicator.always,
                       valueIndicatorColor: Colors.white,
-                      // rangeValueIndicatorShape: CustomRangeValueIndicatorShape(),
                       valueIndicatorTextStyle: TextStyle(color: Colors.black),
                       valueIndicatorShape: SliderComponentShape.noOverlay,
                       thumbColor: Colors.black,
@@ -155,12 +150,10 @@ class _FilterScreennState extends State<FilterScreen>
                   ),
                   SliderTheme(
                     data: SliderTheme.of(context).copyWith(
-                      // rangeThumbShape: CustomRangeThumbShape(),
                       activeTrackColor: Color.fromARGB(255, 129, 91, 91),
                       inactiveTrackColor: Color(0xffDFDFDF),
                       showValueIndicator: ShowValueIndicator.always,
                       valueIndicatorColor: Colors.white,
-                      // rangeValueIndicatorShape: CustomRangeValueIndicatorShape(),
                       valueIndicatorTextStyle: TextStyle(color: Colors.black),
                       valueIndicatorShape: SliderComponentShape.noOverlay,
                       thumbColor: Colors.black,

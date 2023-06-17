@@ -13,25 +13,6 @@ class MainDrawer extends StatelessWidget {
   final AuthService _auth = AuthService();
 
   MainDrawer({super.key});
-  // Widget buildListTile(String title, IconData icon, Function tapHandler) {
-  //   return ListTile(
-  //     leading: Icon(
-  //       icon,
-  //       size: 26,
-  //     ),
-  //     title: Text(
-  //       title,
-  //       style: GoogleFonts.workSans(
-  //         textStyle: const TextStyle(
-  //           fontStyle: FontStyle.italic,
-  //           fontWeight: FontWeight.w500,
-
-  //         ),
-  //       ),
-  //     ),
-  //     onTap: tapHandler(),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {

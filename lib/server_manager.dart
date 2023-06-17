@@ -11,7 +11,7 @@ class ServerManager {
 
   ServerManager._internal();
 
-  static const String _baseUrl = 'http://192.168.0.189:8080';
+  static const String _baseUrl = 'http://192.168.0.129:8080';
   Future<http.Response> getRequest(
     String path,
     String collectionName,
@@ -64,7 +64,6 @@ class ServerManager {
       return response;
     } catch (e) {
       // Handle any exceptions that may be thrown during the request
-      print('Error occurred during PUT request: $e');
       rethrow;
     }
   }
@@ -85,7 +84,6 @@ class ServerManager {
       return response;
     } catch (e) {
       // Handle any exceptions that may be thrown during the request
-      print('Error occurred during PUT request: $e');
       rethrow;
     }
   }
@@ -111,7 +109,6 @@ class ServerManager {
 
     if (response.statusCode == 200) {
       final result = jsonDecode(response.body);
-      log(result['has_profanity'].toString());
       return result['has_profanity'];
     } else {
       throw Exception('Failed to check language');

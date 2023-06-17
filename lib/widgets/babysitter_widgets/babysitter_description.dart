@@ -16,7 +16,6 @@ class BabysitterDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        // color: Colors.white,
         border: Border.all(
           color: Color.fromARGB(255, 129, 91, 91),
         ),

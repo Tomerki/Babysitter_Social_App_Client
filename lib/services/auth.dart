@@ -36,7 +36,6 @@ class AuthService {
 
       return _userFromFirebaseUser(user);
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -53,7 +52,6 @@ class AuthService {
       User? user = result.user;
       return _userFromFirebaseUser(user);
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -64,7 +62,6 @@ class AuthService {
       User? user = result.user;
       return _userFromFirebaseUser(user);
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -73,7 +70,6 @@ class AuthService {
     try {
       return await auth.signOut();
     } catch (e) {
-      print(e.toString());
       return null;
     }
   }
@@ -98,8 +94,6 @@ class AuthService {
         await searchUserByEmail(email);
     final data = res!.item1;
 
-    // log('data: ${data.docs}');
-
     if (data.docs.isNotEmpty && data.docs.first.id != connectedUser.uid) {
       //user exists
 
@@ -108,7 +102,6 @@ class AuthService {
 
       final secondUserData = data.docs.first.data();
 
-      // log('user exists: ${data.docs.first.data()}');
       firestore
           .collection(AppUser.getUserType())
           .doc(connectedUser.uid)
@@ -202,7 +195,6 @@ class AuthService {
 
       return distanceInMeters.toInt();
     } catch (e) {
-      print('Error calculating distance: $e');
       return null;
     }
   }
@@ -236,7 +228,7 @@ class AuthService {
         },
       };
 
-      var res = await post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
+      await post(Uri.parse('https://fcm.googleapis.com/fcm/send'),
           headers: {
             HttpHeaders.contentTypeHeader: 'application/json',
             HttpHeaders.authorizationHeader:
@@ -244,7 +236,7 @@ class AuthService {
           },
           body: jsonEncode(body));
     } catch (e) {
-      log('\nsendPushNotificationE: $e');
+      return null;
     }
   }
 }

@@ -64,7 +64,6 @@ class _MapPlacePickerState extends State<MapPlacePicker> {
     });
 
     // Do something with the obtained latitude and longitude
-    // log('Latitude: $latitude, Longitude: $longitude');
   }
 
   @override
@@ -79,10 +78,6 @@ class _MapPlacePickerState extends State<MapPlacePicker> {
           setState(
             () {
               address = result.formattedAddress ?? "";
-              // log(result.formattedAddress ?? "");
-              AuthService.calculateDistance(
-                      address, "HaHashmonaim St 72, Tel Aviv-Yafo, Israel")
-                  .then((value) => log(value.toString()));
             },
           );
           Function func =

@@ -164,9 +164,6 @@ class _ParentMainScreenState extends State<ParentMainScreen>
         onItemSelected: (index) {
           setState(() {
             screen_name = _screenName[index];
-            // if (index == 4) {
-            //   FavoritesScreen();
-            // }
           });
         },
         backgroundColor:
@@ -175,14 +172,11 @@ class _ParentMainScreenState extends State<ParentMainScreen>
         resizeToAvoidBottomInset:
             true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
         stateManagement: false,
-        // (_controller.index == 4) ? false : true, // Default is true.
         hideNavigationBarWhenKeyboardShows:
             true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(0.0),
-          // colorBehindNavBar: Colors.white,
         ),
-        // popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
         itemAnimationProperties: const ItemAnimationProperties(
           // Navigation Bar's items animation properties.
