@@ -87,6 +87,7 @@ class _ParentMainScreenState extends State<ParentMainScreen>
           title: ("Notifications"),
           textStyle: GoogleFonts.workSans(
             textStyle: const TextStyle(
+              fontSize: 12,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.w500,
             ),

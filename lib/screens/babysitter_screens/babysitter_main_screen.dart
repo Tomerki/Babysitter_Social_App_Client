@@ -88,6 +88,7 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
           icon: const Icon(Icons.notifications),
           title: ("Notifications"),
           textStyle: GoogleFonts.workSans(
+            fontSize: 12,
             textStyle: const TextStyle(
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.w500,
