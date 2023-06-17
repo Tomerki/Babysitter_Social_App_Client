@@ -180,7 +180,7 @@ class _ParentMainScreenState extends State<ParentMainScreen>
             true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(0.0),
-          colorBehindNavBar: Colors.white,
+          // colorBehindNavBar: Colors.white,
         ),
         // popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart';
+import '../models/appUser.dart';
+import '../models/sharedPreferencesHelper.dart';
 import '../server_manager.dart';
 import 'package:flutter/material.dart';
 import './login_screen.dart';
@@ -27,7 +29,7 @@ class RegisterScreenState extends State<RegisterScreen> {
   String userType = 'Parent';
   String selectedCountry = '';
   Response? response;
-  File? _selectedImage;
+  File? selectedImage;
   bool loading = false;
   bool isBabysitter = false;
   List<String> favorites = [];
@@ -95,11 +97,12 @@ class RegisterScreenState extends State<RegisterScreen> {
             body: Container(
               padding: EdgeInsets.only(top: 20),
               decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
-                      fit: BoxFit.cover,
-                      opacity: 0.3)),
+                image: DecorationImage(
+                    image: NetworkImage(
+                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSx7IBkCtYd6ulSfLfDL-aSF3rv6UfmWYxbSE823q36sPiQNVFFLatTFdGeUSnmJ4tUzlo&usqp=CAU'),
+                    fit: BoxFit.cover,
+                    opacity: 0.3),
+              ),
               child: SafeArea(
                 child: Center(
                   child: SingleChildScrollView(
@@ -108,17 +111,12 @@ class RegisterScreenState extends State<RegisterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Lottie.network(
-                        //     'https://assets6.lottiefiles.com/packages/lf20_k9wsvzgd.json',
-                        //     animate: true,
-                        //     height: 120,
-                        //     width: 600),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             UserImagePicker(
                               onPickImage: (pickedImage) {
-                                _selectedImage = pickedImage;
+                                selectedImage = pickedImage;
                               },
                             ),
                             Column(
@@ -472,7 +470,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                                               ),
                                             ));
                                           } else {
-                                            if (_selectedImage != null) {
+                                            if (selectedImage != null) {
                                               final storageRef = FirebaseStorage
                                                   .instance
                                                   .ref()
@@ -480,7 +478,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                                                   .child('${result.uid}.jpg');
 
                                               await storageRef
-                                                  .putFile(_selectedImage!);
+                                                  .putFile(selectedImage!);
                                               imageUrl = await storageRef
                                                   .getDownloadURL();
                                             }
@@ -571,13 +569,17 @@ class RegisterScreenState extends State<RegisterScreen> {
                                               );
                                             } else if (userType ==
                                                 'Babysitter') {
-                                              Navigator.of(context).pushNamed(
+                                              Navigator.of(context)
+                                                  .pushReplacementNamed(
                                                 BabysitterRegisterScreen
                                                     .routeName,
                                                 arguments: json.decode(
                                                     response!.body)['id'],
                                               );
                                             }
+                                            SharedPreferencesHelper
+                                                .clearLoggedInUser();
+                                            AppUser.deleteInstance();
                                           }
                                         } else {
                                           ScaffoldMessenger.of(context)
