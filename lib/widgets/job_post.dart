@@ -319,28 +319,34 @@ class _JobPostState extends State<JobPost> {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Row(
                         children: [
-                          Text(
-                            'description: ',
-                            style: GoogleFonts.workSans(
-                              color: Colors.black,
-                              textStyle: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
+                          // Text(
+                          //   'description: ',
+                          //   style: GoogleFonts.workSans(
+                          //     color: Colors.black,
+                          //     textStyle: const TextStyle(
+                          //       fontStyle: FontStyle.italic,
+                          //       fontWeight: FontWeight.w500,
+                          //       fontSize: 18,
+                          //     ),
+                          //   ),
+                          // ),
+                          Flexible(
+                            child: Text(
+                              '${widget.job['description'] == null || widget.job['description'].length == 0 ? 'no description' : widget.job['description']}',
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                          ),
-                          Text(
-                            ' ${widget.job['description'] == null || widget.job['description'].length == 0 ? 'no description' : widget.job['description']}',
-                            style: GoogleFonts.workSans(
-                              color: Colors.black,
-                              textStyle: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                              ),
+                              overflow: TextOverflow.visible,
                             ),
                           ),
                         ],
