@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:baby_sitter/screens/register_screen.dart';
 import 'package:baby_sitter/services/validation.dart';
+import 'package:baby_sitter/widgets/user_image_picker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:baby_sitter/screens/login_screen.dart';
 
@@ -89,4 +92,12 @@ void main() {
       });
     },
   );
+
+  // testWidgets('User image picker test', (widgetTester) async {
+  //   String imageUrl = 'Some/url/image';
+  //   final void Function(File pickedImage) onPickImage = (File) {};
+
+  //   await widgetTester.pumpWidget(UserImagePicker(onPickImage: onPickImage));
+  //   expect(find.text(imageUrl), matcher)
+  // });
 }
