@@ -29,7 +29,7 @@ class _JobPostState extends State<JobPost> {
   List jobs = [];
   String image =
       'https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol.png';
-
+  String email = '';
   Future<String> fetchImage() async {
     final response = await ServerManager()
         .getRequest('items/' + widget.job['parent_id'], 'Parent');
@@ -38,11 +38,24 @@ class _JobPostState extends State<JobPost> {
     return (decodedBody['image']);
   }
 
+  Future<String> fetchEmail() async {
+    final response = await ServerManager()
+        .getRequest('items/' + widget.job['parent_id'], 'Parent');
+    final decodedBody = json.decode(response.body);
+
+    return (decodedBody['email']);
+  }
+
   @override
   void initState() {
     fetchImage().then((value) {
       setState(() {
         image = value;
+      });
+    });
+    fetchEmail().then((value) {
+      setState(() {
+        email = value;
       });
     });
     loadData();
@@ -205,6 +218,32 @@ class _JobPostState extends State<JobPost> {
                       Row(
                         children: [
                           Text(
+                            'Email: ',
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            email,
+                            style: GoogleFonts.workSans(
+                              color: Colors.black,
+                              textStyle: const TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
                             'Job date: ',
                             style: GoogleFonts.workSans(
                               color: Colors.black,
@@ -280,28 +319,34 @@ class _JobPostState extends State<JobPost> {
                           ),
                         ],
                       ),
+                      SizedBox(
+                        height: 5,
+                      ),
                       Row(
                         children: [
-                          Text(
-                            'description: ',
-                            style: GoogleFonts.workSans(
-                              color: Colors.black,
-                              textStyle: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
+                          // Text(
+                          //   'description: ',
+                          //   style: GoogleFonts.workSans(
+                          //     color: Colors.black,
+                          //     textStyle: const TextStyle(
+                          //       fontStyle: FontStyle.italic,
+                          //       fontWeight: FontWeight.w500,
+                          //       fontSize: 18,
+                          //     ),
+                          //   ),
+                          // ),
+                          Flexible(
+                            child: Text(
+                              '${widget.job['description'] == null || widget.job['description'].length == 0 ? 'no description' : widget.job['description']}',
+                              style: GoogleFonts.workSans(
+                                color: Colors.black,
+                                textStyle: const TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
                               ),
-                            ),
-                          ),
-                          Text(
-                            ' ${widget.job['description'] == null || widget.job['description'].length == 0 ? 'no description' : widget.job['description']}',
-                            style: GoogleFonts.workSans(
-                              color: Colors.black,
-                              textStyle: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                              ),
+                              overflow: TextOverflow.visible,
                             ),
                           ),
                         ],

@@ -170,8 +170,8 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
           });
         },
 
-        backgroundColor: Color.fromARGB(255, 129, 100, 110)
-            .withOpacity(0.5), // Default is Colors.white.
+        backgroundColor:
+            Color.fromARGB(255, 214, 204, 208), // Default is Colors.white.
         handleAndroidBackButtonPress: true, // Default is true.
         resizeToAvoidBottomInset:
             true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
@@ -180,7 +180,7 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
             true, // Recommended to set 'resizeToAvoidBottomInset' as true while using this argument. Default is true.
         decoration: NavBarDecoration(
           borderRadius: BorderRadius.circular(0.0),
-          colorBehindNavBar: Colors.white,
+          // colorBehindNavBar: Colors.white,
         ),
         popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,

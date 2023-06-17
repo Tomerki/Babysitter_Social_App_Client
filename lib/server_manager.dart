@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 
-// 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
 class ServerManager {
   static final ServerManager _instance = ServerManager._internal();
 
@@ -12,7 +11,7 @@ class ServerManager {
 
   ServerManager._internal();
 
-  static const String _baseUrl = 'http://192.168.0.129:8080';
+  static const String _baseUrl = 'http://192.168.0.189:8080';
   Future<http.Response> getRequest(
     String path,
     String collectionName,
