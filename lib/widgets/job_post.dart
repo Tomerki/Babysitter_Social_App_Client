@@ -134,7 +134,6 @@ class _JobPostState extends State<JobPost> {
   }
 
   void sendJobRequest() async {
-    log("sent");
     await ServerManager().postRequest(
       'add_inner_collection/' + widget.job['parent_id'] + '/notification',
       'Parent',
@@ -324,17 +323,6 @@ class _JobPostState extends State<JobPost> {
                       ),
                       Row(
                         children: [
-                          // Text(
-                          //   'description: ',
-                          //   style: GoogleFonts.workSans(
-                          //     color: Colors.black,
-                          //     textStyle: const TextStyle(
-                          //       fontStyle: FontStyle.italic,
-                          //       fontWeight: FontWeight.w500,
-                          //       fontSize: 18,
-                          //     ),
-                          //   ),
-                          // ),
                           Flexible(
                             child: Text(
                               '${widget.job['description'] == null || widget.job['description'].length == 0 ? 'no description' : widget.job['description']}',

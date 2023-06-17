@@ -25,7 +25,6 @@ class BabysitterUpperPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      //card column
       child: Stack(
         children: [
           Center(
@@ -36,7 +35,6 @@ class BabysitterUpperPage extends StatelessWidget {
                   backgroundImage: NetworkImage(image),
                   radius: (pageHight) * 0.4 * 0.25,
                 ),
-                //ToDo: Full Name in bold, Country and City in light
                 Center(
                   child: Text(
                     name,
@@ -84,7 +82,6 @@ class BabysitterUpperPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30.0),
                   child: Container(
                     width: (pagewidth) * 0.9 * 0.7,
-                    // color: Colors.white,
                     child: Row(
                       children: [
                         Spacer(),

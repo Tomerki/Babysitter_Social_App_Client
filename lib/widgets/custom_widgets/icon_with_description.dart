@@ -18,12 +18,6 @@ class _IconWithDescriptionState extends State<IconWithDescription> {
     _overlayEntry = OverlayEntry(builder: (_) => _buildDescriptionDialog());
   }
 
-  // @override
-  // void dispose() {
-  //   _overlayEntry.remove();
-  //   super.dispose();
-  // }
-
   void _showDescriptionDialog() {
     Overlay.of(context).insert(_overlayEntry);
   }
@@ -36,6 +30,12 @@ class _IconWithDescriptionState extends State<IconWithDescription> {
     return Positioned.fill(
       child: GestureDetector(
         onTap: _hideDescriptionDialog,
+        behavior: HitTestBehavior.translucent,
+        child: AlertDialog(
+          title: Text('The Bell'),
+          content: Text(
+              'By pressing the bell you can notify that you are intrest at the job!'),
+        ),
       ),
     );
   }

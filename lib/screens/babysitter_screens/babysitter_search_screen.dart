@@ -157,7 +157,6 @@ class _BabysitterSearchScreenState extends State<BabysitterSearchScreen> {
                         FocusScope.of(context).unfocus();
                         PersistentNavBarNavigator.pushNewScreen(
                           context,
-                          // settings: RouteSettings(name: FilterScreen.routeName),
                           screen: FilterScreen(
                             callback: callback,
                           ),

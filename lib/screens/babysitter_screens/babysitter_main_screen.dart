@@ -138,7 +138,6 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
     PersistentTabController _controller;
 
     _controller = PersistentTabController(initialIndex: 4);
-    // _controller.index = 4;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -155,7 +154,6 @@ class _BabysitterMainScreenState extends State<BabysitterMainScreen> {
         ),
         backgroundColor: Color.fromARGB(255, 129, 100, 110).withOpacity(0.2),
         elevation: 5.0,
-        // backgroundColor: Color.fromARGB(255, 219, 163, 154),
       ),
       drawer: MainDrawer(),
       body: PersistentTabView(

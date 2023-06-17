@@ -5,16 +5,10 @@ import 'package:time_range_picker/time_range_picker.dart';
 import '../server_manager.dart';
 
 class ScheduleWithaBysitter extends StatefulWidget {
-  // Function(List jobs) callback;
-  // String publisherName;
   String parentId;
   String user_body;
   ScheduleWithaBysitter(
-      {super.key,
-      // required this.callback,
-      required this.user_body,
-      // required this.publisherName,
-      required this.parentId});
+      {super.key, required this.user_body, required this.parentId});
 
   @override
   State<ScheduleWithaBysitter> createState() => _ScheduleWithaBysitterState();
@@ -192,8 +186,6 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                               );
                             },
                           ),
-                          // startTime != '' && endTime != '' && selectedDate != ''
-                          //     ?
                           Text(
                             '${selectedDate.toString().substring(0, 10)}\n from: ${startTime}\nUntil: ${endTime}\n',
                             style: GoogleFonts.workSans(
@@ -205,7 +197,6 @@ class _ScheduleWithaBysitterState extends State<ScheduleWithaBysitter> {
                               ),
                             ),
                           ),
-                          // : Text('No hours/day selected yet'),
                           Divider(),
                           Divider(),
                           Text(

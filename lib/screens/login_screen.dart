@@ -214,7 +214,6 @@ class loginScreenState extends State<LoginScreen> {
                                             .then((value) async {
                                           isBabysitter = json.decode(value.body
                                               .toString())['isBabysitter'];
-                                          log(isBabysitter.toString());
 
                                           final type = isBabysitter
                                               ? 'Babysitter'

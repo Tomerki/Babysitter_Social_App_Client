@@ -193,21 +193,6 @@ class _RecommendationPostState extends State<RecommendationPost> {
                                   "The recommendation has been deleted",
                                   "Undo");
                             },
-                            // onPressed: () async {
-                            //   await ServerManager()
-                            //       .putRequest(
-                            //     'put_inner_item_collection/' +
-                            //         AppUser.getUid() +
-                            //         '/' +
-                            //         (widget.recommendation)['doc_id'] +
-                            //         '/recommendation',
-                            //     AppUser.getUserType(),
-                            //     body: jsonEncode({'is_confirmed': false}),
-                            //   )
-                            //       .then((value) {
-                            //     widget.callback();
-                            //   });
-                            // },
                             icon: Icon(
                               Icons.delete,
                             ),

@@ -34,7 +34,6 @@ class _NewMessageState extends State<NewMessage> {
     if (enteredMessage.trim().isEmpty) {
       return;
     }
-    // FocusScope.of(context).unfocus();
     _messageController.clear();
 
     String collectionName = AppUser.getUserType();
@@ -83,7 +82,6 @@ class _NewMessageState extends State<NewMessage> {
         .collection('Messages')
         .add({
       'text': enteredMessage,
-      // 'createdAt': DateFormat('hh:mm a').format(Timestamp.now().toDate()),
       'createdAt': Timestamp.now(),
       'username': userData.data()!['fullName'],
       'userImage': userData.data()!['image'],

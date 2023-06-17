@@ -1,12 +1,10 @@
 import 'package:baby_sitter/models/appUser.dart';
 import 'screens/babysitter_screens/babysitter_main_screen.dart';
 import 'screens/babysitter_screens/babysitter_search_screen.dart';
-import 'package:baby_sitter/screens/chats_screen.dart';
 import 'screens/parent_screens/favorites_screen.dart';
 import 'screens/parent_screens/parent_main_screen.dart';
 import 'package:baby_sitter/server_manager.dart';
 import 'package:baby_sitter/services/auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import './screens/login_screen.dart';
