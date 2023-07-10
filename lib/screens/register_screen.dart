@@ -66,6 +66,8 @@ class RegisterScreenState extends State<RegisterScreen> {
           userType = text;
           if (text == 'Babysitter') {
             isBabysitter = true;
+          } else {
+            isBabysitter = false;
           }
         });
       },

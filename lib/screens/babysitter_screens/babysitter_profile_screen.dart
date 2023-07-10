@@ -106,7 +106,7 @@ class _BabysitterProfileScreenState extends State<BabysitterProfileScreen> {
         });
       });
     }
-    fetchRecommendationSize().then((value) {
+     fetchRecommendationSize().then((value) {
       setState(() {
         recommendation_len = value;
       });
